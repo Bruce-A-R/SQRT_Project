@@ -1,1 +1,442 @@
+"Raspberry Pi Pico
+High-altitude GPS Module
+LoRa Radio Transceiver
+2x Temperature Sensors
+Pressure Sensor
+Analog to Digital Convertor
+Battery Pack
+Antenna
+Instructional guides e.g. wiring on a breadboard
+Basic software examples to talk to your sensor"
+_____________________________________________________________________________________________________________________________
+# Exercise 1
+""" # For one temperature sensor to set it up
 
+import machine, onewire, ds18x20, time
+
+one_wire_pin = machine.Pin(15)
+temperature_sensors = ds18x20.DS18X20(onewire.OneWire(one_wire_pin))
+
+roms = temperature_sensors.scan()
+print('Found DS devices: ', roms) #prints the ROM name of the sensor (we got 119)
+
+temperature_sensors.convert_temp() # converts the T
+
+time.sleep_ms(750)
+tempC = temperature_sensors.read_temp(roms[0]) # Reads first T sensor value
+print(f'Temperature( C ):{tempC:.2f}') # prints the value to 2 decimals """
+
+# For more than one sensor, this is same setup above thats commented out but for multiple.
+
+import machine , onewire , ds18x20 , time
+
+one_wire_pin = machine.Pin(15)
+temperature_sensors = ds18x20.DS18X20(onewire.OneWire(one_wire_pin))
+roms = temperature_sensors.scan()
+print( 'Found DS devices : ' , roms ) #prints the devices ID name.
+
+temperature_sensors.convert_temp() # converts all temp readings from the sensors
+
+time.sleep_ms(750)
+
+for i in range(len(roms)): # loops through the sensors
+    tempC = temperature_sensors.read_temp(roms[i])
+    print(f'Temperature {i + 1} (C): {tempC:.2f}') #Prints all the temp data from >0
+
+#tempC0 = temperature_sensors.read_temp(roms[0]) # this was also used orginally, but we scaled up
+#tempC1 = temperature_sensors.read_temp(roms[1])
+##print(f'Temperature One (C): {tempC0:.2f}')
+
+__________________________________________________________________________________________________________________________________________________________________
+
+# Exercise 2. Loop of Temperatures
+
+import machine , onewire , ds18x20 , time
+one_wire_pin = machine.Pin(15) #pin number changes depending on setup
+temperature_sensors = ds18x20.DS18X20(onewire.OneWire(one_wire_pin))
+roms = temperature_sensors.scan()
+print( 'Found DS devices : ' , roms )
+
+temperature_sensors.convert_temp() #Temperature conversion
+
+time.sleep_ms(750)
+
+while True:
+    temperature_sensors.convert_temp()
+    temps = []
+    for i in range(len(roms)):
+        temps.append(temperature_sensors.read_temp(roms[i]))
+        #tempC = temperature_sensors.read_temp(roms[i])
+        #print(f'Temperature {i + 1} (C): {tempC:.2f}')
+    print(f'{time.time()}, {temps[0]:.2f}, {temps[1]:.2f}')
+    time.sleep_ms(500)
+
+# 2,b Loop with signs (+ or -)
+
+import machine , onewire , ds18x20 , time
+one_wire_pin = machine.Pin(15)
+temperature_sensors = ds18x20.DS18X20(onewire.OneWire(one_wire_pin))
+roms = temperature_sensors.scan()
+#print( 'Found DS devices : ' , roms ) #we did this just to test it
+
+temperature_sensors.convert_temp()
+
+time.sleep_ms(200)
+
+while True:
+    temperature_sensors.convert_temp()
+    temps = []
+    for i in range(len(roms)):
+        temp = temperature_sensors.read_temp(roms[i])
+        if temp < 0:
+            temps.append(f'-{temp:.3f}')
+        else:
+            temps.append(f'+{temp:.3f}')
+        #tempC = temperature_sensors.read_temp(roms[i])
+        #print(f'Temperature {i + 1} (C): {tempC:.2f}')
+    print(f'{time.time()}, {temps[0]}, {temps[1]}')
+    time.sleep_ms(500)
+
+# 2,c Temp with 5s intervals.
+# This is pretty much all the same code but strictly for 5 second intervals
+import machine , onewire , ds18x20 , time
+one_wire_pin = machine.Pin(15)
+temperature_sensors = ds18x20.DS18X20(onewire.OneWire(one_wire_pin))
+roms = temperature_sensors.scan()
+#print( 'Found DS devices : ' , roms )
+
+temperature_sensors.convert_temp()
+
+time.sleep_ms(200)
+
+while True:
+    temperature_sensors.convert_temp()
+    temps = []
+    for i in range(len(roms)):
+        temp = temperature_sensors.read_temp(roms[i])
+        if temp < 0:
+            temps.append(f'-{temp:.3f}')
+        else:
+            temps.append(f'+{temp:.3f}')
+        #tempC = temperature_sensors.read_temp(roms[i])
+        #print(f'Temperature {i + 1} (C): {tempC:.2f}')
+    print(f'{time.time()}, {temps[0]}, {temps[1]}')
+    time.sleep_ms(5000)
+    print(f'time check: {time.time()}')
+
+import machine , onewire , ds18x20 , time
+one_wire_pin = machine.Pin(15)
+temperature_sensors = ds18x20.DS18X20(onewire.OneWire(one_wire_pin))
+roms = temperature_sensors.scan()
+#print( 'Found DS devices : ' , roms )
+
+temperature_sensors.convert_temp()
+
+time.sleep_ms(200)
+
+# infintiely small time - down to microsecs
+
+while True:
+    temperature_sensors.convert_temp()
+    temps = []
+    for i in range(len(roms)):
+        temp = temperature_sensors.read_temp(roms[i])
+        if temp < 0:
+            temps.append(f'-{temp:.3f}')
+        else:
+            temps.append(f'+{temp:.3f}')
+        #tempC = temperature_sensors.read_temp(roms[i])
+        #print(f'Temperature {i + 1} (C): {tempC:.2f}')
+    print(f'{time.time()}, {temps[0]}') #{temps[1]}')
+    time.sleep_us(1) # us = I thought 'ultra small' but actually just microseconds tag
+    print(f'time check: {time.time()}')
+
+________________________________________________________________________________________________________________________________________________________________
+
+# Exercise 3
+# DISCLAIMER; I think we may have used a little AI help on this one, as we had to move on to avoid falling to far behind though I can't quite remember exactly where it was intergrated into the code
+
+import machine
+import time
+i2c = machine.I2C(0, scl = machine.Pin(13), sda = machine.Pin(12)) # These pins numbers may have to changed dependent on the user setup
+devices = i2c.scan()
+
+print(devices)
+
+addr = devices[0] #adress of pressure sensor
+
+def unpack(buffer):
+    """ Unpacks MSB - ordered buffer of bytes into an unsigned integer .
+    Note : buffer must be a bytes - like object or a list of integers in the
+    range [0 , 255].
+    Usage :
+    >>> unpack([0 x01 , 0 x00 ])
+    256
+    >>> unpack([0 x10 , 0 x00 ])
+    4096
+    >>> unpack([0 xFF , 0 xFF , 0 xFF ])
+    16777215
+    """
+    _buffer = reversed(bytearray(buffer))
+    return sum ( _byte << ( _i * 8) for _i , _byte in enumerate(_buffer))
+
+c1bytes = i2c.readfrom_mem(addr, 0xA2 ,2)
+c1 = c1bytes[0] << 8 + c1bytes[1]
+c1 = unpack(c1bytes)
+
+print(c1)
+
+def read_calibration_constants(bus, addr):
+    """
+    Reads the 6 calibration constants and retruns them
+    Inputs: bus, address of device
+    """
+    c1bytes = i2c.readfrom_mem(addr, 0xA2 ,2)
+    c1 = c1bytes[0] << 8 + c1bytes[1]
+    c1 = unpack(c1bytes)
+    c2bytes = i2c.readfrom_mem(addr, 0xA4 ,2)
+    c2 = c1bytes[0] << 8 + c2bytes[1]
+    c2 = unpack(c1bytes)
+    c3bytes = i2c.readfrom_mem(addr, 0xA6 ,2)
+    c3 = c3bytes[0] << 8 + c3bytes[1]
+    c3 = unpack(c3bytes)
+    c4bytes = i2c.readfrom_mem(addr, 0xA8 ,2)
+    c4 = c4bytes[0] << 8 + c4bytes[1]
+    c4 = unpack(c4bytes)
+    c5bytes = i2c.readfrom_mem(addr, 0xAA ,2)
+    c5 = c5bytes[0] << 8 + c5bytes[1]
+    c5 = unpack(c5bytes)
+    c6bytes = i2c.readfrom_mem(addr, 0xAC ,2)
+    c6 = c6bytes[0] << 8 + c6bytes[1]
+    c6 = unpack(c6bytes)
+    
+    return[None, c1, c2, c3, c4, c5, c6] #the none here is so C1 is in index 1
+
+def read_bus(bus, addr, cmd):
+    """
+    Function to return either the temperature or pressure adc value
+    as an integer, depending on cmd value inputted
+    """
+    if cmd == b'\x48':
+        i2c.writeto(addr,cmd)
+        time.sleep_ms(50)
+        t_adc_bytes = bus.readfrom_mem(addr ,0x00, 3)
+        t_adc = unpack(t_adc_bytes)
+        return t_adc
+    elif cmd == b'\x58':
+        i2c.writeto(addr,cmd)
+        time.sleep_ms(50)
+        b_adc_bytes = bus.readfrom_mem(addr ,0x00, 3)
+        b_adc = unpack(b_adc_bytes)
+        return b_adc
+    
+def compute_pressure(t_adc, p_adc, c):
+    """
+    Function to compute pressure using the ADC values of temperature
+    and pressure and the list of calibration constants
+
+    """
+    dt = t_adc - (calib_list[5] * 2**8) # A lot of this information had to be found using the relative data sheets on Brightspace, Most of the math is really useful but has to be done sequentially 
+    T = 2000 + dt*(calib_list[6] / (2**23))
+    
+    OFF = (c[2] * 2*16) + ((c[4] * dt)/(2*7))
+    SENS = (c[1] * 2*15) + ((c[3] * dt) / (2*8))
+    P = (p_adc * (SENS/(2*21)) - OFF)/(2*15)
+    
+    return T, P # T=Temperature & P=Pressure
+
+def read_pressure(t_adc, p_adc, c):
+    """
+    Funtion to return the temperature and pressure
+    """
+    T, P = compute_pressure(t_adc, p_adc, c)
+    
+    
+    print(f'Temperature: {(T/100):.2f} deg C') # Unit clarification
+    print(f'Pressure: {(P/100):.2f} mbar')
+    
+temp_adc = read_bus(i2c, addr, b'\x48')
+pressure_adc = read_bus(i2c, addr, b'\x58')
+calib_list = read_calibration_constants(i2c,addr)
+
+read_pressure(temp_adc, pressure_adc, calib_list)
+
+______________________________________________________________________________________________________________________________________________________________
+
+# GPS Exercises
+from machine import UART, Pin
+import time
+
+def listen_for_sequence(port, sequence_type):
+    """
+    Function to listen for a inputted NMEA sequence (sequence_type)
+    on a GPS serial port (port)
+    """
+    if port.any():
+        data = port.readline()
+        sentence = data.decode('ascii')
+        sentenceid = sentence[3:6]
+        if sentenceid == sequence_type:
+            #returns the sentece only if it is GPGLL
+            return(sentence)
+        else:
+           return None
+    else:
+        print("connection issue")
+        return None
+        
+def main():
+    """listening for a valid GLL sequence"""
+    gps = UART(0, baudrate =9600 , tx=Pin(12), rx=Pin(13)) # These pins may need to be changed depending on setup - we had to change them quite a lot
+    gps.init(9600, bits =8 , parity=None , stop=1)
+    while True:
+        time.sleep(3) # 3 second delay so the GPS can scan for longer
+        sentence = listen_for_sequence(gps, 'GLL')
+        if sentence is not None:
+            print(sentence)
+main()
+
+________________________________________________________________________________________________________________________________________________________________________
+
+# We also had some AI help here becuase we got a little lost and didn't want to fall behind... 
+# We came into the lab an extra day to try and sort this but ran into a bunch of hardware problems so felt we needed to speed up the process. 
+# Also Bruce kinda took the lead on this code so I cant take credit here really.
+
+from machine import UART, Pin
+import time
+
+def listen_for_sequence(port, sequence_type):
+    """
+    Function to listen for a inputted NMEA sequence (sequence_type)
+    on a GPS serial port (port)
+    """
+    requested_sequence = None
+    while port.any():
+        data = port.readline()
+        #print(f'data: {data}')
+        
+        try:
+            sentence = data.decode('ascii')
+            sentenceid = sentence[3:6]
+            if sentenceid == sequence_type:
+                #returns the sentece only if it is GLL
+                requested_sequence = sentence
+        except UnicodeError: #in case of error decoding
+            print("unicode error, retrying")
+            pass
+        
+    if requested_sequence:
+        return requested_sequence
+    else:
+        return None
+        
+def parse_sequence(sequence):
+    """
+    Function to parse sequnce and put values into a dictionary
+    that will be returned
+    """
+   
+    mydict = { #creating dictionary for all the required variables and information: 
+        'longitude' : None,
+        'latitude' : None,
+        'altitude' : None,
+        'timestamp' : None,
+        'sentence' : None,
+        'checksum' : None,
+        'fields' : None
+        }
+    
+    split_sentence = sequence.split(',')
+    
+    #converting lat and lon into degrees:
+    lat = angle_reader(split_sentence[2], split_sentence[3])
+    lon = angle_reader(split_sentence[4], split_sentence[5])
+    
+    #assigning parts of the sequence to the dictiory keys
+    if len(split_sentence[1]) is not 0:
+        mydict['timestamp'] = split_sentence[1]
+
+    mydict['latitude'] = lat
+    mydict['longitude'] = lon
+    
+    if len(split_sentence[9]) is not 0:
+        mydict['altitude'] = split_sentence[9]
+    
+    mydict['sentence'] = sequence
+    
+    if len(split_sentence[14]) is not 0: 
+        mydict['checksum'] = split_sentence[14]
+    mydict['fields'] = split_sentence
+    
+    return mydict
+
+def angle_reader(angle_str, hemisphere):
+    """
+    Takes an angle as a string in DDMM.MMMMM or
+    DDDMM.MMMMM format and return it as a float in decimal degrees
+   
+    Will also return angle as signed angle depending
+    on the inputted hemishpere (N or S)
+    """
+    
+    if len(angle_str) == 10: #for DDMM.MMMMM format
+        minutes = float(angle_str[2:10]) / 60
+        degs = int(angle_str[0:2])
+        
+        ang = degs + minutes
+        ang = sign_angle(ang, hemisphere)
+        
+        return ang
+    
+    elif len(angle_str) == 11: #for DDDMM.MMMMM format
+        minutes = float(angle_str[2:11]) / 60
+        degs = int(angle_str[0:2])
+        
+        ang = degs + minutes
+        ang = sign_angle(ang, hemisphere)
+        
+        return ang
+    
+    else:
+        print("you messed up the string length")
+        print(f"string length: {len(angle_str)}")
+        return None
+     
+
+def sign_angle(angle, hemisphere):
+    """
+    Assigns a sign to the angle based on inputted hemisphere+
+    """
+    if hemisphere == 'N':
+        angle = angle
+    elif hemisphere == 'S':
+        angle = angle * -1
+    elif hemisphere == 'E':
+        angle = angle
+    elif hemisphere == 'W':
+        angle = angle * -1   
+    
+    return angle
+    
+def main():
+    """listening for a valid GLL sequence"""
+    gps = UART(0, baudrate =9600 , tx=Pin(12), rx=Pin(13))
+    gps.init(9600, bits =8 , parity=None , stop=1)
+    list_of_dictionaries = []
+    while True:
+        time.sleep(1)
+        
+        #listening
+        sentence = listen_for_sequence(gps, 'GGA')
+        #print(sentence)
+    
+        if sentence is not None:
+            #print(f"Sentence: {sentence}")
+            #parsing sequence:
+            dictionary = parse_sequence(sentence)
+            list_of_dictionaries.append(dictionary)
+            
+            print("Formatted results: ")
+            print(f'Timestamp: {dictionary["timestamp"]}, Lat: {dictionary["latitude"]}, Lon: {dictionary["longitude"]}, Alt: {dictionary["altitude"]}')
+            #print(dictionary)
+main()
