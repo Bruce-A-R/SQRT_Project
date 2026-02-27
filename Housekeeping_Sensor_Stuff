@@ -154,7 +154,6 @@ while True:
 ________________________________________________________________________________________________________________________________________________________________
 
 # Exercise 3
-# DISCLAIMER; I think we may have used a little AI help on this one, as we had to move on to avoid falling to far behind though I can't quite remember exactly where it was intergrated into the code
 
 import machine
 import time
@@ -297,10 +296,6 @@ def main():
 main()
 
 ________________________________________________________________________________________________________________________________________________________________________
-
-# We also had some AI help here becuase we got a little lost and didn't want to fall behind... 
-# We came into the lab an extra day to try and sort this but ran into a bunch of hardware problems so felt we needed to speed up the process. 
-# Also Bruce kinda took the lead on this code so I cant take credit here really.
 
 from machine import UART, Pin
 import time
