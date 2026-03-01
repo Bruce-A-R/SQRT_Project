@@ -22,7 +22,7 @@ def check_pressure(pressure_value):
         Output: True/False
     """
 
-    if pressure_value <= 35     # assuming pressure value in units of mbar
+    if pressure_value <= 35:     # assuming pressure value in units of mbar
         return True
     else : return False
 
@@ -32,7 +32,7 @@ def check_altitude(altitude_value):
         Output: True/False
     """
 
-    if altitude_value >= 23     # assuming altitude value in units of km
+    if altitude_value >= 23:     # assuming altitude value in units of km
         return True
     else: return False
 
@@ -42,19 +42,29 @@ def check_falling(timestamped_altitudes_dict):
         Inputs: dict of timestamps and altitude values
         Output: True/False
     """
-    decreases_list = []
-    for i in range(len(timestamped_altitudes_dict["altitude"] - 1)):
-        if timestamped_altitude_dict["altitude"][i+1] > timestamped_altitude_dict["altitude"][i]:
-            decreases_list.append("d")
+    if timestamped_altitudes_dict["altitude"][-1] > 2000:     # assuming altitude in km, first check is we'rve above 2000km 
+        
+        decreases_list = []
+        for i in range(len(timestamped_altitudes_dict["altitude"] - 1)):
+            if timestamped_altitude_dict["altitude"][i+1] > timestamped_altitude_dict["altitude"][i]:
+                decreases_list.append("d")
+    
+        if len(decreases_list) >= 10:    # arbitrary if 10 altitude readings of decreasing altitude, TBC
+            return True
+        else: return False
 
-    if len(decreases_list) > 10:    # arbitrary if 10 altitude readings of decreasing altitude, TBC
-        return True
     else: return False
 
 def check_pressure_sensor_failure(pressure_dict, altitude_dict):
     """Function to check if there is something wrong with the pressure sensor
         Inputs: dictionary of timestamped pressure sensor readings, dictionary of timestamped altitude readings
         Outputs: True/False
+
+        types of pressure sensor isseues: 
+        1. It is filled with Nones
+        2. The pressure is consisently increasing with altitude
+        3. pressure values look random
+        4. pressure values are unchanging 
     """
     pass
 
@@ -72,6 +82,8 @@ def trigger_check(pressure_file_name, gps_file_name):
         Outputs: True/False, 
                 type of trigger condition as string: "G", "B", or "U",
                 for priority, secondary and tertiary checks
+
+        run IF flag for already having triggered is False
     """
 
     pressure_dict, altitude_dict = parse_files_triggering(pressure_file_name, gps_file_name)      # parsing txt files
@@ -85,3 +97,5 @@ def trigger_check(pressure_file_name, gps_file_name):
         return True, "U"
     else:
         return False
+
+            
