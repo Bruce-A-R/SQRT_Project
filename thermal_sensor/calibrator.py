@@ -3,7 +3,7 @@ import math
 import struct
 
 import machine
-import typing
+import time
 
 
 def init_float_array(size) -> array.array:
@@ -120,7 +120,7 @@ class MLX90640:
         self._extract_parameters()
 
     @property
-    def serial_number(self) -> typing.List[int]:
+    def serial_number(self) -> int:
         """3-item tuple of hex values that are unique to each MLX90640"""
         serial_words = [0, 0, 0]
         self._i2c_read_words(self.mlx90640_deviceid1, serial_words)
@@ -143,7 +143,7 @@ class MLX90640:
         value |= control_register[0] & 0xFC7F
         self._i2c_write_word(0x800D, value)
 
-    def get_frame(self, framebuf: typing.List[int]) -> None:
+    def get_frame(self, framebuf:int) -> None:
         """Request both 'halves' of a frame from the sensor, merge them
         and calculate the temperature in C for each of 32x24 pixels. Placed
         into the 768-element array passed in!"""
@@ -212,7 +212,7 @@ class MLX90640:
 
         return vdd
 
-    def _calculate_to(self, emissivity: float, tr: float, result: typing.List[float]) -> None:
+    def _calculate_to(self, emissivity: float, tr: float, result:list) -> None:
         sub_page = self.mlx90640_frame[833]
         alpha_corr_r = [0] * 4
         ir_data_cp = [0, 0]
@@ -824,6 +824,13 @@ class MLX90640:
             offset += read_words
             remaining_words -= read_words
             addr += read_words
+
+
+
+
+    
+
+
 
 
           
