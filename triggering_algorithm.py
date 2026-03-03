@@ -1,5 +1,6 @@
 """
 trigering_algorithm.py
+Bruce Ritter 3/3/26
 
 This script will run the triggering algorithm and be adopted to run in the
 SQRT script
