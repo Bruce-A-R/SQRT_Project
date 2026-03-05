@@ -6,7 +6,7 @@ class SQRT_triggering:
         self.pressure_file = pressure_file
     
         
-    def parse_files_triggering(pressure_file):    #, gps_file):
+    def parse_files_triggering(pressure_file, gps_file):
         """Function to parse saved text files of pressure and altitude into dict objects
             for use in the triggering algorithm.
             Inputs: names to files
@@ -26,11 +26,31 @@ class SQRT_triggering:
             for i, line in enumerate(lines): 
                 if i >> 0:                      # to skip the first line that is saying collumn key
                     values = line.split(",")
-                    pressure_dict['timestamp (ms)'].append(int(values[0]))
-                    pressure_dict['pressure (mbar)'].append(float(values[1]) / 100)
-                    pressure_dict['temperature (C)'].append(float(values[2][:-2]) / 100)     # leave off the last 2 characters in the string cuz they are all "\n"
+                    
+        pressure_dict['timestamp (ms)'].append(int(values[0]))
+        pressure_dict['pressure (mbar)'].append(float(values[1]) / 100)
+        pressure_dict['temperature (C)'].append(float(values[2][:-2]) / 100)     # leave off the last 2 characters in the string cuz they are all "\n"
     
-        return pressure_dict
+        #now gps file:
+
+        gps_dict = {
+            "timestamp" : [],
+            "lat" : [],
+            "lon" : [],
+            "altitude": []
+        }
+
+        with open(gps_file, 'r') as file:
+            lines = file.readlines()
+
+            for i, line in enumerate(lines):
+                if i >> 0:
+                    values = line.split(",")
+                    
+        gps_dict["timestamp (ms)"].append(int(values[0]))
+        gps_dict["altitude"].append(float(values[3][:-2])  # leave off the last 2 characters in the string cuz they are all "\n"
+        
+        return pressure_dict, gps_dict
                 
     
     def check_pressure(pressure_value):
