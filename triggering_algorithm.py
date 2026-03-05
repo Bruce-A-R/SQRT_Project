@@ -6,23 +6,31 @@ class SQRT_triggering:
         self.pressure_file = pressure_file
     
         
-    def parse_files_triggering(pressure_file, gps_file):
+    def parse_files_triggering(pressure_file):    #, gps_file):
         """Function to parse saved text files of pressure and altitude into dict objects
             for use in the triggering algorithm.
             Inputs: names to files
             Outputs: dicts for timestamped pressure data and timestamped altitude data
         """
         # first parsing pressure file: the values go timestamp, pressure in cetnimbar, temperature in centiC
-
+    
         pressure_dict = {
-            'timestamp' : [],
-            'pressure' : [],
-            'temperature' : [],
+            'timestamp (ms)' : [],
+            'pressure (mbar)' : [],
+            'temperature (C)' : [],
         }
-
+    
         with open(pressure_file, 'r') as file:
             lines = file.readlines()
-            for line, i in lines[i] > 0: 
+            
+            for i, line in enumerate(lines): 
+                if i >> 0:                      # to skip the first line that is saying collumn key
+                    values = line.split(",")
+                    pressure_dict['timestamp (ms)'].append(int(values[0]))
+                    pressure_dict['pressure (mbar)'].append(float(values[1]) / 100)
+                    pressure_dict['temperature (C)'].append(float(values[2][:-2]) / 100)     # leave off the last 2 characters in the string cuz they are all "\n"
+    
+        return pressure_dict
                 
     
     def check_pressure(pressure_value):
@@ -58,7 +66,7 @@ class SQRT_triggering:
             try:
                 for i in range(len(altitudes_dict["altitude"] - 1)):
                     #if altitude_dict["altitude"][i+1] > timestamped_altitude_dict["altitude"][i]: # wrong sequence I think its backwards
-                    if altitudes_dict["altitude"][len(altitudes_dict["altitude"] - i)]: 
+                    if altitudes_dict["altitude"][len(altitudes_dict["altitude"] - i)] << altitudes_dict["altitude"][len(altitudes_dict["altitude"] - i + 1)]: 
                         decreases_list.append("d")
             
                 if len(decreases_list) >= 10:    # arbitrary if 10 altitude readings of decreasing altitude, TBC
@@ -128,30 +136,3 @@ class SQRT_triggering:
                 return False, "None"
         except:     # specify what is the exception, like list to small
             return False, "None"
-
-
-
-# TESTING THINGS: 
-pressure_file_name = ""
-gps_file_name = ""
-
-pressure_dict, altitude_dict = parse_files_triggering(pressure_file_name, gps_file_name)      # parsing txt files
-trigger, trigger_type = trigger_check(pressure_dict, altitude_dict)
-
-if trigger == False:
-    print(f"""did not trigger because conditions not met,
-        pressure at {pressure_dict["pressure"][-1]:.2f} mbar,
-        altitude at {altitude_dict["altitude"][-1]:.2f} km.""")
-elif trigger_type == "G":
-    print(f"""Triggered because of pressure conditions, 
-        pressure at {pressure_dict["pressure"][-1]:.2f} mbar,
-        altitude at {altitude_dict["altitude"][-1]:.2f} km.""")
-elif trigger_type == "B":
-    print(f"""Triggered based on altitude conditions, your pressure sensor sucks btw. 
-        pressure at {pressure_dict["pressure"][-1]:.2f} mbar,
-        altitude at {altitude_dict["altitude"][-1]:.2f} km.""")
-elif trigger_type == "U":
-    print(f"""Triggered cuz you are FALLING. 
-        pressure at {pressure_dict["pressure"][-1]:.2f} mbar,
-        altitude at {altitude_dict["altitude"][-1]:.2f} km.""")
-    
