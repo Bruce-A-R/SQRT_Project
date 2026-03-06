@@ -133,17 +133,20 @@ def main():
         file.write("Timestamp, Lat, Lon, Alt \n")      # writting names for the values to be added
 
     # reading and calibrating GPS data: 
+    while noGGA == True:
+        
+        time.sleep(1)
+        sentence = listen_for_sequence(gps, 'GGA')
+        
+        if sentence is not None:
+            # parsing sequence:
+            dictionary = parse_sequence(sentence)
 
-    time.sleep(1)
-    sentence = listen_for_sequence(gps, 'GGA')
-    
-    if sentence is not None:
-          # parsing sequence:
-          dictionary = parse_sequence(sentence)
-
-    # writing result string to the file
-    with open("sensor_log.txt", "a") as file:
-            file.write(f"{dictionary["timestamp"]},{dictionary["latitude"]},{dictionary["longitude"]},{dictionary["altitude"]}\n")
+            # writing result string to the file
+            with open("gps_log.txt", "a") as file:
+                file.write(f"{dictionary["timestamp"]},{dictionary["latitude"]},{dictionary["longitude"]},{dictionary["altitude"]}\n")
+        
+        noGGA = False     # setting GGA flag so the listening loop can stop
     #while True:
     #    time.sleep(1)
         
