@@ -81,7 +81,7 @@ def angle_reader(angle_str, hemisphere):
     on the inputted hemishpere (N or S)
     """
     
-    if len(angle_str) == 10:         # for DDMM.MMMMM format
+    if len(angle_str) == 9:#10:         # for DDMM.MMMMM format
         minutes = float(angle_str[2:10]) / 60
         degs = int(angle_str[0:2])
         
@@ -90,7 +90,7 @@ def angle_reader(angle_str, hemisphere):
         
         return ang
     
-    elif len(angle_str) == 11:       # for DDDMM.MMMMM format
+    elif len(angle_str) == 10:#11:       # for DDDMM.MMMMM format
         minutes = float(angle_str[2:11]) / 60
         degs = int(angle_str[0:2])
         
@@ -129,11 +129,13 @@ def main():
     # seting up file to write to
 
    # creating txt file for sensor data: THIS ACTUALLY SHOULD HAPPEN OUTSIDE OF DATA COLLECTION LOOP THO
-    with open("gps_log.txt", "a") as file:
+    with open("gps_log_5.txt", "a") as file:
         file.write("Timestamp, Lat, Lon, Alt \n")      # writting names for the values to be added
-
+    
+    GGA = False
+    gga_count = 0
     # reading and calibrating GPS data: 
-    while noGGA == True:
+    while GGA == False:
         
         time.sleep(1)
         sentence = listen_for_sequence(gps, 'GGA')
@@ -143,10 +145,13 @@ def main():
             dictionary = parse_sequence(sentence)
 
             # writing result string to the file
-            with open("gps_log.txt", "a") as file:
+            with open("gps_log_5.txt", "a") as file:
                 file.write(f"{dictionary["timestamp"]},{dictionary["latitude"]},{dictionary["longitude"]},{dictionary["altitude"]}\n")
+            
+            gga_count += 1
         
-        noGGA = False     # setting GGA flag so the listening loop can stop
+        if gga_count == 10:
+            GGA = True     # setting GGA flag so the listening loop can stop
     #while True:
     #    time.sleep(1)
         
