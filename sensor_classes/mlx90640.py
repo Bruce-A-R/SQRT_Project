@@ -830,13 +830,13 @@ class MLX90640:
         Logs temperature frames in a dedicated textfile
             
         Inputs:
-        sda_pin, scl_pin (int) - GPIO pins used for serial data and clock wiring, respectively.
         filename (str) - Name of textfile for data storage.
         """
 
         frame = init_float_array(768)
 
-        while True:
+        
+        for _ in range(30):
             self.get_frame(frame)
 
             with open(filename, "a") as f:
