@@ -62,7 +62,7 @@ class DS18B20:
             else:
                 f.write(f"{temp}\n")
                 
-        return temp
+        
 
 
             
