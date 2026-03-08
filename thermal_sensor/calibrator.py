@@ -4,7 +4,7 @@ import struct
 
 import machine
 import time
-
+import onewire, ds18x20
 
 def init_float_array(size) -> array.array:
     return array.array('f', (0 for _ in range(size)))
@@ -825,10 +825,36 @@ class MLX90640:
             remaining_words -= read_words
             addr += read_words
 
+    def mlx_log(self, filename = "mlx_readings.txt"):
+        """
+        Logs temperature frames in a dedicated textfile
+            
+        Inputs:
+        sda_pin, scl_pin (int) - GPIO pins used for serial data and clock wiring, respectively.
+        filename (str) - Name of textfile for data storage.
+        """
+
+        frame = init_float_array(768)
+
+        while True:
+            self.get_frame(frame)
+
+            with open(filename, "a") as f:
+                for temp in frame:   
+                    f.write(f"{temp},")
+                f.write("\n")      
+        
+
+            
+
+
+        
 
 
 
-    
+
+
+
 
 
 
