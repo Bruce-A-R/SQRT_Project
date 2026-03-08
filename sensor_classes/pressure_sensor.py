@@ -9,7 +9,7 @@ PRESSURE_ADC = b'\x58'
 class MS5611:
     """Interfaces with the Pressure/Temperature Sensor"""
 
-    def __init__(self, i2c=0, sda_pin=12, scl_pin=13, address=0x77):
+    def __init__(self, i2c=0, sda_pin=4, scl_pin=5, address=0x77):
         """
         Initialises the sensor
         """
