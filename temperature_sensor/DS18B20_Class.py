@@ -1,62 +1,75 @@
+"""
+This class is for the temperature sensor to be used for internal temperature readings/valve 
+operation verification.
+"""
+# All necessary imports are performed.
+import machine, time, onewire, ds18x20
+
 class DS18B20:
     """Interface to the DS18B20 thermometer"""
 
-    def __init__(self, address: ds18x20.DS18X20(onewire.OneWire(one_wire_pin))) -> None:
-
-
-
-    def detect_device(self, Pin=17):
+    def __init__(self, pin=17):
         """
-        This function detects a one-wire device at the input pin specified.
+        Initialises the sensor.
 
-        Inputs:
-        Pin Number - GPIO number on Pico used (will be defined in mission main function.
+        pin (int): GPIO pin used for the one-wire bus
         """
-    
-        one_wire_pin = machine . Pin (17)
+        self.pin = machine.Pin(pin)
+        self.onewire = onewire.OneWire(self.pin)
+        self.sensor = ds18x20.DS18X20(self.onewire)
 
-        # The temperature sensor addresses are identified and the found
-        # devices are named. 
-        temperature_sensors = ds18x20.DS18X20(onewire.OneWire(one_wire_pin))
-        roms = temperature_sensors.scan()
+        # Scan for devices at address defined above.
+        self.roms = self.sensor.scan()
 
-    def read_temp(self, ):
+        if not self.roms:
+            self.available = False
+        else:
+            self.available = True
+
+
+
+
+    def read_temp(self):
         """
         Reads the temperature from the sensor
+        Returns None if sensor unavailable.
         """
-        
-        # The temperature sensor is asked to make a measurement.
-        temperature_sensors.convert_temp()
-        
-        # The sensor is given time to make the measurement before the data is requested.
-        time.sleep_ms(750)
-        tempC = temperature_sensors.read_temp(roms[0])
+        # Check to see if device is at address.
+        if not self.available:
+            return None
 
+        try:
+            # The temperature sensor is asked to make a measurement.
+            temperature_sensors.convert_temp()
+            
+            # The sensor is given time to make the measurement before the data is requested.
+            time.sleep_ms(150)
+            tempC = self.sensor.read_temp(self.roms[0])
+            return tempC
+            
+        except Exception as e:
+            return None
 
-    def file_temp(self, filename = "thermo_readings.txt"):
+    def log_temp(self, filename="thermo_readings.txt"):
         """
-        Stores temperature values in a suitably parsed, formatted textfile.
-
-        Inputs:
-        filename (str) - Name of textfile
+        Reads temperature and appends it to a file.
         """
+        temp = self.read_temp()
 
         with open(filename, "a") as f:
+            if temp is None:
+                f.write("NaN\n")
+            else:
+                f.write(f"{temp}\n")
+                
+        return temp
+
+
             
                   
         
 
 
-
-
-
-
-
-
-
-
-
-    def 
 
 
 
