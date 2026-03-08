@@ -8,7 +8,7 @@ import machine, time, onewire, ds18x20
 class DS18B20:
     """Interface to the DS18B20 thermometer"""
 
-    def __init__(self, pin=17):
+    def __init__(self, pin=22):
         """
         Initialises the sensor.
 
