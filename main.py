@@ -122,5 +122,5 @@ while True:
        Comms.telem_packet()
 
     counter += 1
-       
-       
+   
+    time.sleep_ms(200)
