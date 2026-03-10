@@ -130,7 +130,7 @@ class SQTGPS:
         
         return mydict
 
-    def _read_gps(self, file_name):
+    def read_gps(self, file_name):
         """Funciton to write the values we want from the read sequence to a text file. First it reads in data, 
         then it should save it all to a text file. It will loop reading from the GPS until it gets a GGA sequence
         Input: path to desired text file (should be on sd card) (string)
