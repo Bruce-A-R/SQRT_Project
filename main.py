@@ -1,8 +1,8 @@
 from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640
-from gps import GPS
-from comms import Comms
+from gps import SQTGPS
+#from comms import Comms
 
 import os
 import time
@@ -11,7 +11,9 @@ import machine
 from machine import SPI, Pin
 import sdcard, os
 
-# -----------------------------SD CARD SETUP--------------------------------
+from machine import SPI, Pin
+import sdcard, os, time
+
 SPI_BUS = 0
 SCK_PIN = 2
 MOSI_PIN = 3
@@ -19,25 +21,47 @@ MISO_PIN = 4
 CS_PIN = 5
 SD_MOUNT_PATH = '/sd'
 
-file_list = ['/sd/trigger_log.txt', '/sd/ms5611_log.txt', '/sd/ds18b20_log.txt', '/sd/mlx90640_log.txt', '/sd/gps_log.txt']
-   
+file_list = [
+    '/sd/trigger_log.txt',
+    '/sd/ms5611_log.txt',
+    '/sd/ds18b20_log.txt',
+    '/sd/mlx90640_log.txt',
+    '/sd/gps_log.txt'
+]
+
+# Setup SPI and CS
+spi = SPI(SPI_BUS, baudrate=9600, sck=Pin(SCK_PIN), mosi=Pin(MOSI_PIN), miso=Pin(MISO_PIN))
+cs = Pin(CS_PIN, Pin.OUT)
+cs.value(1)
+
 try:
-    spi = SPI(SPI_BUS,sck=Pin(SCK_PIN), mosi=Pin(MOSI_PIN), miso=Pin(MISO_PIN))
-    cs = Pin(CS_PIN)
-    sd = sdcard.SDCard(spi, cs)
-    
-    # Mount microSD card
-    os.mount(sd, SD_MOUNT_PATH)
-    
+    os.umount(SD_MOUNT_PATH)
 except:
-    print('SD card Pin Error')
+    pass
+
+    # Initialize and mount SD
+    sd = sdcard.SDCard(spi, cs)
+    os.mount(sd, SD_MOUNT_PATH)
+
+    # Small delay before file ops
+    time.sleep_ms(50)
+
+    # Initialize log files safely
+    for fname in file_list:
+        with open(fname, 'w') as f:
+            if 'ms5611' in fname:
+                f.write("Timestamp (s), Temperature (Celsius), Pressure (mbar)\n")
+            elif 'ds18b20' in fname:
+                f.write("Timestamp, Temp (deg)\n")
+            elif 'mlx90640' in fname:
+                f.write("\n")
+            elif 'gps' in fname:
+                f.write("Timestamp (s), Lat (deg), Lon (deg), Alt (m)\n")
+            else:
+                f.write("Timestamp (s), Trigger, Trigger Condition\n")
 
 #------------------------Textfile Initialisation----------------------------
 try:
-    for file in file_list:
-        os.remove(file)
-    
-    
     with open(file_list[0], "w") as file:                      # trigger log file
         file.write("Timestamp (s), Trigger, Trigger Condition \n")
     
@@ -53,7 +77,7 @@ try:
     with open(file_list[4], "w") as file:                     # gps file
         file.write("Timestamp (s), Lat (deg), Lon (deg), Alt (m)\n")
 
-except: print("SD card error")
+except: print("SD card FILE WRITING error")
 
 # --------------------------- Sensor Setup -------------------------------
 try:
@@ -69,22 +93,21 @@ except:
     print("Temperature Sensor Error")
 
 try:
-    frame_taker = MLX90640(i2c_bus=1, sda_pin=14, scl_pin=15)
+    frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=16, scl_pin=17)
 except:
     frame_taker = None
     print("MLX90640 Sensor Error")
     
 try:
-    gps_sensor = GPS(uart tx_pin = , rx_pin = )
-    
+    gps_sensor = SQTGPS(uart = 0, baudrate = 9600, tx_pin = 12, rx_pin = 13)
 except:
     gps_sensor = None
     print("GPS Sensor Error")
 
 
 # ------------------- Data Acquisition -------------------------------------
-counter = 0
-while True:
+#counter = 0
+for _ in range(5):  
 
     if pressure_sensor:
         T_val = pressure_sensor.read_adc('T')
@@ -108,19 +131,24 @@ while True:
         except: print('Temp not logged')
 
     
-    if frame_taker:
-        frame_taker.mlx_log(file_list[3])
+   # if frame_taker:
+    #    frame_taker.mlx_log(file_list[3])
 
     if gps_sensor:
-        gps_sensor.gps_log(file_list[4])
-        
-#-------------------------- Data Downlink-----------------------------------------------------
-    if counter%10==0 and counter%3==0:
-       Comms.data_packet()
-  
-    elif counter%10==0:
-       Comms.telem_packet()
+        try:
+            print(gps_sensor._listen_for_sequence())
+            gps_sensor.gps_log(file_list[4])
+        except: print('GPS not logged')
 
-    counter += 1
+# unmounting sd card after looping 5 times
+os.umount(SD_MOUNT_PATH)
+#-------------------------- Data Downlink-----------------------------------------------------
+#    if counter%10==0 and cou	nter%3==0:
+ #      Comms.data_packet()
+#  
+#    elif counter%10==0:
+#       Comms.telem_packet()
+#
+#    counter += 1
    
-    time.sleep_ms(200)
+#    time.sleep_ms(200)
