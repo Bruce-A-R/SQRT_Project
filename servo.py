@@ -9,7 +9,7 @@ def set_angle(pwm, angle):
     pwm.duty_u16(duty)
 
 
-elnueve = PWM(Pin(0))
+elnueve = PWM(Pin(21))
 elnueve.freq(50)
 
 set_angle(elnueve, 40)
