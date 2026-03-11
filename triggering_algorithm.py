@@ -1,7 +1,17 @@
 class SQRT_trigger:
-    """SQRT Triggering Algorithm class"""
+    """SQRT Triggering Algorithm class
+
+    BR version as of 11/3
     
-    def __init__(self, pressure_file, gps_file):
+    Used to check for contitions to trigger our servo motor (to open the valve)
+    How to use:
+    1. Have a flag in the main tuppersat loop that triggering has or hasnt happened,
+    and only run the check if it hasn't happened yet
+    2. trigger_check will return both True/False trigger and the condition type of triggering
+    
+    """
+    
+    def __init__(self, pressure_file, gps_file, trigger_file):
         self.pressure_dict, self.gps_dict = self._parse_files_triggering(pressure_file, gps_file)
 
     def _parse_files_triggering(self, pressure_file, gps_file):
@@ -13,7 +23,7 @@ class SQRT_trigger:
         # first parsing pressure file: the values go timestamp, pressure in cetnimbar, temperature in centiC
     
         pressure_dict = {
-            'timestamp' : [],    # ms
+            'timestamp' : [],    # ms or mabe s actually?
             'pressure' : [],     # units of mbar
             'temperature' : [],     # C
         }
@@ -22,7 +32,7 @@ class SQRT_trigger:
             lines = file.readlines()
             
             for i, line in enumerate(lines): 
-                if i >> 0:                      # to skip the first line that is saying collumn key
+                if i > 0:                      # to skip the first line that is saying collumn key
                     values = line.split(",")
                     
                     pressure_dict['timestamp'].append(int(values[0]))
@@ -40,7 +50,7 @@ class SQRT_trigger:
             lines = file.readlines()
     
             for i, line in enumerate(lines):
-                if i >> 0:
+                if i > 0:
                     values = line.split(",")
                     gps_dict["timestamp"].append(float(values[0]))
                     gps_dict["altitude"].append(float(values[3]))
@@ -134,56 +144,46 @@ class SQRT_trigger:
             Secondary check: check altiude and if pressure sensor is bugging
             Ugly third check: check if tuppersat is descending
     
-            Inputs: pressure and gps sensor files, to be parsed
+            should save a timestamped line of trigger check result and condition to
+            the trigger log file
             
-            Outputs: True/False, 
-                    type of trigger condition as string: "G", "B", or "U",
-                    for priority, secondary and tertiary checks
-    
-            run IF flag for already having triggered is False
+            should also return the check 
         """
     
         
-        #pressure_dict, gps_dict = parse_files_triggering(pressure_file, gps_file)
-    
+        pressure_dict, gps_dict = parse_files_triggering(pressure_file, gps_file)
+
+
+        #pressure_flag = check_pressure(self.pressure_dict['pressure'][-1])
+        #print(pressure_flag)
+        print(self.pressure_dict['pressure'][-1])
+        print(self.gps_dict['altitude'][-1])
         try:
-            if check_pressure(self.pressure_dict[-1]) == True:      # pressure trigger
-                return True, "G"
-            elif check_altitude(self.altitude_dict[-1]) == True and check_pressure_sensor_failure(pressure_dict, altitude_dict) == True :
-                return True, "B"
-            elif check_falling(self.altitude_dict) == True:
-                return True, "U"
+            if check_pressure(self.pressure_dict['pressure'][-1]) == True:      # pressure trigger
+                check = True
+                condition = "G"
+            elif check_altitude(self.gps_dict['altitude'][-1]) == True and check_pressure_sensor_failure(pressure_dict, gps_dict) == True :
+                check = True
+                condition = "B"
+            elif check_falling(self.gps_dict) == True:
+                check = True
+                condition = "U"
             else:
-                return False, "None"
-        except:     # specify what is the exception, like list to small
-            return False, "None"
-
-# need to input these test files maybe: 
-pressure_file = "test_data/pressure_ex_1.txt"
-gps_file = "test_data/gps_test_sqrt.txt"
-
-trigger = SQRT_trigger("test_data/pressure_ex_1.txt", "test_data/gps_test_sqrt.txt")
-
-triggered, trigger_type = trigger.trigger_check()
-
-
-#pressure_dict, altitude_dict = parse_files_triggering(pressure_file, gps_file)      # parsing txt files
-#trigger, trigger_type = trigger_check(pressure_dict, altitude_dict)
-
-if trigger == False:
-    print(f"""did not trigger because conditions not met,
-        pressure at {pressure_dict["pressure"][-1]:.3f} mbar,
-        altitude at {altitude_dict["altitude"][-1]:.3f} km.""")
-elif trigger_type == "G":
-    print(f"""Triggered because of pressure conditions, 
-        pressure at {pressure_dict["pressure"][-1]:.3f} mbar,
-        altitude at {altitude_dict["altitude"][-1]:.3f} km.""")
-elif trigger_type == "B":
-    print(f"""Triggered based on altitude conditions, your pressure sensor sucks btw. 
-        pressure at {pressure_dict["pressure"][-1]:.3f} mbar,
-        altitude at {altitude_dict["altitude"][-1]:.3f} km.""")
-elif trigger_type == "U":
-    print(f"""Triggered cuz you are FALLING. 
-        pressure at {pressure_dict["pressure"][-1]:.3f} mbar,
-        altitude at {altitude_dict["altitude"][-1]:.3f} km.""")
+                check = False
+                condition = "None"
+        except:    
+            print("exception in triggering check")
+            check = False
+            condition = "None"
+            
+        # now actually saving to a file:
+        
+        with open(self.trigger_file, "a") as file:
+            file.write(f"{time.time()}, {check}, {condition}")
+        
+        #tests:
+        print(check)
+        print(condition)
+        
+        return check
     
