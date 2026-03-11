@@ -2,14 +2,10 @@
 The code below will be used to collect relevant data, format telemetry/science data packets, and
 interface with communications architecture.
 """
- 
-from datetime import datetime as dt
+
 import os
 import machine 
 from tuppersat.radio import SatRadio
-
-# Create UART object
-uart = machine.UART(1, baudrate = 38400, tx = machine.Pin(16), rx = machine.Pin(17))
 
 radio_settings = {
   'address' : 0x53,
@@ -17,8 +13,14 @@ radio_settings = {
 }
 
 class Comms:
-  def __init__(self):
-      self.radio = SatRadio(uart, **radio_settings)
+  def __init__(self, address = 0x53, callsign = 'SQT'):
+      self.radio_settings = {
+                       'address' : address,
+                        'callsign' : callsign
+                            }
+      self.uart = machine.UART(1, baudrate = 38400, tx = machine.Pin(16), rx = machine.Pin(17))
+
+      self.radio = SatRadio(self.uart, **self.radio_settings)
 
       # Counts initialised for determining packet numbers.
       self.t_packet_count = 0
@@ -26,13 +28,13 @@ class Comms:
 
       # SD card file paths defined for data gathering.
       self.sd_files = {
-        "External_TP": "/mnt/sdcard/external_readings.txt",
-        "Internal_T": "/mnt/sdcard/thermo_readings.txt",
-        "GPS": "/mnt/sdcard/gps_log.txt",
-        "MLX": "/mnt/sdcard/mlx_readings.txt",
-        "Servo": "/mnt/sdcard/servo_status.txt",
-        "Trigger": "/mnt/sdcard/trig_status.txt",
-        "Trigger_Type": "/mnt/sdcard/trig_type.txt"
+        "External_TP": "/sd/external_readings.txt",
+        "Internal_T": "/sd/thermo_readings.txt",
+        "GPS": "/sd/gps_log.txt",
+        "MLX": "/sd/mlx_readings.txt",
+        "Servo": "/sd/servo_status.txt",
+        "Trigger": "/sd/trig_status.txt",
+        "Trigger_Type": "/sd/trig_type.txt"
         }
 
 
@@ -47,20 +49,22 @@ class Comms:
     Returns:
     last_line (str) - The most recently appended line to the textfile.
     """
-    with open(filepath, 'rb') as f:
-      # The end of the file is located.
-      f.seek(0, os.SEEK_END)
-      position = f.tell() - 1
-
-      # Keeps moving backwards until a newline is found.
-      while position>0:
-        f.seek(position)
-        if f.read(1) == b'\n':
-          break
-        position -= 1
-      last_line = f.readline().decode()
-    return last_line.strip()
-  
+    try:
+     with open(filepath, 'rb') as f:
+       # The end of the file is located.
+       f.seek(0, os.SEEK_END)
+       position = f.tell() - 1
+ 
+       # Keeps moving backwards until a newline is found.
+       while position>0:
+         f.seek(position)
+         if f.read(1) == b'\n':
+           break
+         position -= 1
+       last_line = f.readline().decode()
+     return last_line.strip()
+    except OSError:
+     return ""
   def telem_packet(self):
     """
     Telemetry packet is formatted and sent.
@@ -77,7 +81,7 @@ class Comms:
     self.t_packet_count += 1
     
     telem_dict = {
-      'hhmmss' : dt.now().strftime("%H%M%S"),
+      'hhmmss' : time.time(),
       'alt': alt,           # Altitude in metres
       'lat_deg' : lat,      # Latitude in degrees
       'lon_deg' : lon,      # Longitude in degrees
@@ -145,7 +149,7 @@ class Comms:
 
     # Data dictionary is formatted.
     data_dict = {
-      'hhmmss' : dt.now().strftime('%H%M%S'),    # Time in UTC
+      'hhmmss' : time.time(),    # Time in UTC
       'therm_array' : crop_frame,                # 48 temperature values (Celsius)
       'servo_flag' : servo_motor,                # Servo Motor flag (Bool Type)
       'trig_status' : trig,                      # Trigger Flag (Bool Type)
