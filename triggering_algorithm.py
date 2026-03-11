@@ -138,7 +138,7 @@ class SQRT_trigger:
     
     # actual trigger check:
     
-    def trigger_check(self): 
+    def trigger_check(self.pressure_file, self.gps_dict, self.trigger_file): 
         """Function to run triggering check
             Priority: check pressure
             Secondary check: check altiude and if pressure sensor is bugging
