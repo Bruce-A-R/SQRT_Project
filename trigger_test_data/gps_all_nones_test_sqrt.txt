@@ -1,0 +1,13 @@
+Timestamp, Lat, Lon, Alt 
+163943.000,None,None,None
+163944.000,None,None,None
+163945.000,None,None,None
+163946.000,None,None,None
+163947.000,None,None,None
+163948.000,None,None,None
+163949.000,None,None,None
+163950.000,None,None,None
+163951.000,None,None,None
+163952.000,None,None,None
+163953.000,None,None,None
+163954.000,None,None,None
