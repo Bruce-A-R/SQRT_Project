@@ -211,9 +211,13 @@ class MS5611:
         if T_val is None or P_val is None:
             t = time.time()
 
-            with open(filename, "a") as f:
-                f.write(f"{t}, NaN, NaN\n")
-        
+            try:
+                with open(filename, "a") as f:
+                    f.write(f"{t}, NaN, NaN\n")
+            except Exception as e: 
+                print("File writing exceoption for NaN values case:", e)
+                print("t, T, P: {t}, NaN, NaN")
+                
         else:
             # The calibrated temperature and pressure values are returned by the compute_pressure function.
             T, P = self.compute_pressure(T_val, P_val)
@@ -226,7 +230,8 @@ class MS5611:
                 try:
                     f.write(f"{t}, {T}, {P}\n")
                 except Exception as e:
-                    print(e)
+                    print("File writing exception for T, P case:", e)
+                    print(f"t, T, P: {t}, {T}, {P}")
         
 
 
