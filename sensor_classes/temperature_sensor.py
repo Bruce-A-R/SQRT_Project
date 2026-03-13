@@ -5,6 +5,7 @@ operation verification.
 # All necessary imports are performed.
 import machine, time, onewire, ds18x20
 
+
 class DS18B20:
     """Interface to the DS18B20 thermometer"""
 
@@ -20,6 +21,7 @@ class DS18B20:
 
         # Scan for devices at address defined above.
         self.roms = self.sensor.scan()
+
 
         if not self.roms:
             self.available = False
@@ -40,7 +42,7 @@ class DS18B20:
 
         try:
             # The temperature sensor is asked to make a measurement.
-            temperature_sensors.convert_temp()
+            self.sensor.convert_temp()
             
             # The sensor is given time to make the measurement before the data is requested.
             time.sleep_ms(150)
@@ -48,23 +50,32 @@ class DS18B20:
             return tempC
             
         except Exception as e:
+            print(e)
             return None
 
-    def log_temp(self, filename="thermo_readings.txt"):
+    def log_temp(self, filename):
         """
         Reads temperature and appends it to a file.
         """
         temp = self.read_temp()
-
+        print(temp)
+        timestamp = time.time()
+        
         with open(filename, "a") as f:
             if temp is None:
-                f.write("NaN\n")
+                f.write(f"{timestamp}, NaN\n")
+
             else:
-                f.write(f"{temp}\n")
-                
+                try:
+                    f.write(f"{timestamp}, {temp}\n")
+                except Exception as e:
+                    print("error", e)
         
 
 
             
                   
-        
+
+
+    
+
