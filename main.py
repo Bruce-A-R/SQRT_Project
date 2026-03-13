@@ -2,20 +2,22 @@ from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640
 from gps import SQTGPS
+from triple_t import Comms
 #from comms import Comms
 
-import sdcard
-import os
+#import sdcard
+import sdcard_v2 as sdcard        # using second version of sdcard class from adafruit formus but it STILL DOESNT WORK
+import uos as os
 import time
 import machine
 
 from machine import Pin, SPI
 
-SPI_BUS = 0
-SCK_PIN = 2
-MOSI_PIN = 3
-MISO_PIN = 4
-CS_PIN = 5
+SPI_BUS = 1
+SCK_PIN = 10
+MOSI_PIN = 11
+MISO_PIN = 12
+CS_PIN = 13
 SD_MOUNT_PATH = '/sd'
 
 file_list = [
@@ -27,71 +29,96 @@ file_list = [
     '/sd/gps_log.txt'
 ]
 
-
-# Setup sd card
 try:
-    spi = SPI(SPI_BUS, baudrate=1320000, sck=Pin(SCK_PIN), mosi=Pin(MOSI_PIN), miso=Pin(MISO_PIN))
-    cs = Pin(CS_PIN, Pin.OUT)
-    cs.value(1)
+    # Assign chip select (CS) pin 
+    cs = machine.Pin(CS_PIN, machine.Pin.OUT)
 
-except: print("SD card pin error")
-
-sd = sdcard.SDCard(spi, cs)
-os.mount(sd, SD_MOUNT_PATH)
-
-try:
-    # Initialize and mount SD
-    sd = sdcard.SDCard(spi, cs)
-    os.mount(sd, SD_MOUNT_PATH)
-
-except: print('SD card mount error')
-
-# Small delay before file ops
-time.sleep_ms(50)
-
-# Initalize files and write header information
+    # Intialize SPI peripheral (start with 1 MHz)
+    spi = machine.SPI(SPI_BUS,
+                      baudrate=1000000,
+                      polarity=0,
+                      phase=0,
+                      bits=8,
+                      firstbit=machine.SPI.MSB,
+                      sck=machine.Pin(SCK_PIN),
+                      mosi=machine.Pin(MOSI_PIN),
+                      miso=machine.Pin(MISO_PIN))
+except: print('pin error')
 
 try:
+
+    try:
+        # Initialize SD card
+        sd = sdcard.SDCard(spi, cs)
+    except Exception as e:
+        print("sd initialise error", e)
+
+    try:
+        # Mount filesystem
+        vfs = os.VfsFat(sd)
+        os.mount(vfs, "/sd")
+    except Exception as e:
+        print("mount fail", e)
+    
+    print('mounted sd?')
+    
+except Exception as e: print(f"mounting error: {e}")
+
+
+
+try:
+
+    # Small delay before file ops
+    time.sleep_ms(50)
+    
+    for file in file_list:
+        try:
+            os.remove(file)
+        
+        except OSError:
+            pass
+
+    # Initialize log files safely
     for fname in file_list:
         with open(fname, 'w') as f:
-            if 'ms5611' in fname:         # pressure
+            if 'ms5611' in fname:
                 f.write("Timestamp (s), Temperature (Celsius), Pressure (mbar)\n")
-            elif 'ds18b20' in fname:       # should do both temperature files
+            elif 'ds18b20' in fname:
                 f.write("Timestamp, Temp (deg)\n")
-            elif 'mlx90640' in fname:     # thermal sensor
-                f.write("\n")
-            elif 'gps' in fname:            # gps
+            elif 'mlx90640' in fname:
+                f.write("MLX90640 Raw Data Values")
+            elif 'gps' in fname:
                 f.write("Timestamp (s), Lat (deg), Lon (deg), Alt (m)\n")
-            elif 'trigger' in fname:
-                f.write("Timestamp (s), Trigger, Trigger Condition\n")
-                f.write(f"{time.time()}, False, None \n")                 # trigger set to false to begin with 
             else:
-                print('file names incorrect')
-except:
-    print('SD card file writing error')
+                f.write("Timestamp (s), Trigger, Trigger Condition\n")
 
-# sensor setup:
+except Exception as e:
+    print("Files not initialised", e)
 
+
+
+# --------------------------- Sensor Setup -------------------------------
 try:
-    pressure_sensor = MS5611(i2c_bus=0, sda_pin=8, scl_pin=9)
+    pressure_sensor = MS5611(i2c_bus=0, sda_pin=4, scl_pin=5)
 except:
     pressure_sensor = None
     print("Pressure Sensor Error")
 
 try:
-    temp_sensor_i = DS18B20(pin=21) # internal temp, same actions but to a diff pin
-except:
-    temp_sensor_i = None
-    print("Temperature Sensor Error")
-    
-try:
-    temp_sensor_e = DS18B20(pin=19)    # external temp, same actions but to a diff pin
-except:
-    temp_sensor_e = None
-    print("Temperature Sensor Error")
+    temp_sensor = DS18B20(pin=22)
+
+    if not temp_sensor.available:
+        print("Temperature Sensor Error")
+        temp_sensor = None
+
+except Exception as e:
+    temp_sensor = None
+    print("Temperature Sensor Error:", e)
+
 
 try:
     frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=16, scl_pin=17)
+
 except:
     frame_taker = None
     print("MLX90640 Sensor Error")
@@ -102,91 +129,63 @@ except:
     gps_sensor = None
     print("GPS Sensor Error")
 
+try:
+    TTT = Comms(address = 0x53, callsign = "SQT", uart_bus=0, tx_pin = 0, rx_pin = 1)
 
-# Data loop
+except:
+    TTT = None
+    print("T-cubed Error")
 
-trigger = False # set this variable here too 
-servo_activated = False # flags that servo has or hasnt activated
-#counter = 0
+# ------------------- Data Acquisition -------------------------------------
+counter = 0
+comms = Comms()
+for _ in range(50):  
 
-for _ in range(5):  
-    
-    #1. pressure:
     if pressure_sensor:
-        T_val = pressure_sensor.read_adc('T')
-        P_val = pressure_sensor.read_adc('P')
-        
-        if T_val and P_val:
-            T_E, P = pressure_sensor.compute_pressure(T_val, P_val)
-
-        else:
-            print("MS5611 failed")
         try:
             pressure_sensor.log_pressure(file_list[1])
-        except: print('Pressure not logged')
-    
-    #2. gps
-    if gps_sensor:
-        try:
-            print(gps_sensor._listen_for_sequence())
-            gps_sensor.gps_log(file_list[5])
-        except: print('GPS not logged')      
-    
-    #3. trigger check:
-    
-    if gps_sensor and pressure_sensor:
-        try:
-            print('woulda done the trigger check here')
-            # trigger = run action, will return true or false, and condition written to file
-            #should also make variable true or false
-            
-            #trigger, condition = SQTRtrigger.trigger_algorithm(file_list[1], file_list[5])
-        except: print('Trigger not logged')
-    
-    #if trigger is true and servo_activated is False, activate servo
-    if trigger == True and servo_activated == False:
+        except Exception as e: print('Pressure not logged', e)
         
+    if temp_sensor:
         try:
-            print('woulda activated servo here')
-            #servo.activate_servo()
-            #servo_activated = True
-        except:
-            print('servo activation error')
+            temp_sensor.log_temp(file_list[2])
+        except Exception as e:
+            print("Temperature not logged", e)
+
 
     
-    #4. thermal sensor
-        
     if frame_taker:
         try:
-            frame_taker.mlx_log(file_list[4])
-        except: print('Thermal Sensor not logged')
-    
-    #5. temp sensors:
-        
-    if temp_sensor_i:
-        
-        try:
-            temp_sensor_i.log_temp(file_list[4])
-        except: print('Internal Temp not logged')
-    
-    if temp_sensor_e:
-        try:
-            temp_sensor_e.log_temp(file_list[3])
-        except: print('External Temp not logged')
-        
-    #6. comms:
+            frame_taker.mlx_log(file_list[3])
+        except:
+            print("Thermal Array not logged")
 
-    
+  
+    if gps_sensor:
+        try:
+            # Attempt to read for only 100 ms
+            data = gps_sensor._listen_for_sequence(timeout=1000)  
+            if data:
+                gps_sensor.gps_log(file_list[4])
+            else:
+                print("No GPS data available this loop")
+        except Exception as e:
+            print("GPS not logged:", e)
 
-# unmounting sd card after looping 5 times
-os.umount(SD_MOUNT_PATH)
+
 #-------------------------- Data Downlink-----------------------------------------------------
-#    if counter%10==0 and counter%3==0:
- #      Comms.data_packet()
-#  
-#    elif counter%10==0:
-#       Comms.telem_packet()
-#
-#    counter += 1
-   
-#    time.sleep_ms(200)
+    if TTT:
+        if counter % 10 == 0:
+            print("Sending science packet")
+            comms.science_packet()
+            
+        if counter % 6 == 0:
+            print("Sending telemetry packet")
+
+            TTT.telem_packet()
+
+    
+    counter += 1
+           
+    time.sleep(1)
+
