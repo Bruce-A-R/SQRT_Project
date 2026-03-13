@@ -4,22 +4,19 @@ interface with communications architecture.
 """
 
 import os
-import machine 
-from tuppersat.radio import SatRadio
-
-radio_settings = {
-  'address' : 0x53,
-  'callsign' : "SQT"
-}
+import machine
+import time
+from _rhserial_radio import RHSerialRadio
+from _tuppersat_radio import TupperSatRadio as SatRadio
 
 class Comms:
-  def __init__(self, address = 0x53, callsign = 'SQT'):
+  def __init__(self, address = 0x53, callsign = 'SQT',uart_bus = 0, tx_pin = 0, rx_pin = 1):
       self.radio_settings = {
                        'address' : address,
                         'callsign' : callsign
                             }
-      self.uart = machine.UART(1, baudrate = 38400, tx = machine.Pin(16), rx = machine.Pin(17))
-
+      self.uart = machine.UART(uart_bus, baudrate = 38400, tx = machine.Pin(tx_pin), rx = machine.Pin(rx_pin))
+    
       self.radio = SatRadio(self.uart, **self.radio_settings)
 
       # Counts initialised for determining packet numbers.
@@ -33,11 +30,10 @@ class Comms:
         "GPS": "/sd/gps_log.txt",
         "MLX": "/sd/mlx_readings.txt",
         "Servo": "/sd/servo_status.txt",
-        "Trigger": "/sd/trig_status.txt",
-        "Trigger_Type": "/sd/trig_type.txt"
+        "Trigger": "/sd/trig_log.txt",
         }
 
-
+        
 
   def get_last_entry(self, filepath):
     """
@@ -65,6 +61,7 @@ class Comms:
      return last_line.strip()
     except OSError:
      return ""
+    
   def telem_packet(self):
     """
     Telemetry packet is formatted and sent.
@@ -73,28 +70,35 @@ class Comms:
     packet_type = 'T'
 
     # The telemetry data is collected from the corresponding files on the SD card.
-    lat,lon,alt = self.get_last_entry(self.sd_files["GPS"]).split(',')[1:] 
-    TE, P = self.get_last_entry(self.sd_files["External_TP"]).split(',')
-    TI = self.get_last_entry(self.sd_files["Internal_T"])
+    try:
+        lat,lon,alt = self.get_last_entry(self.sd_files["GPS"]).split(',')[1:]
+    except:
+        lat,lon,alt = None, None, None
+    try:
+        TE, P = self.get_last_entry(self.sd_files["External_TP"]).split(',')[1:]
+    except:
+        TE, P = None, None
+        
+    try:
+        TI = self.get_last_entry(self.sd_files["Internal_T"]).split(',')[1]
+    except:
+        TI = None
 
-    # Telemetry packet count is incremented.
-    self.t_packet_count += 1
-    
     telem_dict = {
-      'hhmmss' : time.time(),
-      'alt': alt,           # Altitude in metres
-      'lat_deg' : lat,      # Latitude in degrees
-      'lon_deg' : lon,      # Longitude in degrees
-      'press' : P,          # External pressure in millibars
-      'temp_E': TE,         # External temperature in Celsius
-      'temp_I': TI,         # Internal temperature in Celsius
+      'hhmmss' : time.localtime(),
+      'latitude': 53.12345,#lat,           		# Latitude in metres
+      'longitude' : 123.4567,#lon,      			# Longitude in degrees
+      'altitude' : 50.0,#alt,                 # Altitude in metres
+      't_internal' : 45.7689,#TI,       			# Internal temperature in Celsius
+      't_external': 332.594,#TE,        			# External temperature in Celsius
+      'pressure':1102.4549,# P,        			# External Pressure in millibars
       
     }
 
-    # The formatted data packet is transmitted 
-    self.radio.start()
-    self.radio.send_telemetry(packet_type, self.t_packet_count, **telem_dict)
-    self.radio.stop()
+    # The formatted data packet is transmitted
+    
+    self.radio.send_telemetry(**telem_dict)
+    
 
 
   def cropping(self, frame, crop_w=8, crop_h=6):
@@ -132,37 +136,41 @@ class Comms:
     """
     Science packet is formatted and sent.
     """
-    # Packet type is specified.
-    packet_type = 'D'
 
     # Most recent thermal array is loaded in from the SD card and cropped for ease of transmission
-    frame = [float(x) for x in self.get_last_entry(self.sd_files["MLX"]).split(',')]
-    crop_frame = self.cropping(frame)
+    try:
+        frame = [float(x) for x in self.get_last_entry(self.sd_files["MLX"]).split(',')]
+        crop_frame = self.cropping(frame)
+    except:
+        crop_frame = None
 
     # The current flag statuses are read in.
-    servo_motor = self.get_last_entry(self.sd_files["Servo"])
-    trig = self.get_last_entry(self.sd_files["Trigger"])
-    trig_type = self.get_last_entry(self.sd_files["Trigger_Type"])
-
-    # Data packet count is incremented
-    self.d_packet_count += 1
+    try:
+        servo_motor = int(self.get_last_entry(self.sd_files["Servo"]))
+    except:
+        servo_motor = None
+    try:
+        trig, trig_type= self.get_last_entry(self.sd_files["Trigger"]).split(',')[1:]
+    except:
+        trig, trig_type = None, None
 
     # Data dictionary is formatted.
     data_dict = {
-      'hhmmss' : time.time(),    # Time in UTC
-      'therm_array' : crop_frame,                # 48 temperature values (Celsius)
+      'data' : crop_frame,                # 48 temperature values (Celsius)
       'servo_flag' : servo_motor,                # Servo Motor flag (Bool Type)
       'trig_status' : trig,                      # Trigger Flag (Bool Type)
       'trig_type' : trig_type,                   # Trigger Type (Character "G", "B", "U")
 
       }
+    
     # Packet is transmitted 
-    self.radio.start()
-    self.radio.send_telemetry(packet_type, self.d_packet_count, **data_dict)
-    self.radio.stop()
+
+    self.radio.send_data(**data_dict)
+
 
     
     
     
     
+
 
