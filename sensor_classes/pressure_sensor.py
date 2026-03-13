@@ -3,31 +3,44 @@ Class for interacting with the MS5611 sensor for retrieval of external pressures
 """
 # Necessary imports made.
 import machine, time
-TEMPERATURE_ADC = b'\x48'
-PRESSURE_ADC = b'\x58'
 
 class MS5611:
     """Interfaces with the Pressure/Temperature Sensor"""
 
-    def __init__(self, i2c=0, sda_pin=4, scl_pin=5, address=0x77):
+    def __init__(self, i2c_bus, sda_pin, scl_pin, address = 0x77):
         """
         Initialises the sensor
         """
         self.i2c = machine.I2C(
-            i2c, 
+            i2c_bus, 
             scl=machine.Pin(scl_pin), 
             sda = machine.Pin(sda_pin))
-
-        self.address = address
+        
+        print(self.i2c)
+        
+        
         self.devices = self.i2c.scan()
+        print(self.devices)
+        
+        
+        self.address = address
+    
 
+        self.available = True
+        
+        
         if self.address not in self.devices:
             self.available = False
             self.calib = None
-
-        else:
-            self.available = True
-            self.calib = self.read_calibration_const()
+        
+        time.sleep_ms(50)
+        if self.available:
+            try:
+                self.calib = self.read_calibration_const()
+            except OSError:
+                print("PROM read failed")
+                self.calib = None
+                
             
         
 
@@ -63,19 +76,21 @@ class MS5611:
         # The list of calibration constants is initiated with a null value
         # to simplify indexing for calibration calculations later.
         calib = [None]
-    
+        
+        
         # The registry addresses are cycled through to retrieve the 6 calibration constants
         for i in range(1, 7):
             # This incrementing process is needed to cover all the relevant registers.
             reg = 0xA0 + i*2
-    
+        
             # The raw 16 bit unsigned integer describing the calibration constant is read in.
             raw = self.i2c.readfrom_mem(self.address, reg , 2)
+                
 
             # Calibration constants are stored.
             calib.append(self.unpack(raw))
         
-            
+        print(calib)
         return calib
 
 
@@ -95,14 +110,14 @@ class MS5611:
 
         # The conversion command is chosen.
         if cmd == 'T':
-            command = TEMPERATURE_ADC
+            command = b'\x58'
         elif cmd == 'P':
-            command = PRESSURE_ADC
+            command = b'\x48'
     
         else: 
             return None
     
-        # The command is sent.  
+        # The command is sent.
         self.i2c.writeto(self.address, command)
 
         # Sensor given time to collect adc values
@@ -112,11 +127,12 @@ class MS5611:
         try:
             adc_bytes = self.i2c.readfrom_mem(self.address, 0x00, 3)
         except:
-            return None
-            
+            print("ADC fail")
+
         # Raw data unpacked and returned.
         adc = self.unpack(adc_bytes)
         
+   
         return adc
 
 
@@ -155,8 +171,8 @@ class MS5611:
     
             # Very low temperature
             if TEMP<-1500:
-                OFF2 = OFF2 + 7*(TEMP+1500)**2
-                SENS2 = SENS2+11*(TEMP+1500)**2/2
+               OFF2 = OFF2 + 7*((TEMP+1500)**2)
+               SENS2 = SENS2 + 11*(((TEMP+1500)**2)/2)
         # High temperature
         else:
             T2 = 0
@@ -169,7 +185,7 @@ class MS5611:
         OFF = OFF-OFF2
         SENS = SENS - SENS2
     
-        P = (P_val*SENS/(2**21) - OFF)/(2**15)
+        P = ((P_val*SENS)/(2**21) - OFF)/(2**15)
         
     
         return TEMP/100, P/100
@@ -177,7 +193,7 @@ class MS5611:
 
 
 
-    def log_pressure(self, filename = "external_readings.txt"):
+    def log_pressure(self, filename):
         """
         Writes calibrated, formatted pressure and temperature figures to a textfile.
     
@@ -185,22 +201,41 @@ class MS5611:
         filename (str) - Name of textfile for data storage
         """
         if not self.available:
-            return None, None
+            T_val, P_val = None, None
+        
         
         # The adc values for pressure and temperature are read in.
         T_val = self.read_adc('T')
         P_val = self.read_adc('P')
 
         if T_val is None or P_val is None:
-            return None, None
-        # The calibrated temperature and pressure values are returned by the compute_pressure function.
-        T, P = self.compute_pressure(T_val, P_val)
-    
-        # T (celsius) and P (millibars)
-        with open(filename, "a") as f:
-            f.write(f"{T}, {P}\n")
+            t = time.time()
+
+            with open(filename, "a") as f:
+                f.write(f"{t}, NaN, NaN\n")
+        
+        else:
+            # The calibrated temperature and pressure values are returned by the compute_pressure function.
+            T, P = self.compute_pressure(T_val, P_val)
+            print(T,P)
+            t = time.time()
+            
+            time.sleep_ms(100)
+            # T (celsius) and P (millibars)
+            with open(filename, "a") as f:
+                try:
+                    f.write(f"{t}, {T}, {P}\n")
+                except Exception as e:
+                    print(e)
         
 
 
+        
+
+
+            
+                  
+
 
     
+
