@@ -25,10 +25,10 @@ class Comms:
 
       # SD card file paths defined for data gathering.
       self.sd_files = {
-        "External_TP": "/sd/external_readings.txt",
-        "Internal_T": "/sd/thermo_readings.txt",
+        "External_TP": "/sd/ms5611_log.txt",
+        "Internal_T": "/sd/ds18b20_external_log.txt",
         "GPS": "/sd/gps_log.txt",
-        "MLX": "/sd/mlx_readings.txt",
+        "MLX": "/sd/mlx90640_log.txt",
         "Servo": "/sd/servo_status.txt",
         "Trigger": "/sd/trig_log.txt",
         }
@@ -46,21 +46,18 @@ class Comms:
     last_line (str) - The most recently appended line to the textfile.
     """
     try:
-     with open(filepath, 'rb') as f:
-       # The end of the file is located.
-       f.seek(0, os.SEEK_END)
-       position = f.tell() - 1
- 
-       # Keeps moving backwards until a newline is found.
-       while position>0:
-         f.seek(position)
-         if f.read(1) == b'\n':
-           break
-         position -= 1
-       last_line = f.readline().decode()
-     return last_line.strip()
-    except OSError:
-     return ""
+     with open(filepath, 'r') as f:
+       lines = f.readlines()
+
+       if len(lines)>1:
+           
+           line = lines[-1]
+           print(line)
+    except:
+        raise RuntimeError("No line")
+    
+
+    return line
     
   def telem_packet(self):
     """
@@ -80,18 +77,19 @@ class Comms:
         TE, P = None, None
         
     try:
+        print(self.get_last_entry(self.sd_files["Internal_T"]).split(','))
         TI = self.get_last_entry(self.sd_files["Internal_T"]).split(',')[1]
     except:
         TI = None
 
     telem_dict = {
       'hhmmss' : time.localtime(),
-      'latitude': 53.12345,#lat,           		# Latitude in metres
-      'longitude' : 123.4567,#lon,      			# Longitude in degrees
-      'altitude' : 50.0,#alt,                 # Altitude in metres
-      't_internal' : 45.7689,#TI,       			# Internal temperature in Celsius
-      't_external': 332.594,#TE,        			# External temperature in Celsius
-      'pressure':1102.4549,# P,        			# External Pressure in millibars
+      'latitude': lat,           		# Latitude in metres
+      'longitude' :lon,      			# Longitude in degrees
+      'altitude' : alt,                 # Altitude in metres
+      't_internal' : TI,       			# Internal temperature in Celsius
+      't_external': TE,        			# External temperature in Celsius
+      'pressure': P,        			# External Pressure in millibars
       
     }
 
