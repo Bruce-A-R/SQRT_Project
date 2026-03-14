@@ -23,6 +23,7 @@ class DS18B20:
         self.roms = self.sensor.scan()
 
 
+
         if not self.roms:
             self.available = False
         else:
@@ -31,7 +32,7 @@ class DS18B20:
 
 
 
-    def read_temp(self):
+    def read_temps(self):
         """
         Reads the temperature from the sensor
         Returns None if sensor unavailable.
@@ -45,20 +46,24 @@ class DS18B20:
             self.sensor.convert_temp()
             
             # The sensor is given time to make the measurement before the data is requested.
-            time.sleep_ms(150)
-            tempC = self.sensor.read_temp(self.roms[0])
-            return tempC
+            time.sleep_ms(300)
+            
+            temps = []
+            for rom in self.roms:
+                temps.append(self.sensor.read_temp(rom))
+
+            return temps
             
         except Exception as e:
-            print(e)
+            print("Temp read error:", e)
             return None
 
     def log_temp(self, filename):
         """
         Reads temperature and appends it to a file.
         """
-        temp = self.read_temp()
-        print(temp)
+        temps = self.read_temps()
+        
         timestamp = time.time()
         
         with open(filename, "a") as f:
