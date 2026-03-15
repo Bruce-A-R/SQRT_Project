@@ -30,7 +30,7 @@ class SQTGPS:
         #except Exception as e:
         #    print(f"exception to just fucking scanning for devices: {e}")
             
-        
+        #TAKING THIS PART OUT cuz it might be the part that is fucking everything up
        # try:
        #     self.gps.init(baudrate, bits = 8, parity = None, stop = 1)                # taken from setup tasks 
         #except Exception as e:
