@@ -1,4 +1,4 @@
-class SQRT_trigger:
+class SQTtrigger:
     """SQRT Triggering Algorithm class
 
     BR version as of 11/3
