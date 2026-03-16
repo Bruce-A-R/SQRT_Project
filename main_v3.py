@@ -1,16 +1,15 @@
 """
 version 3 of main function with triggering and servo included included
 
-uses different version of gps that is maybe fixed
 """
 
 
 from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640
-from gps_v2 import SQTGPS
+from gps import SQTGPS
 from triple_t import Comms
-from triggering_algorithm import SQTtrigger as triggering
+from triggering import SQTtrigger as triggering
 from servo import Servo
 
 #import sdcard
@@ -35,8 +34,7 @@ SD_MOUNT_PATH = '/sd'
 file_list = [
     '/sd/trigger_log.txt',
     '/sd/ms5611_log.txt',
-    '/sd/ds18b20_external_log.txt',
-    '/sd/ds18b20_internal_log.txt',
+    '/sd/ds18b20_log.txt',
     '/sd/mlx90640_log.txt',
     '/sd/gps_log.txt'
 ]
@@ -96,7 +94,7 @@ try:
             if 'ms5611' in fname:
                 f.write("Timestamp (s), Temperature (Celsius), Pressure (mbar)\n")
             elif 'ds18b20' in fname:
-                f.write("Timestamp, Temp (deg)\n")
+                f.write("Timestamp, TempE(deg), TempI(deg)\n")
             elif 'mlx90640' in fname:
                 f.write("MLX90640 Raw Data Values")
             elif 'gps' in fname:
@@ -150,6 +148,8 @@ try:
 except:
     TTT = None
     print("T-cubed Error")
+    
+
 
 
 
@@ -205,8 +205,9 @@ for _ in range(50):
     #3. TRIGGER CHECK (only happends when trigger = False). if true, servo imediately activated. 
 
     if not trigger:
+        p_dict, gps_dict = triggering._parse_files_triggering(file_list[1], file_list[4])
 
-        trigger, condition = triggering.trigger_check(file_list[1], file_list[5])
+        trigger, condition = triggering.trigger_check(p_dict, gps_dict)
         
         if trigger:
 
@@ -217,9 +218,9 @@ for _ in range(50):
 
     if frame_taker:
         try:
-            frame_taker.mlx_log(file_list[4])
-        except:
-            print("Thermal Array not logged")
+            frame_taker.mlx_log(file_list[3])
+        except Exception as e:
+            print("Thermal Array not logged", e)
 
     time.sleep_ms(100)       
         
@@ -228,6 +229,7 @@ for _ in range(50):
     if temp_sensor:
         try:
             temp_sensor.log_temp(file_list[2])
+            
         except Exception as e:
             print("Temperature not logged", e)
 
