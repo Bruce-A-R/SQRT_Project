@@ -4,7 +4,7 @@
 
 This repository contains all code for the SQRT project. Each team member will commit files to their own seperate banches (not Main). 
 Add your contributions to main via pull request (we'll just tell each other when we are doing that so we can check that we're not overwriting anything),
-or by copy pasting it in. 
+or by copy pasting it in. (at the moment all named branches are far behind main)
 
 Current Use below will be updated to show what files are currenlty used on the pico
 
@@ -14,7 +14,7 @@ Programming lanugage: Python
 
 # Current Use:
 
-Current main script: main_v3.py
+Current main script: main_v3.py, with sensor and operations scrips below imported. 
 
 Current sensor scripts: gps_v2.py, mlx90640.py, pressure_sensor.py, temperature_sensor.py
 
