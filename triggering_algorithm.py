@@ -176,14 +176,16 @@ class SQRT_trigger:
             check = False
             condition = "None"
             
-        # now actually saving to a file:
+        # not saving directly to file anymore, instead returning check and condition type
         
-        with open(self.trigger_file, "a") as file:
-            file.write(f"{time.time()}, {check}, {condition}")
+       # with open(self.trigger_file, "a") as file:
+        #    file.write(f"{time.time()}, {check}, {condition}")
         
         #tests:
         print(check)
         print(condition)
+
+    
         
-        return check
+        return check, condition
     
