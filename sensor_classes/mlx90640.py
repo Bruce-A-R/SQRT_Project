@@ -827,33 +827,24 @@ class MLX90640:
 
     def mlx_log(self, filename = "mlx_readings.txt"):
         """
-        Logs temperature frames in a dedicated textfile
+        Logs raw data frames in a dedicated textfile
             
         Inputs:
         filename (str) - Name of textfile for data storage.
         """
-
-        frame = init_float_array(768)
-
+        # Raw frame is captured
+        self._get_frame_data()
         
-        for _ in range(30):
-            self.get_frame(frame)
-
-            with open(filename, "a") as f:
-                for temp in frame:   
-                    f.write(f"{temp},")
-                f.write("\n")      
+        # the raw_data is unloaded from the updated, raw mlx90640 frame.
+        raw_data = self.mlx90640_frame # includes metadata required for calibration
         
-
-            
-
-
+        # timestamp is generated.
+        t = time.time()
         
-
-
-
-
-
+        with open(filename, "a") as f:
+            for temp in raw_data:   
+                f.write(f"{t}, {temp},")
+            f.write("\n")      
 
 
 
