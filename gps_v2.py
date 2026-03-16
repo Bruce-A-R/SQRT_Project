@@ -21,8 +21,12 @@ class SQTGPS:
 
     def __init__(self, uart_bus, baudrate, tx_pin, rx_pin):
         """Funciton to initialze and connect to sensor"""
+        print("Initialising")
+
+            
+        self.gps = UART(uart_bus, baudrate = baudrate, tx = tx_pin, rx = rx_pin)
+            
         
-        self.gps = UART(uart_bus, baudrate = baudrate, tx = Pin(tx_pin), rx = Pin(rx_pin))
         
         #try:
         #    self.devices = self.UART.scan()
@@ -31,19 +35,24 @@ class SQTGPS:
         #    print(f"exception to just fucking scanning for devices: {e}")
             
         #TAKING THIS PART OUT cuz it might be the part that is fucking everything up
-       # try:
-       #     self.gps.init(baudrate, bits = 8, parity = None, stop = 1)                # taken from setup tasks 
-        #except Exception as e:
-        #    print(f"init exception: {e}")
-        
-        timeout = 10000  
-        start = time.ticks_ms()
-        
         try:
-            while time.ticks_diff(time.ticks_ms(), start) < timeout:
+            self.gps.init(baudrate, bits = 8, parity = None, stop = 1)                # taken from setup tasks 
+        except Exception as e:
+            print(f"init exception: {e}")
+        
+
+        gps_found = False
+        try:
+            for _ in range(10):
                 if self.gps.any():
+                    gps_found = True
                     print("found gps")
-                    break                                                           # don't continue the loop if gps found
+                    break
+                else:
+                    time.sleep(1)
+                    
+            print(f"gps found: {gps_found}")
+# don't continue the loop if gps found
         except Exception as e:
             print(f" did not find GPS, and also: {e}")
             
