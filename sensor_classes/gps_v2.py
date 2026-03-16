@@ -35,26 +35,26 @@ class SQTGPS:
         #    print(f"exception to just fucking scanning for devices: {e}")
             
         #TAKING THIS PART OUT cuz it might be the part that is fucking everything up
-        try:
-            self.gps.init(baudrate, bits = 8, parity = None, stop = 1)                # taken from setup tasks 
-        except Exception as e:
-            print(f"init exception: {e}")
+       # try:
+        #    self.gps.init(baudrate, bits = 8, parity = None, stop = 1)                # taken from setup tasks 
+        #except Exception as e:
+         #   print(f"init exception: {e}")
         
 
-        gps_found = False
-        try:
-            for _ in range(10):
-                if self.gps.any():
-                    gps_found = True
-                    print("found gps")
-                    break
-                else:
-                    time.sleep(1)
+        #gps_found = False
+        #try:
+         #   for _ in range(10):
+          #      if self.gps.any():
+           #         gps_found = True
+            #        print("found gps")
+             #       break
+              #  else:
+               #     time.sleep(1)
                     
-            print(f"gps found: {gps_found}")
+            #print(f"gps found: {gps_found}")
 # don't continue the loop if gps found
-        except Exception as e:
-            print(f" did not find GPS, and also: {e}")
+        #except Exception as e:
+         #   print(f" did not find GPS, and also: {e}")
             
 
         #while time.ticks_diff(time.ticks_ms(), start) < timeout:
@@ -130,7 +130,7 @@ class SQTGPS:
                 print("unicode error, retrying")
             
         if requested_sequence:
-            print(requested_sentence)
+            print(requested_sequence)
             return requested_sequence
         else:
             print("no sentence")
@@ -158,8 +158,8 @@ class SQTGPS:
         split_sentence = sequence.split(',')
         
         # converting lat and lon into degrees:
-        lat = self.angle_reader(split_sentence[2], split_sentence[3])
-        lon = self.angle_reader(split_sentence[4], split_sentence[5])
+        lat = self._angle_reader(split_sentence[2], split_sentence[3])
+        lon = self._angle_reader(split_sentence[4], split_sentence[5])
         
         # assigning parts of the sequence to the dictiory keys
         if len(split_sentence[1]) != 0:
