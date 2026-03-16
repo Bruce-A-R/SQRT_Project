@@ -18,4 +18,4 @@ Current main script: main_v3.py
 
 Current sensor scripts: gps_v2.py, mlx90640.py, pressure_sensor.py, temperature_sensor.py
 
-Current operations scripts: servo.py, triggering_alorithm.py, sdcard_v2
+Current operations scripts: servo.py, triggering_alorithm.py, sdcard_v2.py, triple_t.py
