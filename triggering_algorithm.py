@@ -1,8 +1,20 @@
-class SQRT_trigger:
+"""
+triggering_algorithm.py
+
+script that has the SQTtrigger class is it that we use to run trigger checks
+
+atm we are calling two functions from it in main_v3
+
+BR 16/3
+"""
+
+
+
+class SQTtrigger:
     """SQRT Triggering Algorithm class
 
     BR version as of 11/3
-
+    
     Used to check for contitions to trigger our servo motor (to open the valve)
     How to use:
     1. Have a flag in the main tuppersat loop that triggering has or hasnt happened,
@@ -138,7 +150,7 @@ class SQRT_trigger:
     
     # actual trigger check:
     
-    def trigger_check(self.pressure_file, self.gps_dict, self.trigger_file): 
+    def trigger_check(self): 
         """Function to run triggering check
             Priority: check pressure
             Secondary check: check altiude and if pressure sensor is bugging
@@ -176,13 +188,17 @@ class SQRT_trigger:
             check = False
             condition = "None"
             
-        # now actually saving to a file:
+        # not saving directly to file anymore, instead returning check and condition type
         
-        with open(self.trigger_file, "a") as file:
-            file.write(f"{time.time()}, {check}, {condition}")
+       # with open(self.trigger_file, "a") as file:
+        #    file.write(f"{time.time()}, {check}, {condition}")
         
         #tests:
         print(check)
         print(condition)
+
+    
         
+        return check, condition
+    
         return check
