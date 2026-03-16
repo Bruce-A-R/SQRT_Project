@@ -9,7 +9,7 @@ from ds18b20 import DS18B20
 from mlx90640 import MLX90640
 from gps_v2 import SQTGPS
 from triple_t import Comms
-from triggering import SQTtrigger as triggering
+from triggering_algorithm import SQTtrigger as triggering
 from servo import Servo
 
 #import sdcard
