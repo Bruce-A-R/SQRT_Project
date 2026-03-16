@@ -26,11 +26,11 @@ class Comms:
       # SD card file paths defined for data gathering.
       self.sd_files = {
         "External_TP": "/sd/ms5611_log.txt",
-        "Internal_T": "/sd/ds18b20_external_log.txt",
+        "Internal_T": "/sd/ds18b20_log.txt",
         "GPS": "/sd/gps_log.txt",
         "MLX": "/sd/mlx90640_log.txt",
         "Servo": "/sd/servo_status.txt",
-        "Trigger": "/sd/trig_log.txt",
+        "Trigger": "/sd/trigger_log.txt",
         }
 
         
@@ -63,24 +63,21 @@ class Comms:
     """
     Telemetry packet is formatted and sent.
     """
-    # Packet Type is specified
-    packet_type = 'T'
-
     # The telemetry data is collected from the corresponding files on the SD card.
     try:
         lat,lon,alt = self.get_last_entry(self.sd_files["GPS"]).split(',')[1:]
     except:
         lat,lon,alt = None, None, None
     try:
-        TE, P = self.get_last_entry(self.sd_files["External_TP"]).split(',')[1:]
+        TI, P = self.get_last_entry(self.sd_files["External_TP"]).split(',')[1:]
     except:
-        TE, P = None, None
+        TI, P = None, None
         
     try:
-        print(self.get_last_entry(self.sd_files["Internal_T"]).split(','))
-        TI = self.get_last_entry(self.sd_files["Internal_T"]).split(',')[1]
+        TE = self.get_last_entry(self.sd_files["Internal_T"]).split(',')[1]
+
     except:
-        TI = None
+        TE = None
 
     telem_dict = {
       'hhmmss' : time.localtime(),
