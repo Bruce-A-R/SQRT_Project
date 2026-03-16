@@ -7,7 +7,7 @@ version 3 of main function with triggering and servo included included
 from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640
-from gps import SQTGPS
+from gps_v2 import SQTGPS
 from triple_t import Comms
 from triggering import SQTtrigger as triggering
 from servo import Servo
