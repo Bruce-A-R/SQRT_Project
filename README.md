@@ -13,4 +13,6 @@ Programming lanugage: Python
 
 Current main script: main_v3.py
 
-Current sensor scripts: gps_v2.py, mlx90640.py, 
+Current sensor scripts: gps_v2.py, mlx90640.py, pressure_sensor.py, temperature_sensor.py
+
+Current operations scripts: servo.py, triggering_alorithm.py (may be called different name in the main_v3 as we might have saved it as a different name on the pico)
