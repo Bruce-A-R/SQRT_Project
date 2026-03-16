@@ -6,4 +6,11 @@ This repository contains all code for the SQRT project. Each team member will co
 add your contributions to main via pull request (we'll just tell each other when we are doing that so we can check that we're not overwriting anything)
 
 
-Programming lanugage: Python 
+Programming lanugage: Python
+
+
+# Current Use:
+
+Current main script: main_v3.py
+
+Current sensor scripts: gps_v2.py, mlx90640.py, 
