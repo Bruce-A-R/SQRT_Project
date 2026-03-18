@@ -136,7 +136,7 @@ except:
 
   
 try:
-    gps_sensor = SQTGPS(uart_bus = 0, baudrate = 9600, tx_pin = 12, rx_pin = 13)
+    gps_sensor = SQTGPS(uart_bus = 0, baudrate = 9600, tx_pin = 0, rx_pin = 1)
 except:
     gps_sensor = None
     print("GPS Sensor Error")
