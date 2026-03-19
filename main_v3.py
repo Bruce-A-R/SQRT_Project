@@ -2,28 +2,27 @@
 version 3 of main function with triggering and servo included included
 
 """
-
-
-from ms5611 import MS5611
-from ds18b20 import DS18B20
-from mlx90640 import MLX90640
-from gps_v2 import SQTGPS
-from triple_t import Comms
-from triggering_algorithm import SQTtrigger as triggering
-from servo import Servo
+# The classes for each subsystem are imported
+from ms5611 import MS5611                               # Pressure Sensor
+from ds18b20 import DS18B20                             # Temperature Sensors
+from mlx90640 import MLX90640, RefreshRate              # Thermal Sensor/Camera
+from gps_v2 import SQTGPS                               # GPS Sensor
+from triple_t import Comms                              # Communications 
+from triggering import SQTtrigger as triggering         # Triggering Algorithm
+from servo import Servo                                 # Servo Motor (El Nueve)
 
 #import sdcard
 import sdcard_v2 as sdcard        # using second version of sdcard class from adafruit forums
-import uos as os
+import uos as os 
 import time
 import machine
+import array
+import struct
+import math
 
 from machine import Pin, SPI
 
-
-
 # SETUP TASKS, first the sd card
-
 SPI_BUS = 1
 SCK_PIN = 10
 MOSI_PIN = 11
@@ -36,7 +35,8 @@ file_list = [
     '/sd/ms5611_log.txt',
     '/sd/ds18b20_log.txt',
     '/sd/mlx90640_log.txt',
-    '/sd/gps_log.txt'
+    '/sd/gps_logger.txt',
+    '/sd/mlx90640_science.txt'
 ]
 
 try:
@@ -80,7 +80,8 @@ try:
 
     # Small delay before file ops
     time.sleep_ms(50)
-    
+
+    # If a file of the same name is on the SD card, it is removed before being re-initialised.
     for file in file_list:
         try:
             os.remove(file)
@@ -98,9 +99,9 @@ try:
             elif 'mlx90640' in fname:
                 f.write("MLX90640 Raw Data Values")
             elif 'gps' in fname:
-                f.write("Timestamp (s), Lat (deg), Lon (deg), Alt (m)\n")
+                f.write("Timestamp (s), Lat (deg), Lon (deg), Alt (m), HDOP \n")
             else:
-                f.write("Timestamp (s), Trigger, Trigger Condition\n")
+                f.write("Timestamp (s), Trigger, Trigger Condition, Pressure, Altitude \n")
 
 except Exception as e:
     print("Files not initialised", e)
@@ -113,22 +114,22 @@ except:
     pressure_sensor = None
     print("Pressure Sensor Error")
 
-try:
-    temp_sensor = DS18B20(pin=22)
+#try:
+temp_sensor = DS18B20(pin=21)
 
-    if not temp_sensor.available:
-        print("Temperature Sensor Error")
-        temp_sensor = None
-
-except Exception as e:
+if not temp_sensor.available:
+    print("Temperature Sensor Error")
     temp_sensor = None
-    print("Temperature Sensor Error:", e)
+
+#except Exception as e:
+#temp_sensor = None
+#print("Temperature Sensor Error:", e)
 
 
 
 try:
-    frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=16, scl_pin=17)
-
+    frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5)
+    frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ
 except:
     frame_taker = None
     print("MLX90640 Sensor Error")
@@ -136,7 +137,7 @@ except:
 
   
 try:
-    gps_sensor = SQTGPS(uart_bus = 0, baudrate = 9600, tx_pin = 0, rx_pin = 1)
+    gps_sensor = SQTGPS(uart_bus = 1, baudrate = 9600, tx_pin = 8, rx_pin = 9)
 except:
     gps_sensor = None
     print("GPS Sensor Error")
@@ -189,38 +190,66 @@ for _ in range(50):
     #2. GPS
 
     if gps_sensor:
-        try:
-            # Attempt to read for only 100 ms
-            data = gps_sensor._listen_for_sequence(timeout=1000)
-            print(data)
-            if data:
-                gps_sensor.gps_log()
-            else:
-                print("No GPS data available this loop")
-        except Exception as e:
-            print("GPS not logged:", e)
+                gps_data = gps_sensor.gps_log()
+                if gps_data: 
+
+                    with open(file_list[4], 'a') as file:
+                        file.write(f"{gps_data[0]}, {gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n")
+                else:
+                    with open(file_list[4], 'a') as file:
+                        file.write("NaN, NaN, NaN, NaN, NaN \n")
+        #except Exception as e:
+            #print("GPS not logged:", e)
 
 
 
     #3. TRIGGER CHECK (only happends when trigger = False). if true, servo imediately activated. 
-
+    def init_float_array(size) -> array.array:
+        return array.array('f', (0 for _ in range(size)))
+    science_frame = init_float_array(768)
+    
     if not trigger:
         p_dict, gps_dict = triggering._parse_files_triggering(file_list[1], file_list[4])
 
-        trigger, condition = triggering.trigger_check(p_dict, gps_dict)
+        trigger, condition, pres, alt = triggering.trigger_check(p_dict, gps_dict)
+        
+        t = time.time()
+        with open(file_list[0], "a") as f:
+            f.write(f"{t}, {trigger}, {condition}, {pres}, {alt} \n")
         
         if trigger:
-
             Servo.activate_servo(pin = 22)
+            
+            science_frame = init_float_array(768)
+            
+            frame_taker.get_frame(science_frame)
+            t = time.time()
+            
+            with open(file_list[5], "a") as f:
+                f.write(f"{t}")
+                for temp in science_frame:
+                    f.write(f"{temp},")
+                f.write("\n")
+            
+            
 
 
-    #4. Thermal sensor
+    #4. Thermal Sensor
+    def init_float_array(size) -> array.array:
+        return array.array('f', (0 for _ in range(size)))
 
     if frame_taker:
-        try:
-            frame_taker.mlx_log(file_list[3])
-        except Exception as e:
-            print("Thermal Array not logged", e)
+        frame = init_float_array(768)
+        frame_taker.get_frame(frame)
+        t = time.time()
+
+        with open(file_list[3], "a") as f:
+            f.write(f"{t}")
+            for temp in frame:
+                f.write(f"{temp},")
+            f.write("\n")      
+
+         #   print("Thermal Array not logged", e)
 
     time.sleep_ms(100)       
         
@@ -239,11 +268,11 @@ for _ in range(50):
     #6. Data downlinks: check counter for timing of science and telem packet sending
 
     if TTT:
-        if counter % 15 == 0: 
+        if counter % 18 == 0: 
             print("Sending science packet")
             TTT.science_packet()
             
-        if counter % 7 == 0:
+        if counter % 10 == 0:
             print("Sending telemetry packet")
 
             TTT.telem_packet()
@@ -252,3 +281,4 @@ for _ in range(50):
     counter += 1
            
     time.sleep(1)
+
