@@ -21,7 +21,7 @@ Current Use (below) will be updated to show what files are currenlty used on the
 
 # Current Use:
 
-Current main script: main_v3.py, with sensor and operations scrips below imported. 
+Current main script: main_v5.py, with sensor and operations scrips below imported. 
 
 Current sensor scripts: gps_v2.py, mlx90640.py, pressure_sensor.py, temperature_sensor.py
 
