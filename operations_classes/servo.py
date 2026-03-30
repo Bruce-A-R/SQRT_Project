@@ -4,9 +4,6 @@ servo_class.py
 Editied servo script to make it a class usable in the main function
 it should just move the servo 90 degrees when activated (I think)
 
-14/3 BR
-
-
 """
 
 
