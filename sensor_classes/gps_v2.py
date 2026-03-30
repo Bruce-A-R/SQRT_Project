@@ -6,7 +6,6 @@ script with SQTGPS class in it that should initialize and read from gps
 when called in the main loop, it should reutrn the values we want (lat, lon, altitude, timestamp, hdop) as a string
 so we can write it to a file on the sd card
 
-BR 15/3
 """
 
 from machine import UART, Pin
