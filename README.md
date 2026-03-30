@@ -14,7 +14,9 @@ Current Use (below) will be updated to show what files are currenlty used on the
 **File Directory:**
 - sensor_classes: contains classes written (or edited from publicly accessible code) to run sensor operations/collect data
 - operations_classes: conatins classes written (or adapted) to run operations that do not collect data
-- 
+- sensor_test_data: contains files and scripts used to test sensors during software development
+- trigger_test_data: contains files made to bench test the triggering algorithm with simulated flight data during software development
+- mains: contains main functions, including the final version used in flight
 
 
 # Current Use:
