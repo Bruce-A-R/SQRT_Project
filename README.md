@@ -25,4 +25,4 @@ Current main script: main_v5.py, with sensor and operations scrips below importe
 
 Current sensor scripts: gps_v2.py, mlx90640.py, pressure_sensor.py, temperature_sensor.py
 
-Current operations scripts: servo.py, triggering_alorithm.py, sdcard_v2.py, triple_t.py
+Current operations scripts: servo.py, triggering_alorithm.py, sdcard_v2.py, triple_t.py, tuppersat_radio.py, _packet_utils.py, rhserial.py
