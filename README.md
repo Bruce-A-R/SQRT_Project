@@ -11,6 +11,11 @@ Current Use (below) will be updated to show what files are currenlty used on the
 
 **Programming lanugage:** Python for micropython controller
 
+**File Directory:**
+- sensor_classes: contains classes written (or edited from publicly accessible code) to run sensor operations/collect data
+- operations_classes: conatins classes written (or adapted) to run operations that do not collect data
+- 
+
 
 # Current Use:
 
