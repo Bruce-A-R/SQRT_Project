@@ -4,8 +4,6 @@ triggering_algorithm.py
 script that has the SQTtrigger class is it that we use to run trigger checks
 
 atm we are calling two functions from it in main_v3
-
-BR 16/3
 """
 
 
