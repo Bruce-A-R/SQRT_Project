@@ -1,7 +1,5 @@
 """
-triple_t.py
-
-The code below will be used to collect relevant data from files, format telemetry/science data packets, and
+The code below will be used to collect relevant data, format telemetry/science data packets, and
 interface with communications architecture.
 """
 
@@ -10,6 +8,7 @@ import machine
 import time
 from _rhserial_radio import RHSerialRadio
 from _tuppersat_radio import TupperSatRadio as SatRadio
+
 
 class Comms:
   def __init__(self, files, address = 0x53, callsign = 'SQRT',uart_bus = 0, tx_pin = 0, rx_pin = 1):
@@ -52,7 +51,7 @@ class Comms:
        if len(lines)>1:
            
            line = lines[-1]
-           print(line)
+           
     except:
         raise RuntimeError("No line")
 
@@ -64,7 +63,7 @@ class Comms:
     """
     # The telemetry data is collected from the corresponding files on the SD card.
     hk_parts = self.get_last_entry(self.sd_files["Housekeeping"]).split(',')
-
+    print(hk_parts)
 
     # MS5611
     try:
@@ -81,7 +80,8 @@ class Comms:
         
     # GPS 
     try:
-        lat, lon, alt, hdop = hk_parts[4:8]
+        lat, lon, alt, hdop = hk_parts[5:9]
+        
     
     except:
         lat, lon, alt, hdop = 00.00000, 000.00000, 00000.00, 00.00
@@ -94,10 +94,12 @@ class Comms:
           
     except:
         error_counter_new = error_count
-        
-    error_parts = self.get_last_entry(self.sd_files["Error"]).split(',')
+    try:
+        error_parts = self.get_last_entry(self.sd_files["Error"]).split(',')
+    except:
+        error_parts = None
     
-    if error_counter_new != error_counter: 
+    if error_counter_new != error_count: 
         try:
             error = error_parts[2]
         except:
@@ -125,8 +127,8 @@ class Comms:
       't_internal' : TI,       			# Internal temperature in Celsius
       't_external': TE,        			# External temperature in Celsius
       'pressure': P,					# External Pressure in millibars
-      'Error_count': error_counter_new,
-      'Error': error
+      'error_count': error_counter_new,
+      'error_type': error
       
       
     }
@@ -175,12 +177,18 @@ class Comms:
 
     # Most recent thermal array is loaded in from the SD card and cropped for ease of transmission
     try:
-        frame = [float(x) for x in self.get_last_entry(self.sd_files["MLX"]).split(',')]
-        crop_frame = self.cropping(frame)
+        raw = self.get_last_entry(self.sd_files["MLX"])
+
+        clean = raw.strip()[1:-1]  # removes the starting '[' and ending ']'
+
+        items = clean.split(',')
+
+        frame = [float(val.strip().replace("'", "")) for val in items]
+
     except:
         crop_frame = None
 
-
+    
     try:
         trig, trig_type, pres, alt= self.get_last_entry(self.sd_files["Trigger"]).split(',')[1:]
     except:
@@ -188,7 +196,7 @@ class Comms:
 
     # Data dictionary is formatted.
     data_dict = {
-      'data' : crop_frame,                # 48 temperature values (Celsius)               
+      'data' : frame,                # 48 temperature values (Celsius)               
       'trig_status' : trig,                      # Trigger Flag (Bool Type)
       'trig_type' : trig_type,				# Trigger Type (Character "G", "B", "U")
       'pressure': pres,
@@ -199,4 +207,11 @@ class Comms:
     # Packet is transmitted 
 
     self.radio.send_data(**data_dict)
+
+
+    
+    
+    
+    
+
 
