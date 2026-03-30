@@ -1,6 +1,8 @@
 """
-This class is for the temperature sensor to be used for internal temperature readings/valve 
+This class is for the temperature sensor to be used for internal and external temperature readings/valve 
 operation verification.
+
+updated as of 30/3
 """
 # All necessary imports are performed.
 import machine, time, onewire, ds18x20
@@ -8,7 +10,7 @@ import machine, time, onewire, ds18x20
 class DS18B20:
     """Interface to the DS18B20 thermometer"""
 
-    def __init__(self, pin=21):
+    def __init__(self, pin=17):
         """
         Initialises the sensor.
 
@@ -32,7 +34,7 @@ class DS18B20:
         """
         # Check to see if device is at address.
         if not self.available:
-            return 99.99, 99.99
+            return None, None
 
         try:
             # The temperature sensor is asked to make a measurement.
@@ -42,13 +44,35 @@ class DS18B20:
             # The sensor is given time to make the measurement before the data is requested.
             time.sleep_ms(150)
             
-            tempE = self.sensor.read_temp(self.rom_E) if self.rom_E else 99.99
-            tempI = self.sensor.read_temp(self.rom_I) if self.rom_I else 99.99
+            tempE = self.sensor.read_temp(self.rom_E) if self.rom_E else None
+            tempI = self.sensor.read_temp(self.rom_I) if self.rom_I else None
 
             return tempE, tempI
             
         except Exception as e:
-            return 99.99, 99.99
+            print(e)
+            return None, None
+
+    def log_temp(self, filename):
+        """
+        Reads temperature and appends it to a file.
+        """
+        tempI = self.read_temp()[0]
+        tempE = self.read_temp()[1]
+        
+        print(f"temps: {tempE} E, {tempI} I")
+        
+        t = time.time()
+        with open(filename, "a") as f:
+            if tempE is None and tempI is None:
+                f.write(f"NaN, NaN,")
+            elif tempE and tempI is None:
+                f.write(f" {tempE}, NaN,")
+                
+            elif tempI and tempE is None:
+                f.write(f"NaN, {tempI},")
+            else:
+                f.write(f"{tempE}, {tempI},")
 
 
 
