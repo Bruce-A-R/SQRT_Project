@@ -9,7 +9,7 @@ This repository contains all code for the SQRT project. While working on the pro
 Current Use (below) will be updated to show what files are currenlty used on the pico. The code is structured such that a file saved as main.py on the pico can use classes for sensors and other operations as it runs on a loop. 
 
 
-Programming lanugage: Python
+**Programming lanugage:** Python for micropython controller
 
 
 # Current Use:
