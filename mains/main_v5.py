@@ -1,7 +1,7 @@
 """
 version 5 of main function with triggering and servo included included
 
-CURRENTLY UPDATING FILE SYSTEM, WIP
+file system should now be updated
 
 IN this loop: internal and external temperatures are taken before GPS
 the temp wont actually tell us if the servo activation worked probably, so we might as well move it so that file writing is easier?
@@ -13,7 +13,7 @@ from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640, RefreshRate
 from gps_v2 import SQTGPS
-from triple_t_test import Comms
+from triple_t import Comms
 from triggering import SQTtrigger
 from servo_2 import Servo
 
@@ -54,10 +54,10 @@ n = str(random.randint(1,10000))
 #new file system with less files: all housekeeping data, all science data, an error log
 
 file_list = [
-    '/sd/housekeeping_log.csv',
-    '/sd/data_log.csv',
-    '/sd/error_log.csv',
-    '/sd/trigger_log.csv'              # may not be needed (can be variables in main)?
+    '/sd/housekeeping_log' + n  + '.csv',
+    '/sd/data_log' + n + '.csv',
+    '/sd/error_log' +n + '.csv',
+    '/sd/trigger_log' + n + '.csv'              # may not be needed (can be variables in main)?
 ]
     
 
@@ -76,7 +76,7 @@ try:
                       mosi=machine.Pin(MOSI_PIN),
                       miso=machine.Pin(MISO_PIN))
 except: print('pin error')
-
+    
 try:
 
     try:
@@ -110,7 +110,7 @@ try:
                 f.write("Timestamp, ms5611 Temperature (C), Pressure (mbar), TempE (deg), TempI (deg), Lat (deg), Lon (deg), Alt (m), HDOP \n")
             elif 'data_log' in fname:
                 f.write("MLX90640 Raw Data Values \n")
-            elif: 'trigger' in fname:
+            elif 'trigger' in fname:
                 f.write("Timestamp, Trigger, Condition, Pressure (mbar), Alt (m) \n")
             else:
                 f.write("Timestamp, Error, Sensor/Class \n")           # recording of errors by time and what class raised it
@@ -127,8 +127,8 @@ except Exception as e:
     print("Pressure Sensor Error")
     
     #writing error to error log
-    with open file_list[2] as file:
-        write(f"{time.time()}, {e}, Pressure Sensor \n") 
+    with open(file_list[2], "a") as file:
+        file.write(f"{time.time()}, {e}, Pressure Sensor \n") 
 
 #try:
 temp_sensor = DS18B20(pin=21)
@@ -138,8 +138,8 @@ if not temp_sensor.available:
     temp_sensor = None
     
     #writing error to error log
-    with open file_list[2] as file:
-        write(f"{time.time()}, Temp Sensor not Available, Temp Sensor \n") 
+    with open(file_list[2], "a") as file:
+        file.write(f"{time.time()}, Temp Sensor not Available, Temp Sensor \n") 
 
 
 
@@ -152,8 +152,8 @@ except Exception as e:
     print("MLX90640 Sensor Error")
     
     #writing error to error log
-    with open file_list[2] as file:
-        write(f"{time.time()}, {e}, Thermal Sensor \n")
+    with open(file_list[2], "a") as file:
+        file.write(f"{time.time()}, {e}, Thermal Sensor \n")
     
 
   
@@ -164,19 +164,20 @@ except exception as e:
     print("GPS Sensor Error")
     
     #writing error to error log
-    with open file_list[2] as file:
-        write(f"{time.time()}, {e}, GPS \n")
+    with open(file_list[2], "a") as file:
+        file.write(f"{time.time()}, {e}, GPS \n")
 
 try:
-    TTT = Comms( files = file_list, address = 0x53, callsign = "SQRT", uart_bus=0, tx_pin = 0, rx_pin = 1)
+    TTT = Comms(file_list, address = 0x53, callsign = "SQRT", uart_bus=0, tx_pin = 0, rx_pin = 1)
 
 except Exception as e:
     TTT = None
-    print("T-cubed Error")
+    print(f"T-cubed Error: {e}")
+    
     
     #writing error to error log
-    with open file_list[2] as file:
-        write(f"{time.time()}, {e}, TTT \n")
+    with open(file_list[2], "a") as file:
+        file.write(f"{time.time()}, {e}, TTT \n")
     
 
 #initializing servo:
@@ -186,8 +187,8 @@ except Exception as e:
     print("Servo initialization error")
     
     #writing error to error log
-    with open file_list[2] as file:
-        write(f"{time.time()}, {e}, Servo \n")
+    with open(file_list[2], "a") as file:
+        file.write(f"{time.time()}, {e}, Servo \n")
     
     
 #initializing triggering class, should just always happen since there's no sensor to connect with:
@@ -198,6 +199,7 @@ triggering = SQTtrigger()
 trigger = False       # flag to trigger valve
 trigger_condition = None      # to set trigger condition too so we know what message to send
 counter = 0     # for timing transmitions
+error_counter = 0
 
 #defining initiating float array:
 def init_float_array(size) -> array.array:
@@ -230,21 +232,21 @@ while True:
         except Exception as e:
             print("the end: ,", e)
                 #writing error to error log
-            with open file_list[2] as file:
-                write(f"{time.time()}, {e}, Pressure Sensor \n")
+            with open(file_list[2], "a") as file:
+                file.write(f"{time.time()}, {e}, Pressure Sensor \n")
         
     #2. temperature sensors (internal and external)
 
     if temp_sensor:
         try:
-            temp_sensor.log_temp(file_list[2])
+            temp_sensor.log_temp(file_list[0])
             
         except Exception as e:
             print("Temperature not logged", e)
             
             #writing error to error log
-            with open file_list[2] as file:
-                write(f"{time.time()}, {e}, Temp Sensors \n")
+            with open(file_list[2], "a") as file:
+                file.write(f"{time.time()}, {e}, Temp Sensors \n")
         
 
     time.sleep_ms(100)
@@ -259,16 +261,16 @@ while True:
             if gps_data: 
 
                 with open(file_list[0], 'a') as file:
-                    file.write(f"{gps_data[0]}, {gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n")
+                    file.write(f"{gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n")
             else:
                 with open(file_list[0], 'a') as file:
-                    file.write("NaN, NaN, NaN, NaN, NaN \n")
+                    file.write("NaN, NaN, NaN, NaN \n")
         except Exception as e:
             print("GPS not logged:", e)
             
                 #writing error to error log
-            with open file_list[2] as file:
-                write(f"{time.time()}, {e}, GPS \n")
+            with open(file_list[2], "a") as file:
+                file.write(f"{time.time()}, {e}, GPS \n")
 
 
 
@@ -278,13 +280,13 @@ while True:
     science_frame = init_float_array(768)
     
     if not trigger:
-        p_dict, gps_dict = triggering._parse_files_triggering(file_list[1])
+        p_dict, gps_dict = triggering._parse_files_triggering(file_list[0])
 
-        trigger, condition, pres, alt, error = triggering.trigger_check(p_dict, gps_dict)
+        trigger, condition, pres, alt = triggering.trigger_check(p_dict, gps_dict)
         
         t = time.time()
         with open(file_list[3], "a") as f:
-            f.write(f"{t}, {trigger}, {condition}, {pres}, {alt}, {error} \n")
+            f.write(f"{t}, {trigger}, {condition}, {pres}, {alt} \n")
         
         if trigger:
             try:
@@ -293,8 +295,8 @@ while True:
                 print(f"servo motor connection exception: {e}")
                 
                 #writing error to error log
-                with open file_list[2] as file:
-                    write(f"{time.time()}, {e} during triggering, Servo \n")
+                with open(file_list[2], "a") as file:
+                    file.write(f"{time.time()}, {e} during triggering, Servo \n")
         
             for i in range(8):
                 # getting 8 science frames in a row right after the servo triggers (we actualyl want to get 30 :/ )
@@ -305,8 +307,8 @@ while True:
                 except Exception as e:
                     print(f"frame taker exception: {e}")
                                     #writing error to error log
-                    with open file_list[2] as file:
-                        write(f"{time.time()}, {e}, Thermal Sensor \n")
+                    with open(file_list[2], "a") as file:
+                        file.write(f"{time.time()}, {e}, Thermal Sensor \n")
         
                     science_frame = [0]
                 
@@ -352,9 +354,11 @@ while True:
         if counter % 10 == 0:
             print("Sending telemetry packet")
 
-            TTT.telem_packet()
+            error_counter = TTT.telem_packet(error_counter)
 
     
     counter += 1
+    print(f'########LOOP COUNTER {counter} ###################')
            
     time.sleep(1)
+
