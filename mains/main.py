@@ -1,3 +1,16 @@
+"""
+main.py
+
+first version of the main function with a data collection loop
+
+created 3/3 (ish)
+"""
+
+
+
+
+
+
 from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640
