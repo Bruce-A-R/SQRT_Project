@@ -1,5 +1,11 @@
 """
+main_v3.py
+
 version 3 of main function with triggering and servo included included
+
+
+This version still includes our old file system (individual files for each sensor)
+
 
 """
 # The classes for each subsystem are imported
