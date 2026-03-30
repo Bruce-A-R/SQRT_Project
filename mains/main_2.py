@@ -1,4 +1,16 @@
-      from ms5611 import MS5611
+"""
+main_2.py
+
+This was the second iteration of our main function, renamed so that it could be tested against main.py
+
+This is not the final version
+
+
+"""
+
+
+
+from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640
 from gps import SQTGPS
