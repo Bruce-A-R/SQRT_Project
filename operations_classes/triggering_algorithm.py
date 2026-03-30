@@ -1,3 +1,5 @@
+import time
+
 class SQTtrigger:
     """SQRT Triggering Algorithm class
 
@@ -64,7 +66,7 @@ class SQTtrigger:
             try:
                 gps_dict["altitude"].append(float(values[7]))
             except:
-                gps_dict["altitude"].append("NaN")
+                gps_dict["altitude"].append(00000.00000)
         
         return pressure_dict, gps_dict
     
@@ -102,7 +104,7 @@ class SQTtrigger:
             decreases_count = 0
             try:
                 for i in range(len(r_altitudes) - 1):
-                    if r_altitudes[i] < r_altitudes[i + 1]:
+                    if r_altitudes[i] < r_altitudes[i + 1] and r_altitudes[i] != 0:
                         decreases_count += 1
 
                 if decreases_count >=3:
@@ -160,10 +162,9 @@ class SQTtrigger:
         
         check = False
         condition = "None"
-        error = "None"
 
         if len(pressure_dict["pressure"]) == 0:
-            presure = 'None'
+            pressure = 'None'
             
             if len(gps_dict["altitude"])==0:
                 altitude = "None"
@@ -172,7 +173,7 @@ class SQTtrigger:
             check = False
             condition = "None"
             print(f'trigger returns: {check},{condition}, {pressure}, {altitude}')
-            return check, condition, pressure, altitude, error
+            return check, condition, pressure, altitude
             
             
             
@@ -186,7 +187,7 @@ class SQTtrigger:
             check = False
             condition = "None"
             print(f'trigger returns: {check}, {condition}, {pressure}, {altitude}')
-            return check, condition, pressure, altitude, error
+            return check, condition, pressure, altitude
             
         #pressure_flag = check_pressure(self.pressure_dict['pressure'][-1])
         #print(pressure_flag)
@@ -212,7 +213,6 @@ class SQTtrigger:
         except Exception as e:    
             print(f"exception in triggering check: {e}")
             check = False
-            error = f"exception in triggering check: {e}"
             condition = "None"
             
         # not saving directly to file anymore, instead returning check and condition type
@@ -228,5 +228,4 @@ class SQTtrigger:
 
     
         
-        return check, condition, pressure, altitude, error
-    
+        return check, condition, pressure, altitude
