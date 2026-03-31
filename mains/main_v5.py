@@ -1,10 +1,22 @@
 """
 version 5 of main function with triggering and servo included included
 
-CURRENTLY UPDATING FILE SYSTEM
+Overview of main function (31/3/2026 CK and BR)
 
-IN this loop: internal and external temperatures are taken before GPS
-the temp wont actually tell us if the servo activation worked probably, so we might as well move it so that file writing is easier?
+this main has an updated file system:
+-all housekeeping data is saved to one file
+-all raised errors saved to an error log
+-trigger check information is saved to a trigger log
+-thermal sensor frames saved to two seperate logs:
+    - background frames saved to data_log
+    - frames taken immediately after trigger (in the quick burst of sensor captures) saved to post_trigger_data_log
+    
+
+Loop actions sequence:
+1. take housekeeping data
+2. check for trigger conditions, then activate servo and take quick burst of frames if triggered
+3. check for timing for transmissions. If timing is right for science or telemetry packages, send them
+    - what is sent will depend on wether the valve has triggered and there are post-trigger frames to send or not
 
 """
 
@@ -67,7 +79,8 @@ try:
                       sck=machine.Pin(SCK_PIN),
                       mosi=machine.Pin(MOSI_PIN),
                       miso=machine.Pin(MISO_PIN))
-except: print('pin error')
+except:
+    print('pin error')
     
 try:
 
@@ -84,7 +97,7 @@ try:
     except Exception as e:
         print("mount fail", e)
     
-    print('SD card mounted')
+    print(f'SD card mounted at time: {time.time()}')
     
 except Exception as e: print(f"mounting error: {e}")
 
@@ -107,6 +120,7 @@ try:
             else:
                 f.write("Timestamp, Error, Sensor/Class \n")           # recording of errors by time and what class raised it
 
+    print(f" Files created at time {time.time()}")
 except Exception as e:
     print("Files not initialised", e)
 
@@ -135,17 +149,17 @@ if not temp_sensor.available:
 
 
 
-#try:
-frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5)
-frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 # currently the fasted refresh rate that doesn't kill itself,
+try:
+    frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5)
+    frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 # currently the fasted refresh rate that doesn't kill itself,
                                                                         # reason unclear and seen by many users of the product online
-#except Exception as e:
-   # frame_taker = None
-  #  print("MLX90640 Sensor Error")
+except Exception as e:
+    frame_taker = None
+    print("MLX90640 Sensor Error")
     
-    #writing error to error log
-    #with open(file_list[2], "a") as file:
-       # file.write(f"{time.time()}, {e}, Thermal Sensor \n")
+    # writing error to error log
+    with open(file_list[2], "a") as file:
+        file.write(f"{time.time()}, {e}, Thermal Sensor \n")
     
 
   
@@ -197,7 +211,10 @@ frame_count = 0
 #defining initiating float array:
 def init_float_array(size) -> array.array:
     """Function to make a float array for the thermal sensor
-    Notes: This for some reason wasn't wokring leaving it in a class to be called, so we're doing it here
+    Notes: This for some reason wasn't working as a function defined and used in the MLX class,
+    so we're defining it here
+    Input: array size
+    Output: array of 0s
     """
     return array.array('f', (0 for _ in range(size)))
 
@@ -210,21 +227,22 @@ while True:
     
     time.sleep_ms(100)
     if pressure_sensor:
-        T, P = pressure_sensor.log_pressure()
+        pressure_T, pressure_P = pressure_sensor.log_pressure()
         t = time.time()
 
 
         try:
             time.sleep_ms(1000)
-            with open(file_list[0], "a") as f:         #writing the first part of the housekeeping data line
-                if T == None or P == None:
-                    f.write(f"{t}, NaN, NaN, ")
-                else:
-                    f.write(f"{t}, {T}, {P}, ")
+            #with open(file_list[0], "a") as f:         #writing the first part of the housekeeping data line
+                #if pressure_T == None or pressure_P == None:
+                    #f.write(f"{t}, NaN, NaN, ")
+                #else:
+                    #f.write(f"{t}, {T}, {P}, ")
         
         except Exception as e:
-            print("the end: ,", e)
-                #writing error to error log
+            #print("the end: ,", e)
+                
+            #writing error to error log
             
             with open(file_list[2], "a") as file:
                 file.write(f"{time.time()}, {e}, Pressure Sensor \n")
@@ -233,7 +251,8 @@ while True:
 
     if temp_sensor:
         try:
-            temp_sensor.log_temp(file_list[0])
+            #temp_sensor.log_temp(file_list[0])
+            tempI, tempE = temp_sensor.read_temp(file_list[2])
             
         except Exception as e:
             print("Temperature not logged", e)
@@ -252,13 +271,14 @@ while True:
     if gps_sensor:
         try:
             gps_data = gps_sensor.gps_log()
-            if gps_data: 
-
-                with open(file_list[0], 'a') as file:
-                    file.write(f"{gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n")
-            else:
-                with open(file_list[0], 'a') as file:
-                    file.write("NaN, NaN, NaN, NaN \n")
+    
+            #if gps_data: 
+                
+                #with open(file_list[0], 'a') as file:
+                #    file.write(f"{gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n")
+            #else:
+                #with open(file_list[0], 'a') as file:
+                #    file.write("NaN, NaN, NaN, NaN \n")
         except Exception as e:
             print("GPS not logged:", e)
             
@@ -266,9 +286,33 @@ while True:
             with open(file_list[2], "a") as file:
                 file.write(f"{time.time()}, {e}, GPS \n")
 
+    #4. Writing Housekeeping data to the housekeeping file:
+        
+    # assigning null values if there is no data collected this loop
+    if not pressure_T:
+        pressure_T = 'NaN'
+    if not pressure_P:
+        pressure_P = 'NaN'
+    if not tempI:
+        tempI = 'NaN'
+    if not tempE:
+        tempE = 'NaN'
+    if not gps_data:
+        gps_data = [time.time(), NaN, NaN, NaN, NaN]
+    elif len(gps_data) != 5:
+        diff = 5 - len(gps_data)
+        
+        for i in diff:
+            gps_data.append(99.99)
+        
+    #writing to file:
+    # Keys: Timestamp, ms5611 Temperature (C), Pressure (mbar), TempE (deg), TempI (deg), Lat (deg), Lon (deg), Alt (m), HDOP 
+         
+    with open(file_list[0], "a") as file:
+        file.write(f"{time.time()}, {pressure_T}, {pressure_P}, {tempE}, {tempI}, {gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n") 
+    
 
-
-    #4. TRIGGER CHECK (only happends when trigger = False). if true, servo imediately activated.
+    #5. TRIGGER CHECK (only happends when trigger = False). if true, servo imediately activated.
                 
     #interlude: make science frame array each time in the loop. make one here right before it may be needed. 
     science_frame = init_float_array(768)
@@ -291,9 +335,15 @@ while True:
                 #writing error to error log
                 with open(file_list[2], "a") as file:
                     file.write(f"{time.time()}, {e} during triggering, Servo \n")
+            
+            #try:
+                # i2c.freq(240000000)
+                
+            
+            
             science_data = []
             science_times = []
-            for i in range(8):
+            for i in range(16):
                 # getting 8 science frames in a row right after the servo triggers (we actualyl want to get 30 :/ )
                 try:
                     science_frame = init_float_array(768)
@@ -321,7 +371,7 @@ while True:
             
 
 
-    #5. Thermal Sensor
+    #6. Thermal Sensor
     def init_float_array(size) -> array.array:
         return array.array('f', (0 for _ in range(size)))
 
@@ -342,7 +392,7 @@ while True:
         
 
 
-    #6. Data downlinks: check counter for timing of science and telem packet sending
+    #7. Data downlinks: check counter for timing of science and telem packet sending
     
         
     if TTT:
@@ -362,4 +412,3 @@ while True:
     if trigger:
         frame_count += 1
     time.sleep(1)
-
