@@ -1,6 +1,16 @@
 """
+triple_t.py
+
+Caimin Keavney
+
 The code below will be used to collect relevant data, format telemetry/science data packets, and
 interface with communications architecture.
+
+Functions:
+get_line
+telem_packet
+cropping
+science_packet
 """
 
 import os
@@ -30,33 +40,33 @@ class Comms:
         "MLX": files[1],
         "Error" :files[2],
           "Trigger": files[3],
-      "MLX_Science": files[4]
+          "MLX_Science": files[4]
         }
 
         
+# Not needed any more as no longer reading from SD card.
+ # def get_last_entry(self, filepath):
+  #  """
+   # Reads the last line from a text file on the SD card.
+#
+ #   Inputs:
+  #  filepath (str) - Filepath containing the relevant data.
+#
+ #   Returns:
+  ##  last_line (str) - The most recently appended line to the textfile.
+   # """
+    #try:
+     #with open(filepath, 'r') as f:
+      # lines = f.readlines()
 
-  def get_last_entry(self, filepath):
-    """
-    Reads the last line from a text file on the SD card.
-
-    Inputs:
-    filepath (str) - Filepath containing the relevant data.
-
-    Returns:
-    last_line (str) - The most recently appended line to the textfile.
-    """
-    try:
-     with open(filepath, 'r') as f:
-       lines = f.readlines()
-
-       if len(lines)>1:
+      # if len(lines)>1:
            
-           line = lines[-1]
+       #    line = lines[-1]
            
-    except:
-        line = None
+    #except:
+     #   line = None
 
-    return line
+    #return line
 
   def get_line(self,filepath, index):
       """Reads entered line from a text file on the SD card.
@@ -83,14 +93,11 @@ class Comms:
           
       return line
     
-  def telem_packet(self, error_count):
+  def telem_packet(self, hk_parts, error_count):
     """
     Telemetry packet is formatted and sent.
     """
-    # The telemetry data is collected from the corresponding files on the SD card.
-    hk_parts = self.get_last_entry(self.sd_files["Housekeeping"]).split(',')
-    print(hk_parts)
-
+    
     # MS5611
     try:
         P = hk_parts[2]
@@ -113,21 +120,23 @@ class Comms:
         lat, lon, alt, hdop = 00.00000, 000.00000, 00000.00, 00.00
       
     
+    # Still reading in from SD card for error reports.
+    # Will not work if SD card not working (An Error Report in itself really)
     try:
         with open(sd_files["Error"], "r") as f:
             error_lines = f.readlines()
-            error_counter_new = len(error_lines)
+            error_counter_new = len(error_lines)     # Error Count is updated
           
     except:
         error_counter_new = error_count
     try:
-        error_parts = self.get_last_entry(self.sd_files["Error"]).split(',')
+        error_parts = self.get_last_entry(self.sd_files["Error"]).split(',') 
     except:
         error_parts = None
     
     if error_counter_new != error_count: 
         try:
-            error = error_parts[2]
+            error = error_parts[2]    # Error type is defined.
         except:
             error = "None"
             
@@ -148,21 +157,21 @@ class Comms:
       'hhmmss' : time.localtime(),
       'latitude': lat,           		# Latitude in metres
       'longitude' :lon,      			# Longitude in degrees
-      'altitude':alt,
-      'hdop': hdop,                     # Altitude in metres
+      'altitude':alt,                   # Altitude in metres
+      'hdop': hdop,                     # HDOP
       't_internal' : TI,       			# Internal temperature in Celsius
       't_external': TE,        			# External temperature in Celsius
       'pressure': P,					# External Pressure in millibars
-      'error_count': error_counter_new,
-      'error_type': error
+      'error_count': error_counter_new, # Error Count
+      'error_type': error               # Error Type
       
       
     }
 
     # The formatted data packet is transmitted
-    
     self.radio.send_telemetry(**telem_dict)
     
+    # New Error Count is returned for next iteration
     return error_counter_new
 
   def cropping(self, frame, crop_w=8, crop_h=6):
@@ -196,47 +205,41 @@ class Comms:
 
 
   
-  def science_packet(self, trigger, frame_count):
+  def science_packet(self,trigger, trig_type, pres, alt, frame, frame_count):
     """
     Science packet is formatted and sent.
     
     Inputs:
     trigger (bool): Whether or not the trigger condition has been satisfied
+    trig_type (str): Subsystem causing most recent error
+    pres (float): Pressure used to determine trigger status
+    alt (float): Altitude used to determine trigger status
+    frame (array): Array of temperatures from MLX90640
     frame_count (int): The science frame to be transmitted if the trigger condition has been met.
     """
 
     
     # Most recent thermal array is loaded in from the SD card and cropped for ease of transmission
     try:
-        if not trigger:
-            raw = self.get_last_entry(self.sd_files["MLX"])
-        else:
-            raw = self.get_line(self.sd_files["MLX_Science"], frame_count)
-
-        clean = raw.strip()[1:-1]  # removes the starting '[' and ending ']'
+        clean = frame.strip()[1:-1]  
 
         items = clean.split(',')
 
-        frame = [float(val.strip().replace("'", "")) for val in items]
+        full_frame = [float(val.strip().replace("'", "")) for val in items]
         
+        # Frame is cropped for transmission
         crop_frame = self.cropping(frame)
 
     except:
         crop_frame = None
-
-    
-    try:
-        trig, trig_type, pres, alt= self.get_last_entry(self.sd_files["Trigger"]).split(',')[1:]
-    except:
-        trig, trig_type, pres, alt = None, None, None, None
 
     # Data dictionary is formatted.
     data_dict = {
       'data' : crop_frame,                # 48 temperature values (Celsius)               
       'trig_status' : trig,                      # Trigger Flag (Bool Type)
       'trig_type' : trig_type,				# Trigger Type (Character "G", "B", "U")
-      'pressure': pres,
-      'altitude':alt
+      'pressure': pres,                    # Pressure (millibars)
+      'altitude':alt                      # Altitude (metres)
 
       }
     
