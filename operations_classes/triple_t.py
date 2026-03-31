@@ -29,7 +29,8 @@ class Comms:
       "Housekeeping": files[0],
         "MLX": files[1],
         "Error" :files[2],
-          "Trigger": files[3]
+          "Trigger": files[3],
+      "MLX_Science": files[4]
         }
 
         
@@ -53,9 +54,34 @@ class Comms:
            line = lines[-1]
            
     except:
-        raise RuntimeError("No line")
+        line = None
 
     return line
+
+  def get_line(self,filepath, index):
+      """Reads entered line from a text file on the SD card.
+      
+      Inputs:
+      filepath (str) - Name of filepath as on SD card
+      index (int) - Desired line of file
+      
+      Returns:
+      line (str) - Requested line from file in string format
+      """
+      
+      try:
+          with open(filepath, 'r') as f:
+              lines = f.readlines()
+                
+              length = len(lines)
+              
+              index = index%length
+              
+              line = lines[index]
+      except:
+          line = None
+          
+      return line
     
   def telem_packet(self, error_count):
     """
@@ -170,20 +196,30 @@ class Comms:
 
 
   
-  def science_packet(self):
+  def science_packet(self, trigger, frame_count):
     """
     Science packet is formatted and sent.
+    
+    Inputs:
+    trigger (bool): Whether or not the trigger condition has been satisfied
+    frame_count (int): The science frame to be transmitted if the trigger condition has been met.
     """
 
+    
     # Most recent thermal array is loaded in from the SD card and cropped for ease of transmission
     try:
-        raw = self.get_last_entry(self.sd_files["MLX"])
+        if not trigger:
+            raw = self.get_last_entry(self.sd_files["MLX"])
+        else:
+            raw = self.get_line(self.sd_files["MLX_Science"], frame_count)
 
         clean = raw.strip()[1:-1]  # removes the starting '[' and ending ']'
 
         items = clean.split(',')
 
         frame = [float(val.strip().replace("'", "")) for val in items]
+        
+        crop_frame = self.cropping(frame)
 
     except:
         crop_frame = None
@@ -196,7 +232,7 @@ class Comms:
 
     # Data dictionary is formatted.
     data_dict = {
-      'data' : frame,                # 48 temperature values (Celsius)               
+      'data' : crop_frame,                # 48 temperature values (Celsius)               
       'trig_status' : trig,                      # Trigger Flag (Bool Type)
       'trig_type' : trig_type,				# Trigger Type (Character "G", "B", "U")
       'pressure': pres,
