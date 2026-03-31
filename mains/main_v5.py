@@ -252,7 +252,7 @@ while True:
     if temp_sensor:
         try:
             #temp_sensor.log_temp(file_list[0])
-            tempI, tempE = temp_sensor.read_temp(file_list[2])
+            tempE, tempI = temp_sensor.read_temp(file_list[2])  # recently swaped tempE and tempI cuz I think I had them backwards
             
         except Exception as e:
             print("Temperature not logged", e)
@@ -290,15 +290,15 @@ while True:
         
     # assigning null values if there is no data collected this loop
     if not pressure_T:
-        pressure_T = 'NaN'
+        pressure_T = 'None'
     if not pressure_P:
-        pressure_P = 'NaN'
+        pressure_P = 'None'
     if not tempI:
-        tempI = 'NaN'
+        tempI = 'None'
     if not tempE:
-        tempE = 'NaN'
+        tempE = 'None'
     if not gps_data:
-        gps_data = [time.time(), NaN, NaN, NaN, NaN]
+        gps_data = [time.time(), 'None', 'None', 'None', 99.99]
     elif len(gps_data) != 5:
         diff = 5 - len(gps_data)
         
@@ -307,10 +307,14 @@ while True:
         
     #writing to file:
     # Keys: Timestamp, ms5611 Temperature (C), Pressure (mbar), TempE (deg), TempI (deg), Lat (deg), Lon (deg), Alt (m), HDOP 
-         
-    with open(file_list[0], "a") as file:
-        file.write(f"{time.time()}, {pressure_T}, {pressure_P}, {tempE}, {tempI}, {gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n") 
+    house_list = [time.time(), pressure_T, pressure_P, tempE, tempI, gps_data[0], gps_data[1], gps_data[2], gps_data[3], gps_data[4]]
     
+    try:
+        with open(file_list[0], "a") as file:
+            file.write(f"{time.time()}, {pressure_T}, {pressure_P}, {tempE}, {tempI}, {gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n") 
+    except Exception as e:
+        with open(file_list[2], "a") as file:
+            file.write(f"{time.time()}, {e}, Writing Housekeeping to SD \n")
 
     #5. TRIGGER CHECK (only happends when trigger = False). if true, servo imediately activated.
                 
@@ -396,7 +400,7 @@ while True:
     
         
     if TTT:
-        if counter % 3 == 0: 
+        if counter % 7 == 0: 
             print("Sending science packet")
             TTT.science_packet(trigger, frame_count)
                 
@@ -404,6 +408,8 @@ while True:
             print("Sending telemetry packet")
 
             error_counter = TTT.telem_packet(error_counter)
+            
+            print(f"what EC is set to: {error_counter}")
 
         
     print(f'########LOOP COUNTER {counter} ###################')
