@@ -20,7 +20,6 @@ Loop actions sequence:
 
 """
 
-
 from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640, RefreshRate
@@ -136,13 +135,13 @@ except Exception as e:
     with open(file_list[2], "a") as file:
         file.write(f"{time.time()}, {e}, Pressure Sensor \n") 
 
-#try:
-temp_sensor = DS18B20(pin=21)
+try:
+    temp_sensor = DS18B20(pin=21)
 
-if not temp_sensor.available:
-    print("Temperature Sensor Error")
-    temp_sensor = None
-    
+    if not temp_sensor.available:
+        print("Temperature Sensor Error")
+        temp_sensor = None
+except: 
     #writing error to error log
     with open(file_list[2], "a") as file:
         file.write(f"{time.time()}, Temp Sensor not Available, Temp Sensor \n") 
@@ -246,7 +245,8 @@ while True:
             
             with open(file_list[2], "a") as file:
                 file.write(f"{time.time()}, {e}, Pressure Sensor \n")
-        
+    else:
+        pressure_P = None
     #2. temperature sensors (internal and external)
 
     if temp_sensor:
@@ -256,12 +256,13 @@ while True:
             
         except Exception as e:
             print("Temperature not logged", e)
-            
+            tempE, tempI = None, None
             #writing error to error log
             with open(file_list[2], "a") as file:
                 file.write(f"{time.time()}, {e}, Temp Sensors \n")
         
-
+    else:
+        tempE, tempI = None, None
     time.sleep_ms(100)
         
 
@@ -285,7 +286,8 @@ while True:
                 #writing error to error log
             with open(file_list[2], "a") as file:
                 file.write(f"{time.time()}, {e}, GPS \n")
-
+    else:
+        gps_data = None, None, None, None, None
     #4. Writing Housekeeping data to the housekeeping file:
         
     # assigning null values if there is no data collected this loop
@@ -404,17 +406,16 @@ while True:
             print("Sending science packet")
             TTT.science_packet(trigger, frame_count)
                 
-        if counter % 5 == 0:
+        if counter % 2 == 0:
             print("Sending telemetry packet")
 
-            error_counter = TTT.telem_packet(error_counter)
+            error_counter = TTT.telem_packet(house_list, error_counter)
             
-            print(f"what EC is set to: {error_counter}")
 
-        
     print(f'########LOOP COUNTER {counter} ###################')
     counter += 1
     
     if trigger:
         frame_count += 1
     time.sleep(1)
+
