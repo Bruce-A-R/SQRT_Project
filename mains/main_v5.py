@@ -1,7 +1,7 @@
 """
 version 5 of main function with triggering and servo included included
 
-file system should now be updated
+CURRENTLY UPDATING FILE SYSTEM
 
 IN this loop: internal and external temperatures are taken before GPS
 the temp wont actually tell us if the servo activation worked probably, so we might as well move it so that file writing is easier?
@@ -42,22 +42,14 @@ SD_MOUNT_PATH = '/sd'
 
 n = str(random.randint(1,10000))
 
-#file_list = [
-#    '/sd/trigger_log' + n + '.txt',
-#   '/sd/ms5611_log' + n + '.txt',
-#    '/sd/ds18b20_log' + n + '.txt',
- #   '/sd/mlx90640_log' + n + '.txt',
- #   '/sd/gps_logger' + n + '.txt',
- #   '/sd/mlx90640_science.txt' + n + '.txt'
-#]
-
 #new file system with less files: all housekeeping data, all science data, an error log
 
 file_list = [
     '/sd/housekeeping_log' + n  + '.csv',
     '/sd/data_log' + n + '.csv',
     '/sd/error_log' +n + '.csv',
-    '/sd/trigger_log' + n + '.csv'              # may not be needed (can be variables in main)?
+    '/sd/trigger_log' + n + '.csv',
+    '/sd/post_trigger_data_log' + n + '.csv'     # to specifically hold frames taken imediately after trigger for ease of transmitting them 
 ]
     
 
@@ -143,17 +135,17 @@ if not temp_sensor.available:
 
 
 
-try:
-    frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5)
-    frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 # currently the fasted refresh rate that doesn't kill itself,
+#try:
+frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5)
+frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 # currently the fasted refresh rate that doesn't kill itself,
                                                                         # reason unclear and seen by many users of the product online
-except Exception as e:
-    frame_taker = None
-    print("MLX90640 Sensor Error")
+#except Exception as e:
+   # frame_taker = None
+  #  print("MLX90640 Sensor Error")
     
     #writing error to error log
-    with open(file_list[2], "a") as file:
-        file.write(f"{time.time()}, {e}, Thermal Sensor \n")
+    #with open(file_list[2], "a") as file:
+       # file.write(f"{time.time()}, {e}, Thermal Sensor \n")
     
 
   
@@ -198,8 +190,9 @@ triggering = SQTtrigger()
 
 trigger = False       # flag to trigger valve
 trigger_condition = None      # to set trigger condition too so we know what message to send
-counter = 0     # for timing transmitions
+counter = 1     # for timing transmitions
 error_counter = 0
+frame_count = 0
 
 #defining initiating float array:
 def init_float_array(size) -> array.array:
@@ -232,6 +225,7 @@ while True:
         except Exception as e:
             print("the end: ,", e)
                 #writing error to error log
+            
             with open(file_list[2], "a") as file:
                 file.write(f"{time.time()}, {e}, Pressure Sensor \n")
         
@@ -297,7 +291,8 @@ while True:
                 #writing error to error log
                 with open(file_list[2], "a") as file:
                     file.write(f"{time.time()}, {e} during triggering, Servo \n")
-        
+            science_data = []
+            science_times = []
             for i in range(8):
                 # getting 8 science frames in a row right after the servo triggers (we actualyl want to get 30 :/ )
                 try:
@@ -314,9 +309,12 @@ while True:
                 
                 t = time.time()
                 
-                with open(file_list[1], "a") as f:
-                    f.write(f"{t} FRAME DATA: \n")
-                    for temp in science_frame:
+                science_times.append(t)
+                science_data.append(science_frame)
+            with open(file_list[4], "a") as f:
+                for i, line in enumerate(science_data):
+                    f.write(f"Time: {science_times[i]} \n")
+                    for temp in line:
                         f.write(f"{temp},")
                     f.write("\n")
             
@@ -345,20 +343,23 @@ while True:
 
 
     #6. Data downlinks: check counter for timing of science and telem packet sending
-
+    
+        
     if TTT:
-        if counter % 15 == 0: 
+        if counter % 3 == 0: 
             print("Sending science packet")
-            TTT.science_packet()
-            
-        if counter % 10 == 0:
+            TTT.science_packet(trigger, frame_count)
+                
+        if counter % 5 == 0:
             print("Sending telemetry packet")
 
             error_counter = TTT.telem_packet(error_counter)
 
-    
-    counter += 1
+        
     print(f'########LOOP COUNTER {counter} ###################')
-           
+    counter += 1
+    
+    if trigger:
+        frame_count += 1
     time.sleep(1)
 
