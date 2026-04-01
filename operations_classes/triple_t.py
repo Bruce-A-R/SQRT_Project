@@ -221,22 +221,16 @@ class Comms:
     
     # Most recent thermal array is loaded in from the SD card and cropped for ease of transmission
     try:
-        clean = frame.strip()[1:-1]  
-
-        items = clean.split(',')
-
-        full_frame = [float(val.strip().replace("'", "")) for val in items]
-        
         # Frame is cropped for transmission
         crop_frame = self.cropping(frame)
-
+    
     except:
         crop_frame = None
 
     # Data dictionary is formatted.
     data_dict = {
       'data' : crop_frame,                # 48 temperature values (Celsius)               
-      'trig_status' : trig,                      # Trigger Flag (Bool Type)
+      'trig_status' : trigger,                      # Trigger Flag (Bool Type)
       'trig_type' : trig_type,				# Trigger Type (Character "G", "B", "U")
       'pressure': pres,                    # Pressure (millibars)
       'altitude':alt                      # Altitude (metres)
