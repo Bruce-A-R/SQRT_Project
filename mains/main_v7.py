@@ -20,7 +20,7 @@ Loop actions sequence:
 
 """
 
-
+import gc
 from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640, RefreshRate
@@ -28,6 +28,8 @@ from gps_v2 import SQTGPS
 from triple_t import Comms
 from triggering_v2 import SQTtrigger
 from servo_2 import Servo
+
+from helper import Helper
 
 #import sdcard
 import sdcard_v2 as sdcard        # using second version of sdcard class from adafruit forums
@@ -45,24 +47,24 @@ from machine import Pin, SPI
 
 # SETUP TASKS, first the sd card
 
-SPI_BUS = 1
-SCK_PIN = 10
-MOSI_PIN = 11
-MISO_PIN = 12
-CS_PIN = 13
-SD_MOUNT_PATH = '/sd'
+#SPI_BUS = 1
+#SCK_PIN = 10
+#MOSI_PIN = 11
+#MISO_PIN = 12
+#CS_PIN = 13
+#SD_MOUNT_PATH = '/sd'
 
-n = str(random.randint(1, 10000))
+#n = str(random.randint(1, 10000))
 
 #new file system with less files: all housekeeping data, all science data, an error log
 
-file_list = [
-    '/sd/housekeeping_log' + n  + '.csv',
-    '/sd/data_log' + n + '.csv',
-    '/sd/error_log' +n + '.csv',
-    '/sd/trigger_log' + n + '.csv',
-    '/sd/post_trigger_data_log' + n + '.csv'     # to specifically hold frames taken imediately after trigger for ease of transmitting them 
-]
+#file_list = [
+#    '/sd/housekeeping_log' + n  + '.csv',
+#    '/sd/data_log' + n + '.csv',
+#    '/sd/error_log' +n + '.csv',
+#    '/sd/trigger_log' + n + '.csv',
+#    '/sd/post_trigger_data_log' + n + '.csv'     # to specifically hold frames taken imediately after trigger for ease of transmitting them 
+#]
     
 
 try:
@@ -111,26 +113,26 @@ except Exception as e: print(f"mounting error: {e}")
 
 
 
-try:
+#try:
 
     # Small delay before file ops
-    time.sleep_ms(50)
+#    time.sleep_ms(50)
 
     # Initialize log files
-    for fname in file_list:
-        with open(fname, 'w') as f:
-            if 'house' in fname:
-                f.write("Timestamp, ms5611 Temperature (C), Pressure (mbar), TempE (deg), TempI (deg), Lat (deg), Lon (deg), Alt (m), HDOP \n")
-            elif 'data_log' in fname:
-                f.write("MLX90640 Raw Data Values \n")
-            elif 'trigger' in fname:
-                f.write("Timestamp, Trigger, Condition, Pressure (mbar), Alt (m) \n")
-            else:
-                f.write("Timestamp, Error, Sensor/Class \n")           # recording of errors by time and what class raised it
+#    for fname in file_list:
+#        with open(fname, 'w') as f:
+#            if 'house' in fname:
+#                f.write("Timestamp, ms5611 Temperature (C), Pressure (mbar), TempE (deg), TempI (deg), Lat (deg), Lon (deg), Alt (m), HDOP \n")
+#            elif 'data_log' in fname:
+#                f.write("MLX90640 Raw Data Values \n")
+#            elif 'trigger' in fname:
+#                f.write("Timestamp, Trigger, Condition, Pressure (mbar), Alt (m) \n")
+#            else:
+#                f.write("Timestamp, Error, Sensor/Class \n")           # recording of errors by time and what class raised it
 
-    print(f" Files created at time {time.time()}")
-except Exception as e:
-    print("Files not initialised", e)
+#    print(f" Files created at time {time.time()}")
+#except Exception as e:
+#    print("Files not initialised", e)
 
 # MORE SETUP: initializing sensors
 
@@ -194,7 +196,7 @@ try:
 
 except Exception as e:
     TTT = None
-    print(f"T-cubed Error: {e}")
+    print(f"T3 Error: {e}")
     
     
     #writing error to error log
@@ -350,7 +352,10 @@ while True:
     if not trigger:
         
         try:      # trying to run trigger check
-
+            #if counter == 5:
+            #    trigger, condition, pres, alt = triggering.trigger_check(30, house_list[8], a_list, p_list, file_list[2])
+            #else:
+                
             trigger, condition, pres, alt = triggering.trigger_check(house_list[2], house_list[8], a_list, p_list, file_list[2])
             t = time.time()
             
@@ -368,7 +373,10 @@ while True:
             alt = house_list[8]
         
         
-        if trigger:
+        #if counter > 50:
+        #    trigger = True
+        
+        if trigger: #and counter > 50:
             
             # 1. change thermal sensor freq to handle quicker refresh rate
             
@@ -449,18 +457,24 @@ while True:
 
 
     #6. Thermal Sensor
-    for _ in range(2):            #take two pics to fill out checkerboard
-        if frame_taker:
-            frame = init_float_array(768)
-            frame_taker.get_frame(frame)
-            t = time.time()
+    for _ in range(2): #take two pics to fill out checkerboard
+        try:
+            if frame_taker:
+                frame = init_float_array(768)
+                frame_taker.get_frame(frame)
+                t = time.time()
 
+                try:
+                    with open(file_list[1], "a") as f:
+                        f.write(f"{t} FRAME DATA: \n")
+                        for temp in frame:
+                            f.write(f"{temp},")
+                        f.write("\n")
+                except: pass
+        except Exception as e:
             try:
-                with open(file_list[1], "a") as f:
-                    f.write(f"{t} FRAME DATA: \n")
-                    for temp in frame:
-                        f.write(f"{temp},")
-                    f.write("\n")
+                with open(file_list[2], "a") as file:
+                    file.write(f"{time.time()}, {e}, Thermal Sensor \n")
             except: pass
 
         time.sleep_ms(100)       
@@ -469,15 +483,26 @@ while True:
 
     #7. Data downlinks: check counter for timing of science and telem packet sending
     
+    print(f"FREE MEMORY: {gc.mem_free()}")
+    
     if TTT:
         if counter % 3 == 0: 
             print("Sending science packet")
             
             if not trigger:
                 TTT.science_packet(trigger, condition, pres, alt, frame)
-            else:
-                science_frame = science_data[science_frame_count % len(science_data)]
-                TTT.science_packet(trigger, condition, pres, alt, science_frame)
+            elif trigger and counter > 50:
+                
+                try:
+                    science_frame = science_data[science_frame_count % len(science_data)]
+                    TTT.science_packet(trigger, condition, pres, alt, science_frame)
+                except Exception as e:
+                    try:
+                        with open(file_list[2], "a") as file:
+                            file.write(f"{time.time()}, {e}, Thermal Sensor \n")
+                    except: pass
+                        
+                
                 
         if counter % 2 == 0:
             print("Sending telemetry packet")
@@ -491,5 +516,7 @@ while True:
     counter += 1
     
     if trigger:
+        science_frame_count += 1
+    time.sleep(1)
         science_frame_count += 1
     time.sleep(1)
