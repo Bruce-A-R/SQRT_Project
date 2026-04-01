@@ -21,6 +21,29 @@ Loop actions sequence:
 """
 
 
+"""
+version 5 of main function with triggering and servo included included
+
+Overview of main function (31/3/2026 CK and BR)
+
+this main has an updated file system:
+-all housekeeping data is saved to one file
+-all raised errors saved to an error log
+-trigger check information is saved to a trigger log
+-thermal sensor frames saved to two seperate logs:
+    - background frames saved to data_log
+    - frames taken immediately after trigger (in the quick burst of sensor captures) saved to post_trigger_data_log
+    
+
+Loop actions sequence:
+1. take housekeeping data
+2. check for trigger conditions, then activate servo and take quick burst of frames if triggered
+3. check for timing for transmissions. If timing is right for science or telemetry packages, send them
+    - what is sent will depend on wether the valve has triggered and there are post-trigger frames to send or not
+
+"""
+
+
 from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640, RefreshRate
@@ -145,14 +168,15 @@ except Exception as e:
 # Temperature Sensor(s)
 try:
     temp_sensor = DS18B20(pin=21)
-
-if not temp_sensor.available:
-    print("Temperature Sensor Error")
-    temp_sensor = None
     
-    #writing error to error log
-    with open(file_list[2], "a") as file:
-        file.write(f"{time.time()}, Temp Sensor not Available, Temp Sensor \n") 
+except:
+    if not temp_sensor.available:
+        print("Temperature Sensor Error")
+        temp_sensor = None
+        
+        #writing error to error log
+        with open(file_list[2], "a") as file:
+            file.write(f"{time.time()}, Temp Sensor not Available, Temp Sensor \n") 
 
 
 # Thermal Sensor
@@ -211,6 +235,7 @@ triggering = SQTtrigger()
 # LAST SETUP: setting all the flags and counters
 
 trigger = False       # flag to trigger valve
+trig_status = False   # For communications reasons
 trigger_condition = None      # to set trigger condition too so we know what message to send
 counter = 1     # for timing transmitions
 error_counter = 0
@@ -388,17 +413,19 @@ while True:
         return array.array('f', (0 for _ in range(size)))
 
     if frame_taker:
-        # Two frames are taken to get a value for each pixel.
-        for _ in range(2):
+        try:
             frame = init_float_array(768)
             frame_taker.get_frame(frame)
             t = time.time()
-    
+
             with open(file_list[1], "a") as f:
                 f.write(f"{t} FRAME DATA: \n")
                 for temp in frame:
                     f.write(f"{temp},")
-                f.write("\n")      
+                f.write("\n")
+        except Exception as e:
+            with open(file_list[2], "a") as f:
+                f.write(f"{time.time()}, {e}, MLX90640 \n")
 
          #   print("Thermal Array not logged", e)
 
@@ -411,16 +438,23 @@ while True:
     if trigger:
         trig_status = True
     
+    elif trig_status:
+        trig_status = True
+        
+    else:
+        trig_status = False
+    
+    
     trigger = False
     if TTT:
-        if counter % 7 == 0: 
+        if counter % 2 == 0: 
             print("Sending science packet")
             TTT.science_packet(trig_status, condition, pres, alt, frame, frame_count)
                 
-        if counter % 5 == 0:
+        if counter % 4 == 0:
             print("Sending telemetry packet")
 
-            error_counter = TTT.telem_packet(error_counter)
+            error_counter = TTT.telem_packet(house_list, error_counter)
             
             print(f"what EC is set to: {error_counter}")
 
@@ -431,4 +465,5 @@ while True:
     if trigger:
         frame_count += 1
     time.sleep(1)
+
 
