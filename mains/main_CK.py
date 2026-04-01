@@ -388,15 +388,17 @@ while True:
         return array.array('f', (0 for _ in range(size)))
 
     if frame_taker:
-        frame = init_float_array(768)
-        frame_taker.get_frame(frame)
-        t = time.time()
-
-        with open(file_list[1], "a") as f:
-            f.write(f"{t} FRAME DATA: \n")
-            for temp in frame:
-                f.write(f"{temp},")
-            f.write("\n")      
+        # Two frames are taken to get a value for each pixel.
+        for _ in range(2):
+            frame = init_float_array(768)
+            frame_taker.get_frame(frame)
+            t = time.time()
+    
+            with open(file_list[1], "a") as f:
+                f.write(f"{t} FRAME DATA: \n")
+                for temp in frame:
+                    f.write(f"{temp},")
+                f.write("\n")      
 
          #   print("Thermal Array not logged", e)
 
