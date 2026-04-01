@@ -1,5 +1,5 @@
 """
-version 5 of main function with triggering and servo included included
+version 5.2 of main function with triggering and servo included included
 
 Overview of main function (31/3/2026 CK and BR)
 
@@ -19,30 +19,6 @@ Loop actions sequence:
     - what is sent will depend on wether the valve has triggered and there are post-trigger frames to send or not
 
 """
-
-
-"""
-version 5 of main function with triggering and servo included included
-
-Overview of main function (31/3/2026 CK and BR)
-
-this main has an updated file system:
--all housekeeping data is saved to one file
--all raised errors saved to an error log
--trigger check information is saved to a trigger log
--thermal sensor frames saved to two seperate logs:
-    - background frames saved to data_log
-    - frames taken immediately after trigger (in the quick burst of sensor captures) saved to post_trigger_data_log
-    
-
-Loop actions sequence:
-1. take housekeeping data
-2. check for trigger conditions, then activate servo and take quick burst of frames if triggered
-3. check for timing for transmissions. If timing is right for science or telemetry packages, send them
-    - what is sent will depend on wether the valve has triggered and there are post-trigger frames to send or not
-
-"""
-
 
 from ms5611 import MS5611
 from ds18b20 import DS18B20
@@ -239,7 +215,10 @@ trig_status = False   # For communications reasons
 trigger_condition = None      # to set trigger condition too so we know what message to send
 counter = 1     # for timing transmitions
 error_counter = 0
-frame_count = 0
+science_frame_count = 0
+science_data = []
+science_times = []
+
 
 #defining initiating float array for thermal sensor
 def init_float_array(size) -> array.array:
@@ -376,12 +355,9 @@ while True:
             #try:
                 # i2c.freq(240000000)
                 
-            
-            
-            science_data = []
-            science_times = []
+                
             for i in range(16):
-                # getting 8 science frames in a row right after the servo triggers (we actualyl want to get 30 :/ )
+                # getting 8 full science frames in a row right after the servo triggers (we actualyl want to get 30 :/ )
                 try:
                     science_frame = init_float_array(768)
                 
@@ -398,6 +374,7 @@ while True:
                 
                 science_times.append(t)
                 science_data.append(science_frame)
+            
             with open(file_list[4], "a") as f:
                 for i, line in enumerate(science_data):
                     f.write(f"Time: {science_times[i]} \n")
@@ -449,9 +426,16 @@ while True:
     if TTT:
         if counter % 2 == 0: 
             print("Sending science packet")
-            TTT.science_packet(trig_status, condition, pres, alt, frame, frame_count)
-                
-        if counter % 4 == 0:
+            
+            if not science_data:
+                TTT.science_packet(trig_status, condition, pres, alt, frame, frame_count)
+            
+            else:
+                science_frame = science_data[science_frame_count%len(science_data)]
+                TTT.science_packet(trig_status, condition, pres, alt, science_frame, frame_count)
+            
+            
+        if counter % 5 == 0:
             print("Sending telemetry packet")
 
             error_counter = TTT.telem_packet(house_list, error_counter)
@@ -465,5 +449,6 @@ while True:
     if trigger:
         frame_count += 1
     time.sleep(1)
+
 
 
