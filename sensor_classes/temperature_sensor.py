@@ -1,8 +1,6 @@
 """
-This class is for the temperature sensor to be used for internal and external temperature readings/valve 
+This class is for the temperature sensor to be used for internal temperature readings/valve 
 operation verification.
-
-updated as of 30/3
 """
 # All necessary imports are performed.
 import machine, time, onewire, ds18x20
@@ -20,7 +18,6 @@ class DS18B20:
         self.onewire = onewire.OneWire(self.pin)
         self.sensor = ds18x20.DS18X20(self.onewire)
         self.roms = self.sensor.scan()
-        print(self.roms)
         self.available = len(self.roms) >= 1
         self.rom_E = self.roms[0] if len(self.roms) >= 1 else None
         self.rom_I = self.roms[1] if len(self.roms) >= 2 else None
@@ -60,7 +57,6 @@ class DS18B20:
         tempI = self.read_temp()[0]
         tempE = self.read_temp()[1]
         
-        print(f"temps: {tempE} E, {tempI} I")
         
         t = time.time()
         with open(filename, "a") as f:
@@ -73,8 +69,6 @@ class DS18B20:
                 f.write(f"NaN, {tempI},")
             else:
                 f.write(f"{tempE}, {tempI},")
-
-
 
                 
         
