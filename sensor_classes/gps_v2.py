@@ -1,5 +1,5 @@
 """
-gps_v2.py
+gps.py
 
 script with SQTGPS class in it that should initialize and read from gps
 
@@ -20,11 +20,16 @@ class SQTGPS:
 
     def __init__(self, uart_bus, baudrate, tx_pin, rx_pin):
         """Funciton to initialze and connect to sensor"""
-        print("Initialising")
+        
 
-            
+        
         self.gps = UART(uart_bus, baudrate = baudrate, tx = tx_pin, rx = rx_pin)
-            
+        
+        #time.sleep(1)
+        #port = self.gps.any()
+        
+        #if not port:
+         #   raise RuntimeError
         
         
         #try:
@@ -34,23 +39,25 @@ class SQTGPS:
         #    print(f"exception to just fucking scanning for devices: {e}")
             
         #TAKING THIS PART OUT cuz it might be the part that is fucking everything up
-       # try:
-        #    self.gps.init(baudrate, bits = 8, parity = None, stop = 1)                # taken from setup tasks 
+        
+        
+        #try:
+         #   self.gps.init(baudrate, bits = 8, parity = None, stop = 1)                # taken from setup tasks 
         #except Exception as e:
          #   print(f"init exception: {e}")
         
 
-        #gps_found = False
+    #gps_found = False
         #try:
-         #   for _ in range(10):
-          #      if self.gps.any():
-           #         gps_found = True
-            #        print("found gps")
-             #       break
-              #  else:
-               #     time.sleep(1)
+     #       for _ in range(10):
+      #          if self.gps.any():
+       #             gps_found = True
+        #            print("found gps")
+         #           break
+          #      else:
+           #         time.sleep(1)
                     
-            #print(f"gps found: {gps_found}")
+           # print(f"gps found: {gps_found}")
 # don't continue the loop if gps found
         #except Exception as e:
          #   print(f" did not find GPS, and also: {e}")
@@ -61,7 +68,13 @@ class SQTGPS:
         #        return
         #
         #raise RuntimeError("No GPS Found")
+    def _sign_angle(self, angle, hemisphere):
+        """Assigns a sign to the angle based on inputted hemisphere"""
+        if hemisphere == 'S' or hemisphere == 'W':
+            angle = angle * -1
 
+        return angle
+    
     def _angle_reader(self, angle_str, hemisphere):
         """Takes an angle as a string in DDMM.MMMMM or 
         DDDMM.MMMMM format and return it as a float in decimal degrees
@@ -70,27 +83,27 @@ class SQTGPS:
         on the inputted hemishpere (N or S)
         """
 
-        if len(angle_str) == 9:  #was 10:         # for DDMM.MMMMM format
+        if len(angle_str) == 10:  #was 10:         # for DDMM.MMMMM format
             minutes = float(angle_str[2:9]) / 60
             degs = int(angle_str[0:2])
             
             ang = degs + minutes
-            ang = self.sign_angle(ang, hemisphere)
+            ang = self._sign_angle(ang, hemisphere)
             
             return ang
         
-        elif len(angle_str) == 10:   #was 11:       # for DDDMM.MMMMM format
+        elif len(angle_str) == 11:   #was 11:       # for DDDMM.MMMMM format
             minutes = float(angle_str[3:10]) / 60
             degs = int(angle_str[0:3])
             
             ang = degs + minutes
-            ang = sign_angle(ang, hemisphere)
+            ang = self._sign_angle(ang, hemisphere)
             
             return ang
         
         else:
-            print("you messed up the string length")
-            print(f"string length: {len(angle_str)}")
+            print("no angle")
+            
             
             return None
 
@@ -112,27 +125,27 @@ class SQTGPS:
         """
         requested_sequence = None
         
-
+        
 
         
         while self.gps.any():
+
             data = self.gps.readline()
-            print(data)
+
             
             try:
                 sentence = data.decode('ascii')
-                print(sentence)
                 sentenceid = sentence[3:6]
                 if sentenceid == 'GGA':              # returns the sentece only if it is GGA
                     requested_sequence = sentence
             except UnicodeError:             # in case of error decoding
                 print("unicode error, retrying")
-            
-        if requested_sequence:
-            print(requested_sequence)
-            return requested_sequence
+                
+            if requested_sequence:
+                return requested_sequence
+        
         else:
-            print("no sentence")
+            print("no sentence,  still listening")
             return None
 
     def _parse_sequence(self, sequence):
@@ -151,38 +164,48 @@ class SQTGPS:
             'timestamp' : None,
             'sentence' : None,
             'checksum' : None,
-            'fields' : None
+            'fields' : None,
+            'hdop' : None
             }
         
         split_sentence = sequence.split(',')
         
-        # converting lat and lon into degrees:
-        lat = self._angle_reader(split_sentence[2], split_sentence[3])
-        lon = self._angle_reader(split_sentence[4], split_sentence[5])
+        if len(split_sentence) == 15:
+                
+            # converting lat and lon into degrees:
+            lat = self._angle_reader(split_sentence[2], split_sentence[3])
+            lon = self._angle_reader(split_sentence[4], split_sentence[5])
+            
+            # assigning parts of the sequence to the dictiory keys
+            if len(split_sentence[1]) != 0:
+                mydict['timestamp'] = split_sentence[1]
+            else:
+                mydict['timestamp'] = None
         
-        # assigning parts of the sequence to the dictiory keys
-        if len(split_sentence[1]) != 0:
-            mydict['timestamp'] = split_sentence[1]
+            mydict['latitude'] = lat
+            mydict['longitude'] = lon
+            
+            if len(split_sentence[8]) != 0:
+                mydict["hdop"] = split_sentence[8]
+            else:
+                
+                mydict["hdop"] = None
+                
+            if len(split_sentence[9]) != 0:
+                mydict['altitude'] = split_sentence[9]
+            else: 
+                mydict['altitude'] = None
+            
+            mydict['sentence'] = sequence
+            
+            if len(split_sentence[14]) != 0:
+                mydict['checksum'] = split_sentence[14]
+            else: 
+                mydict['checksum'] = None
+            
+            mydict['fields'] = split_sentence
         else:
-            mydict['timestamp'] = None
-    
-        mydict['latitude'] = lat
-        mydict['longitude'] = lon
-        mydict['hdop'] = split_sentence[8]
-        if len(split_sentence[9]) != 0:
-            mydict['altitude'] = split_sentence[9]
-        else: 
-            mydict['altitude'] = None
-        
-        mydict['sentence'] = sequence
-        
-        if len(split_sentence[14]) != 0:
-            mydict['checksum'] = split_sentence[14]
-        else: 
-            mydict['checksum'] = None
-        
-        mydict['fields'] = split_sentence
-        
+            mydict = None
         return mydict
 
     def gps_log(self):
@@ -194,25 +217,31 @@ class SQTGPS:
         gga_count = 0
         
         # reading and calibrating GPS data: 
-        while GGA_count_done == False:
+        while GGA == False:
             
             time.sleep(1)
             sentence = self._listen_for_sequence()
             
             if sentence is not None:
                 # parsing sequence:
-                dictionary = self.parse_sequence(sentence)
+                print(sentence)
+                dictionary = self._parse_sequence(sentence)
     
                 # making and returning result string
                 
-                print(f"{dictionary["timestamp"]},{dictionary["latitude"]},{dictionary["longitude"]},{dictionary["altitude"]}, {dictionary["hdop"]}\n")
-                return f"{dictionary["timestamp"]},{dictionary["latitude"]},{dictionary["longitude"]},{dictionary["altitude"]}, {dictionary["hdop"]}\n"
+                timestamp, lat, lon, alt, hdop = dictionary["timestamp"],dictionary["latitude"],dictionary["longitude"],dictionary["altitude"],dictionary["hdop"]
+                
+        
+                return timestamp, lat, lon, alt, hdop
                     
                 
                 
                 
                 gga_count += 1
+            
+            else:
+                return None, None, None, 99.99
      
-            if gga_count_done == 10:
+            if gga_count == 5:
                 GGA = True     # setting GGA flag so the listening loop can stop
-                return f"{time.time()}, None, None, None, None, None \n"
+                return None
