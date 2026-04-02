@@ -4,7 +4,16 @@ helper.py
 class for helpful functions that will help us
 
 """
+import gc
+from ms5611 import MS5611
+from ds18b20 import DS18B20
+from mlx90640 import MLX90640, RefreshRate
+from gps_v2 import SQTGPS
+from triple_t import Comms
 
+from servo_2 import Servo
+
+import sdcard_v2 as sdcard 
 import os
 import machine
 import time
@@ -17,7 +26,14 @@ class Helper:
     def __init__(self):
         print("initializing the helper class")
         
-        
+    def init_float_array(self, size) -> array.array:
+        """Function to make a float array for the thermal sensor
+        Notes: This for some reason wasn't working as a function defined and used in the MLX class,
+        so we're defining it here
+        Input: array size
+        Output: array of 0s
+        """
+        return array.array('f', (0 for _ in range(size)))    
         
     def log_error(self, t, exception, location, error_log):
         """Function to log an error in the error_log
@@ -69,8 +85,156 @@ class Helper:
         except Exception as e:
             print(f"cant make files: {e}")
             
+    def init_sensors(self, file_list):
+        """
+        Initialises all sensors and returns
+        
+        Inputs:
+        file_list: list of files including error log needed for exception logging.
+        
+        Returns:
+        Bool - Proof of sensor initialisation
+        """
+        # Pressure Sensor
+        try:
+            pressure_sensor = MS5611(i2c_bus=0, sda_pin=4, scl_pin=5, address = 0x77)
+        except Exception as e:
+            pressure_sensor = None
+            self.log_error(time.time(), e, "Pressure Sensor Init", file_list[2])
+
+        #Temperature Sensor(s)
+        try:
+            temp_sensor = DS18B20(pin=21)
+        except Exception as e: 
+            print("Temperature Sensor Error")
+            temp_sensor = None
+            self.log_error(time.time(), e, "Temp Sensor(s) Init", file_list[2])
+
+        # Thermal Sensor
+        try:
+            frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5)
+            frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 # currently the fasted refresh rate that doesn't kill itself,
+                                                                                # reason unclear and seen by many users of the product online
+        except Exception as e:
+            print(e)
+            frame_taker = None
+            print("MLX90640 Sensor Error")
+            self.log_error(time.time(), e, "MLX Sensor Init", file_list[2])
+
+        # GPS 
+        try:
+            gps_sensor = SQTGPS(uart_bus = 1, baudrate = 9600, tx_pin = 8, rx_pin = 9)
+        except Exception as e:
+            gps_sensor = None
+            print("GPS Sensor Error")
+            self.log_error(time.time(), e, "GPS Init", file_list[2])
             
-    def make_house_list(pT, pP, tI, tE, gps_data, file_list):
+        # Communications
+        try:
+            TTT = Comms(file_list, address = 0x53, callsign = "SQRT", uart_bus=0, tx_pin = 0, rx_pin = 1)
+
+        except Exception as e:
+            TTT = None
+            print(f"T3 Error: {e}")
+            self.log_error(time.time(), e, "TTT Init", file_list[2])
+
+        #initializing servo:
+        try:
+            servo_motor = Servo()
+        except Exception as e:
+            servo_motor = None
+            print("Servo initialization error")
+            self.log_error(time.time(), e, "Servo Init", file_list[2])
+                
+        return pressure_sensor, temp_sensor, frame_taker, gps_sensor, TTT, servo_motor
+    
+    def reinit_frame_taker(self, file_list, before = False):
+        """Function to reinitialize the thermal sensor before and after triggering,
+        because we need to change the i2c clock rate for a faster burst of frames
+        then change it back after so that the pressure sensor works ok
+        """
+        
+        if before:
+            try:
+                frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5, freq = 1000000)
+                frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 
+                                                                                        
+            except Exception as e:
+                frame_taker = None
+                t = time.time()
+                # writing error to error log
+                self.helper.log_error(t, e, "MLX Science Init", file_list[2])
+        else:
+            try:
+                frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5, freq = 400000)
+                frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 
+                                                                                    
+            except Exception as e:
+                frame_taker = None
+                self.helper.log_error(t, e, "MLX Science Init", file_list[2])
+                
+        return frame_taker
+        
+    
+    def init_sd_card(self):
+        """Function to initiate and mount the sd card
+        Will also try to unmount the sd card first to solve our weird "no sd found" issue
+        """
+        SPI_BUS = 1
+        SCK_PIN = 10
+        MOSI_PIN = 11
+        MISO_PIN = 12
+        CS_PIN = 13
+        SD_MOUNT_PATH = '/sd'
+        
+        try:
+            # Assign chip select (CS) pin 
+            cs = machine.Pin(CS_PIN, machine.Pin.OUT)
+
+            # Intialize SPI peripheral (start with 1 MHz)
+            spi = machine.SPI(SPI_BUS,
+                              baudrate=500000,
+                              polarity=0,
+                              phase=0,
+                              bits=8,
+                              firstbit=machine.SPI.MSB,
+                              sck=machine.Pin(SCK_PIN),
+                              mosi=machine.Pin(MOSI_PIN),
+                              miso=machine.Pin(MISO_PIN))
+        except:
+            pass
+        
+        # unmount if needed
+        try:
+            os.umount("/sd")
+        except:
+            pass
+        
+        try:
+
+            try:
+                # Initialize SD card
+                sd = sdcard.SDCard(spi, cs)
+            except Exception as e:
+                print("sd initialise error", e)
+
+            try:
+                # Mount filesystem
+                vfs = os.VfsFat(sd)
+                os.mount(vfs, "/sd")
+                print(f'SD card mounted at time: {time.time()}')
+            except Exception as e:
+                print("mount fail", e)
+            
+        except Exception as e:
+            
+            print(f"mounting error: {e}")
+            pass
+          
+        return sd, vfs
+        
+    
+    def make_house_list(self, pT, pP, tE, tI, gps_data, file_list):
         """Function to make our housekeeping data list,
         and should handle any issues with if we did not collect good data in the last
         
@@ -92,12 +256,12 @@ class Helper:
         elif len(gps_data) != 5:                 # in case some value is missing
             diff = 5 - len(gps_data)
             
-            for i in diff:
+            for _ in range(diff):
                 gps_data.append(99.99)
         
         t = time.time()
             
-        house_list = [t, pressure_T, pressure_P, tempE, tempI, gps_data[1], gps_data[2], gps_data[3], gps_data[4]]
+        house_list = [t, pT, pP, tE, tI, gps_data[1], gps_data[2], gps_data[3], gps_data[4]]
         
         # tring to save the housekeeping data as a line in the hosuekeeping sd card:
         
@@ -109,23 +273,25 @@ class Helper:
         
         return house_list
     
-    def update_a_p_lists(house_list, p_list, a_list):
+    def update_a_p_lists(self, house_list, p_list, a_list):
         """Function to append values ot a list,
         and cap the list at the latest 12 values
         Done for both alt and 
         Inputs: house list (from housekeeping values), lists of p values and a values
         Output: updated val_list (list)
         """
-            p_list.append(house_list[2])
-            a_list.append(house_list[8])
+        
+        p_list.append(house_list[2])
+        a_list.append(house_list[7])
             
             
-            if len(p_list) > 12:
-                p_list.pop(0)
+        if len(p_list) > 12:
+            p_list.pop(0)
             
-            if len(a_list) > 12:
-                a_list.pop(0)
+        if len(a_list) > 12:
+            a_list.pop(0)
             
         return p_list, a_list 
         
-   
+    
+       
