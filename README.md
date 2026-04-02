@@ -13,16 +13,16 @@ Current Use (below) will be updated to show what files are currenlty used on the
 
 **File Directory:**
 - sensor_classes: contains classes written (or edited from publicly accessible code) to run sensor operations/collect data
-- operations_classes: conatins classes written (or adapted) to run operations that do not collect data. helper.py, triggering_algorithm.py, ect. 
+- operations_classes: conatins classes written (or adapted) to run operations that do not collect data. helper.py, triggering_algorithm_v2.py, ect. 
 - sensor_test_data: contains files and scripts used to test sensors during software development
 - trigger_test_data: contains files made to bench test the triggering algorithm with simulated flight data during software development
 - mains: contains main functions, including the final version used in flight
 
 
-# Current Use:
+# Current Use:  as of 5pm on 2/4
 
-Current main script: main_v5.py, with sensor and operations scrips below imported. 
+Current main script: main_v8.py, with sensor and operations scrips below imported. 
 
 Current sensor scripts: gps_v2.py, mlx90640.py, pressure_sensor.py, temperature_sensor.py
 
-Current operations scripts: servo.py, triggering_alorithm.py, sdcard_v2.py, triple_t.py, tuppersat_radio.py, _packet_utils.py, rhserial.py
+Current operations scripts: servo.py, triggering_alorithm_v2.py, sdcard_v2.py, triple_t.py, tuppersat_radio.py, _packet_utils.py, rhserial.py, helper.py
