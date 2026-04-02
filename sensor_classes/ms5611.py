@@ -14,13 +14,11 @@ class MS5611:
         self.i2c = machine.I2C(
             i2c_bus, 
             scl=machine.Pin(scl_pin), 
-            sda = machine.Pin(sda_pin))
-        
-        print(self.i2c)
-        
+            sda = machine.Pin(sda_pin),
+            freq = 400000)
+                
         
         self.devices = self.i2c.scan()
-        print(self.devices)
         
         
         self.address = address
@@ -90,7 +88,6 @@ class MS5611:
             # Calibration constants are stored.
             calib.append(self.unpack(raw))
         
-        print(calib)
         return calib
 
 
@@ -193,49 +190,25 @@ class MS5611:
 
 
 
-    def log_pressure(self, filename):
+    def log_pressure(self):
         """
         Writes calibrated, formatted pressure and temperature figures to a textfile.
-    
-        Inputs:
-        filename (str) - Name of textfile for data storage
         """
-        if not self.available:
-            T_val, P_val = None, None
-        
-        
+
         # The adc values for pressure and temperature are read in.
         T_val = self.read_adc('T')
         P_val = self.read_adc('P')
 
         if T_val is None or P_val is None:
-            t = time.time()
-
-            try:
-                with open(filename, "a") as f:
-                    f.write(f"{t}, NaN, NaN\n")
-            except Exception as e: 
-                print("File writing exceoption for NaN values case:", e)
-                print("t, T, P: {t}, NaN, NaN")
-                
+            return None, None
+            
+        
         else:
             # The calibrated temperature and pressure values are returned by the compute_pressure function.
             T, P = self.compute_pressure(T_val, P_val)
-            print(T,P)
-            t = time.time()
-            
-            time.sleep_ms(100)
-            # T (celsius) and P (millibars)
-            with open(filename, "a") as f:
-                try:
-                    f.write(f"{t}, {T}, {P}\n")
-                except Exception as e:
-                    print("File writing exception for T, P case:", e)
-                    print(f"t, T, P: {t}, {T}, {P}")
-        
+            return T,P
 
 
-        
 
 
             
