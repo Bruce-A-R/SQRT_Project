@@ -23,6 +23,6 @@ Current Use (below) will be updated to show what files are currenlty used on the
 
 Current main script: main_v8.py, with sensor and operations scrips below imported. 
 
-Current sensor scripts: gps_v2.py, mlx90640.py, pressure_sensor.py, temperature_sensor.py
+Current sensor scripts: gps_v2.py, mlx90640.py, ms5611.py, temperature_sensor.py
 
 Current operations scripts: servo.py, triggering_alorithm_v2.py, sdcard_v2.py, triple_t.py, tuppersat_radio.py, _packet_utils.py, rhserial.py, helper.py
