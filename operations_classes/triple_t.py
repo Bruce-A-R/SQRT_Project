@@ -8,8 +8,8 @@ interface with communications architecture.
 
 Functions:
 get_line
-telem_packet
 cropping
+telem_packet
 science_packet
 """
 
@@ -97,8 +97,9 @@ class Comms:
     """
     Telemetry packet is formatted and sent.
     """
-    
+    print(hk_parts)
     # MS5611
+    
     try:
         P = hk_parts[2]
     except:
@@ -113,11 +114,10 @@ class Comms:
         
     # GPS 
     try:
-        lat, lon, alt, hdop = hk_parts[5:9]
-        
+        gps_time, lat, lon, alt, hdop = hk_parts[5:10]
     
     except:
-        lat, lon, alt, hdop = 00.00000, 000.00000, 00000.00, 00.00
+        gps_time, lat, lon, alt, hdop = None, 00.00000, 000.00000, 00000.00, 00.00
       
     
     # Still reading in from SD card for error reports.
@@ -143,16 +143,12 @@ class Comms:
     else:
         error = "None"
             
-        
-    #try:
-        #with open(self.sd_files["Trigger"], "r") as file:
-       #     lines = file.readlines()
-      #      trig_data = lines[-1]
-     #       condition = True
     
-    #except:
-      #  condition = False
-
+    
+    
+        
+        
+    
     telem_dict = {
       'hhmmss' : time.localtime(),
       'latitude': lat,           		# Latitude in metres
@@ -174,38 +170,32 @@ class Comms:
     # New Error Count is returned for next iteration
     return error_counter_new
 
-  def cropping(self, frame, crop_w=8, crop_h=6):
+  def cropping(self, frames, crop_w=8, crop_h=6):
     """
     Function to crop thermal array returned by MLX90640 to a 8x6 array
 
     Inputs:
-    frame (list) - 768 temperature values to be cropped
+    frames (list) - 2 arrays of 768 temperature values to be cropped
 
     Returns:
-    cropped_frame (list) - 48 temperature values in the region of interest.
+    cropped_frame (list) - combined frame of 48 temperature values in the region of interest.
     """
-    # Size of the initial frame is defined.
-    width = 32
-    height =24
+    
+    width, height = 32, 24
+    start_x = (width - crop_w) // 2
+    start_y = (height - crop_h) // 2
 
-    # The first array element to be appended to the cropped frame is determined
-    # Assumed to be in the centre of the frame (will be changed after testing).
-    start_x = (width-crop_w)//2
-    start_y = (height-crop_h)//2
-
-    cropped_frame = []
-
-    # Cropped frame is populated with appropriate temperature values from the ROI.
+    full_cropped_frame = []
     for y in range(start_y, start_y + crop_h):
-      for x in range(start_x, start_x +crop_w):
-        index = y*width + x
-        cropped_frame.append(frame[index])
+        for x in range(start_x, start_x + crop_w):
+            index = y * width + x
+            # Sum the corresponding values from both frames
+            full_cropped_frame.append(frames[0][index] + frames[1][index])
 
-    return cropped_frame
-
+    return full_cropped_frame
 
   
-  def science_packet(self,trigger, trig_type, pres, alt, frame, frame_count):
+  def science_packet(self,trigger, trig_type, pres, alt, frame):
     """
     Science packet is formatted and sent.
     
@@ -236,7 +226,6 @@ class Comms:
       'altitude':alt                      # Altitude (metres)
 
       }
-    
     # Packet is transmitted 
 
     self.radio.send_data(**data_dict)
