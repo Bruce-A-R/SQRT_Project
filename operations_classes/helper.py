@@ -31,16 +31,8 @@ class Helper:
         except: pass
         
         
-    def make_files(self, error_log):
+    def make_files(self):
         """Function to make all the files on the sd card and give them headers"""
-        
-        #constants for pin numbers n things
-        SPI_BUS = 1
-        SCK_PIN = 10
-        MOSI_PIN = 11
-        MISO_PIN = 12
-        CS_PIN = 13
-        SD_MOUNT_PATH = '/sd'
         
         n = str(random.randint(1, 10000))
         
@@ -71,9 +63,69 @@ class Helper:
                         f.write("Timestamp, Error, Cause \n")           # recording of errors by time and what cause
 
             print(f" Files created at time {time.time()}")
-        
+            
+            return file_list
+            
         except Exception as e:
-            self.log_error(time.time(), e, "File Logging")
+            print(f"cant make files: {e}")
+            
+            
+    def make_house_list(pT, pP, tI, tE, gps_data, file_list):
+        """Function to make our housekeeping data list,
+        and should handle any issues with if we did not collect good data in the last
         
+        Will also try to save housekeeping data to the sd card
+        """
         
+        # making the housekeeping data list:
         
+        if not pT:
+            pT = 'None'
+        if not pP:
+            pP = 'None'
+        if not tI:
+            tI = 'None'
+        if not tE:
+            tE = 'None'
+        if not gps_data:
+                gps_data = current_gps_data
+        elif len(gps_data) != 5:                 # in case some value is missing
+            diff = 5 - len(gps_data)
+            
+            for i in diff:
+                gps_data.append(99.99)
+        
+        t = time.time()
+            
+        house_list = [t, pressure_T, pressure_P, tempE, tempI, gps_data[1], gps_data[2], gps_data[3], gps_data[4]]
+        
+        # tring to save the housekeeping data as a line in the hosuekeeping sd card:
+        
+        try:
+            with open(file_list[0], "a") as file:
+                file.write(f"{t}, {pT}, {pP}, {tE}, {tI}, {gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n") 
+        except Exception as e:
+            self.log_error(t, e, "Making House List", file_list[2])
+        
+        return house_list
+    
+    def update_a_p_lists(house_list, p_list, a_list):
+        """Function to append values ot a list,
+        and cap the list at the latest 12 values
+        Done for both alt and 
+        Inputs: house list (from housekeeping values), lists of p values and a values
+        Output: updated val_list (list)
+        """
+            p_list.append(house_list[2])
+            a_list.append(house_list[8])
+            
+            
+            if len(p_list) > 12:
+                p_list.pop(0)
+            
+            if len(a_list) > 12:
+                a_list.pop(0)
+            
+        return p_list, a_list 
+        
+   
