@@ -34,7 +34,7 @@ from servo_2 import Servo
 from helper import Helper
 
 #import sdcard
-import sdcard_v2 as sdcard        # using second version of sdcard class from adafruit forums
+#import sdcard_v2 as sdcard        # using second version of sdcard class from adafruit forums
 import uos as os
 import time
 import machine
@@ -45,122 +45,12 @@ import random
 
 from machine import Pin, SPI
 
-#SETUP: first initialize helper:
-
+#SETUP: USING HELPER FUNCTIONS TO INITIALIZE THE SD CARD, SENSORS, AND OTHER FUNCTIONS WE NEED
 helper = Helper()
-
-# SETUP TASKS, first the sd card
-
-SPI_BUS = 1
-SCK_PIN = 10
-MOSI_PIN = 11
-MISO_PIN = 12
-CS_PIN = 13
-SD_MOUNT_PATH = '/sd'
-
-try:
-    # Assign chip select (CS) pin 
-    cs = machine.Pin(CS_PIN, machine.Pin.OUT)
-
-    # Intialize SPI peripheral (start with 1 MHz)
-    spi = machine.SPI(SPI_BUS,
-                      baudrate=500000,
-                      polarity=0,
-                      phase=0,
-                      bits=8,
-                      firstbit=machine.SPI.MSB,
-                      sck=machine.Pin(SCK_PIN),
-                      mosi=machine.Pin(MOSI_PIN),
-                      miso=machine.Pin(MISO_PIN))
-except:
-    pass
-
-# mounting SD card
-
-try:
-    os.umount("/sd")
-except:
-    pass
-
-
-try:
-
-    try:
-        # Initialize SD card
-        sd = sdcard.SDCard(spi, cs)
-    except Exception as e:
-        print("sd initialise error", e)
-
-    try:
-        # Mount filesystem
-        vfs = os.VfsFat(sd)
-        os.mount(vfs, "/sd")
-    except Exception as e:
-        print("mount fail", e)
-    
-    print(f'SD card mounted at time: {time.time()}')
-    
-except Exception as e:
-    
-    print(f"mounting error: {e}")
-
-# SETUP: making files (and keeping the error log file path to use elsewhere)
-file_list = helper.make_files()
-
-# MORE SETUP: initializing sensors
-
-# Pressure Sensor
-try:
-    pressure_sensor = MS5611(i2c_bus=0, sda_pin=4, scl_pin=5, address = 0x77)
-except Exception as e:
-    pressure_sensor = None
-    helper.log_error(time.time(), e, "Pressure Sensor Init", error_log)
-
-#Temperature Sensor(s)
-try:
-    temp_sensor = DS18B20(pin=21)
-except: 
-    print("Temperature Sensor Error")
-    temp_sensor = None
-    helper.log_error(time.time(), e, "Temp Sensor(s) Init", file_list[2])
-
-# Thermal Sensor
-try:
-    frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5)
-    frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 # currently the fasted refresh rate that doesn't kill itself,
-                                                                        # reason unclear and seen by many users of the product online
-except Exception as e:
-    frame_taker = None
-    print("MLX90640 Sensor Error")
-    helper.log_error(time.time(), e, "MLX Sensor Init", file_list[2])
-
-# GPS 
-try:
-    gps_sensor = SQTGPS(uart_bus = 1, baudrate = 9600, tx_pin = 8, rx_pin = 9)
-except exception as e:
-    gps_sensor = None
-    print("GPS Sensor Error")
-    helper.log_error(time.time(), e, "GPS Init", file_list[2])
-    
-# Communications
-try:
-    TTT = Comms(file_list, address = 0x53, callsign = "SQRT", uart_bus=0, tx_pin = 0, rx_pin = 1)
-
-except Exception as e:
-    TTT = None
-    print(f"T3 Error: {e}")
-    helper.log_error(time.time(), e, "TTT Init", file_list[2])
-
-#initializing servo:
-try:
-    servo_motor = Servo()
-except Exception as e:
-    print("Servo initialization error")
-    helper.log_error(time.time(), e, "Servo Init", file_list[2])
-    
-#initializing triggering class, should just always happen since there's no sensor to connect with but why not add a try/except clause
-
-triggering = SQTtrigger()
+sd, vfs = helper.init_sd_card()  # sd card
+file_list = helper.make_files()  # making files
+pressure_sensor, temp_sensor, frame_taker, gps_sensor, TTT, servo_motor = helper.init_sensors(file_list)   # init sensors
+triggering = SQTtrigger()   # init triggering class
 
 # FLAG SETUP: setting all the flags and counters
 
@@ -176,118 +66,53 @@ current_gps_data = [time.time(), 'None', 'None', 'None', 99.99]
 p_list = []     # lists of pressure and altitude saved on pico for trigger check. Deleated when triggered to save space
 a_list = []
 
-# defining initiating float array for thermal sensor
-def init_float_array(size) -> array.array:
-    """Function to make a float array for the thermal sensor
-    Notes: This for some reason wasn't working as a function defined and used in the MLX class,
-    so we're defining it here
-    Input: array size
-    Output: array of 0s
-    """
-    return array.array('f', (0 for _ in range(size)))
-
 # THE MAIN LOOP:
 
 while True:
 
-
     # 1. pressure sensor
     
-    time.sleep_ms(100)
     if pressure_sensor:
-        
+        time.sleep_ms(100)
         try:
             pressure_T, pressure_P = pressure_sensor.log_pressure()
-            t = time.time()
 
-            time.sleep_ms(500)  #changed from 1000
-        
         except Exception as e:
-            #print("the end: ,", e)
-                
-            #writing error to error log
-            
-            try:
-                with open(file_list[2], "a") as file:
-                    file.write(f"{time.time()}, {e}, Pressure Sensor \n")
-            except: pass
-    #2. temperature sensors (internal and external)
+            t = time.time()
+            helper.log_error(t, e, "Pressure Sensor", file_list[2])
 
+    #2. temperature sensors (internal and external)
+            
     if temp_sensor:
+        time.sleep_ms(100)
         try:
             #temp_sensor.log_temp(file_list[0])
             tempE, tempI = temp_sensor.read_temp(file_list[2])  # recently swaped tempE and tempI cuz I think I had them backwards
-            
+
         except Exception as e:
-            print("Temperature not logged", e)
-            
+            t = time.time()
             #writing error to error log
-            try:
-                with open(file_list[2], "a") as file:
-                    file.write(f"{time.time()}, {e}, Temp Sensors \n")
-            except: pass
-
-    time.sleep_ms(100)
-        
-
+            helper.log_error(t, e, "Temperature Sensor", file_list[2])
 
     #3. GPS
-
     if gps_sensor:
+        time.sleep_ms(100)
         try:
             gps_data = gps_sensor.gps_log()
-            
-            #if this returns Nones, it is currently being handled down the line
 
         except Exception as e:
-            print("GPS not logged:", e)
-            
-            try:
-                with open(file_list[2], "a") as file:
-                    file.write(f"{time.time()}, {e}, GPS \n")
-            except: pass  
+            t = time.time()
+            helper.log_error(t, e, "GPS Sensor", file_list[2])
+ 
+    #4. Making a list of housekeeping data:
+    house_list = helper.make_house_list(pressure_T, pressure_P, tempE, tempI, gps_data, file_list) 
+    p_list, a_list = helper.update_a_p_lists(house_list, p_list, a_list)  #list for triggering, capped at the latest 12 values each
+    
+    if gps_data[1]:
+        current_gps_data = gps_data   #s etting current_gps_data to the latest good string (or the baseline Nones)
 
-    #4. Writing Housekeeping data to the housekeeping file:
-        
-    # assigning null values if there is no data collected this loop
-    if not pressure_T:
-        pressure_T = 'None'
-    if not pressure_P:
-        pressure_P = 'None'
-    if not tempI:
-        tempI = 'None'
-    if not tempE:
-        tempE = 'None'
-    if not gps_data:
-            gps_data = current_gps_data
-    elif len(gps_data) != 5:                 # in case some value is missing
-        diff = 5 - len(gps_data)
-        
-        for i in diff:
-            gps_data.append(99.99)
-        
-    #writing to file:
-    # Keys: Timestamp, ms5611 Temperature (C), Pressure (mbar), TempE (deg), TempI (deg), Lat (deg), Lon (deg), Alt (m), HDOP 
-    house_list = [time.time(), pressure_T, pressure_P, tempE, tempI, gps_data[0], gps_data[1], gps_data[2], gps_data[3], gps_data[4]]
     
-    p_list.append(house_list[2])
-    a_list.append(house_list[8])
-    
-    current_gps_data = gps_data #setting current_gps_data to the latset good string (or the baseline Nones)
-    
-    try:
-        with open(file_list[0], "a") as file:
-            file.write(f"{time.time()}, {pressure_T}, {pressure_P}, {tempE}, {tempI}, {gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n") 
-    except Exception as e:
-        try:
-            with open(file_list[2], "a") as file:
-                file.write(f"{time.time()}, {e}, Writing Housekeeping to SD \n")
-        except:
-            print("couldn't write anything to file")
-
     #5. TRIGGER CHECK (only happends when trigger = False).
-    
-    print(trigger)
     
     if not trigger:
         
@@ -296,10 +121,10 @@ while True:
             #    trigger, condition, pres, alt = triggering.trigger_check(30, house_list[8], a_list, p_list, file_list[2])
             #else:
                 
-            trigger, condition, pres, alt = triggering.trigger_check(house_list[2], house_list[8], a_list, p_list, file_list[2])
+            trigger, condition, pres, alt = triggering.trigger_check(p_list[-1], a_list[-1], a_list, p_list, file_list[2])
             t = time.time()
-            
-            print(f"TRIGGER FROM CHECK: {trigger}, {condition}, {pres}, {alt}")
+            #print(p_list[-1], a_list[-1])
+            #print(f"TRIGGER FROM CHECK: {trigger}, {condition}, {pres}, {alt}")
             
             try:            # just in case the SD card dies, put in try/except
                 with open(file_list[3], "a") as f:
@@ -312,58 +137,37 @@ while True:
             pres = house_list[2]
             alt = house_list[8]
         
-        
+        # testing seting a trigger for memory and servo activation:
         #if counter > 50:
         #    trigger = True
         
         if trigger: #and counter > 50:
             
             # 1. change thermal sensor freq to handle quicker refresh rate
-            
-            try:
-                frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5, freq = 1000000)
-                frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 
-                                                                                    
-            except Exception as e:
-                frame_taker = None
-                print(f"MLX90640 Sensor Error: {e}")
-                
-                # writing error to error log
-                try:
-                    with open(file_list[2], "a") as file:
-                        file.write(f"{time.time()}, {e}, Thermal Sensor \n")
-                except: pass
+            frame_taker = helper.reinit_frame_taker(file_list, before = True)
 
-            
             #2. run servo
             try:
                 servo_motor.run_servo()
             except Exception as e:
-                print(f"servo motor connection exception: {e}")
-                
-                try:
-                    with open(file_list[2], "a") as file:
-                        file.write(f"{time.time()}, {e} during triggering, Servo \n")
-                except: pass
+                t = time.time()                
+                helper.log_error(t, e, "Servo Activation", file_list[2])
             
             #3. get science frames:
             
-            for i in range(8):
-                # getting 54 science frames in a row right after the servo triggers
-                #try:
-                science_frame = init_float_array(768)
-                
-                frame_taker.get_frame(science_frame)
-                #except Exception as e:
-                #    print(f"frame taker exception: {e}")
-                #                    #writing error to error log
-                #    with open(file_list[2], "a") as file:
-                #        file.write(f"{time.time()}, {e}, Thermal Sensor \n")
-        
-                #	science_frame = [0]
+            for i in range(16):
+                # getting 16 science frames in a row right after the servo triggers
+                try:
+                    science_frame = helper.init_float_array(768)
+                    frame_taker.get_frame(science_frame)
+                except Exception as e:
+                    #writing error to error log
+                    t = time.time()
+                    helper.log_error(t, e, "MLX Science Acqui.", file_list[2])
+     
                 
                 t = time.time()
-                print(t)
+                
                 science_times.append(t)
                 science_data.append(science_frame)
                 
@@ -376,31 +180,20 @@ while True:
                         for temp in line:
                             f.write(f"{temp},")
                         f.write("\n")
+
             except:
                 print("DID NOT WRITE TO POST TRIGGER DATA")
             
             
             #4. change this i2c bus frequency back to what the pressure sensor and slower frame rate needs:
-            try:
-                frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5, freq = 400000)
-                frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 
-                                                                                    
-            except Exception as e:
-                frame_taker = None
-                print("MLX90640 Sensor Error")
-                
-                # writing error to error log
-                try:
-                    with open(file_list[2], "a") as file:
-                        file.write(f"{time.time()}, {e}, Thermal Sensor \n")
-                except: pass
+            frame_taker = helper.reinit_frame_taker(file_list, before = False)
 
 
     #6. Thermal Sensor
     for _ in range(2): #take two pics to fill out checkerboard
         try:
             if frame_taker:
-                frame = init_float_array(768)
+                frame = helper.init_float_array(768)
                 frame_taker.get_frame(frame)
                 t = time.time()
 
@@ -411,6 +204,7 @@ while True:
                             f.write(f"{temp},")
                         f.write("\n")
                 except: pass
+            
         except Exception as e:
             try:
                 with open(file_list[2], "a") as file:
@@ -426,11 +220,14 @@ while True:
     print(f"FREE MEMORY: {gc.mem_free()}")
     
     if TTT:
-        if counter % 3 == 0: 
+        if counter == 1 or counter % 8 == 0: 
             print("Sending science packet")
             
             if not trigger:
                 TTT.science_packet(trigger, condition, pres, alt, frame)
+                
+                del(frame)    # delete frame from pico memoery after sending
+                
             elif trigger and counter > 50:
                 
                 try:
@@ -444,7 +241,7 @@ while True:
                         
                 
                 
-        if counter % 2 == 0:
+        if counter == 2 or counter % 6 == 0:
             print("Sending telemetry packet")
 
             error_counter = TTT.telem_packet(house_list, error_counter)
