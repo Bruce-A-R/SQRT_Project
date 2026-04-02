@@ -1,9 +1,7 @@
 """
 version 8 of main function with triggering and servo included included
 
-NOW WITH START OF A HELPER FUNCTION
-
-Overview of main function (31/3/2026 CK and BR)
+Overview of main function (2/4/2026 CK and BR)
 
 this main has an updated file system:
 -all housekeeping data is saved to one file
@@ -12,16 +10,21 @@ this main has an updated file system:
 -thermal sensor frames saved to two seperate logs:
     - background frames saved to data_log
     - frames taken immediately after trigger (in the quick burst of sensor captures) saved to post_trigger_data_log
+- helper function to take stuff out of main
+- still a lot of imports 
     
 
 Loop actions sequence:
 1. take housekeeping data
+    - save list of most recent 12 pressure and altitude values for the triggering checks
 2. check for trigger conditions, then activate servo and take quick burst of frames if triggered
 3. check for timing for transmissions. If timing is right for science or telemetry packages, send them
     - what is sent will depend on wether the valve has triggered and there are post-trigger frames to send or not
+    - delete frames (not the burst imediately post-trigger) after sending to free up memory. The post
+      trigger burst is saved so that we can retransmit and mitigate loss from missed transmissions.
 
 """
-
+# imports:
 import gc
 from ms5611 import MS5611
 from ds18b20 import DS18B20
@@ -30,11 +33,7 @@ from gps_v2 import SQTGPS
 from triple_t import Comms
 from triggering_v2 import SQTtrigger
 from servo_2 import Servo
-
 from helper import Helper
-
-#import sdcard
-#import sdcard_v2 as sdcard        # using second version of sdcard class from adafruit forums
 import uos as os
 import time
 import machine
@@ -42,7 +41,6 @@ import array
 import struct
 import math
 import random
-
 from machine import Pin, SPI
 
 #SETUP: USING HELPER FUNCTIONS TO INITIALIZE THE SD CARD, SENSORS, AND OTHER FUNCTIONS WE NEED
@@ -63,7 +61,7 @@ science_data = []
 science_times = []
 current_gps_data = [time.time(), 'None', 'None', 'None', 99.99]
 
-p_list = []     # lists of pressure and altitude saved on pico for trigger check. Deleated when triggered to save space
+p_list = []
 a_list = []
 
 # THE MAIN LOOP:
@@ -99,51 +97,32 @@ while True:
         time.sleep_ms(100)
         try:
             gps_data = gps_sensor.gps_log()
+            
+            if gps_data[1] != 'None':
+                current_gps_data = gps_data   # setting current_gps_data to the latest good string so if we stop getting position for a bit we use the last good values
 
         except Exception as e:
             t = time.time()
             helper.log_error(t, e, "GPS Sensor", file_list[2])
- 
+            
+    
     #4. Making a list of housekeeping data:
-    house_list = helper.make_house_list(pressure_T, pressure_P, tempE, tempI, gps_data, file_list) 
+    house_list = helper.make_house_list(pressure_T, pressure_P, tempE, tempI, current_gps_data, file_list) 
     p_list, a_list = helper.update_a_p_lists(house_list, p_list, a_list)  #list for triggering, capped at the latest 12 values each
     
-    if gps_data[1]:
-        current_gps_data = gps_data   #s etting current_gps_data to the latest good string (or the baseline Nones)
 
     
     #5. TRIGGER CHECK (only happends when trigger = False).
     
     if not trigger:
         
-        try:      # trying to run trigger check
-            #if counter == 5:
-            #    trigger, condition, pres, alt = triggering.trigger_check(30, house_list[8], a_list, p_list, file_list[2])
-            #else:
-                
-            trigger, condition, pres, alt = triggering.trigger_check(p_list[-1], a_list[-1], a_list, p_list, file_list[2])
-            t = time.time()
-            #print(p_list[-1], a_list[-1])
-            #print(f"TRIGGER FROM CHECK: {trigger}, {condition}, {pres}, {alt}")
+        # checking (and logging) triggering conditions
+        trigger, condition, pres, alt = triggering.trigger_check(p_list[-1], a_list[-1], a_list, p_list, file_list)
+        
+        # only checks for trigger if it has not triggered yet:
+        if trigger:
             
-            try:            # just in case the SD card dies, put in try/except
-                with open(file_list[3], "a") as f:
-                    f.write(f"{t}, {trigger}, {condition}, {pres}, {alt} \n")
-            except: pass
-        
-        except:  # keeps trigger and condition false in case of errors (may not be needed)
-            trigger = False
-            condition = None
-            pres = house_list[2]
-            alt = house_list[8]
-        
-        # testing seting a trigger for memory and servo activation:
-        #if counter > 50:
-        #    trigger = True
-        
-        if trigger: #and counter > 50:
-            
-            # 1. change thermal sensor freq to handle quicker refresh rate
+            #1. change thermal sensor freq to handle quicker refresh rate
             frame_taker = helper.reinit_frame_taker(file_list, before = True)
 
             #2. run servo
@@ -191,6 +170,7 @@ while True:
 
     #6. Thermal Sensor
     for _ in range(2): #take two pics to fill out checkerboard
+        time.sleep_ms(100) 
         try:
             if frame_taker:
                 frame = helper.init_float_array(768)
@@ -206,14 +186,7 @@ while True:
                 except: pass
             
         except Exception as e:
-            try:
-                with open(file_list[2], "a") as file:
-                    file.write(f"{time.time()}, {e}, Thermal Sensor \n")
-            except: pass
-
-        time.sleep_ms(100)       
-            
-
+            helper.log_error(time.time(), e, "Thermal Sensor", file_list[2])
 
     #7. Data downlinks: check counter for timing of science and telem packet sending
     
@@ -234,24 +207,25 @@ while True:
                     science_frame = science_data[science_frame_count % len(science_data)]
                     TTT.science_packet(trigger, condition, pres, alt, science_frame)
                 except Exception as e:
-                    try:
-                        with open(file_list[2], "a") as file:
-                            file.write(f"{time.time()}, {e}, Thermal Sensor \n")
-                    except: pass
-                        
-                
-                
+                    helper.log_error(time.time(), e, "TTT Science post Trigger", file_list[2])
+      
         if counter == 2 or counter % 6 == 0:
             print("Sending telemetry packet")
-
-            error_counter = TTT.telem_packet(house_list, error_counter)
             
+            try:
+                error_counter = TTT.telem_packet(house_list, error_counter)
+            except Exception as e:
+                helper.log_error(time.time(), e, "TTT Telem", file_list[2])
+                
             print(f"what EC is set to: {error_counter}")
 
         
     print(f'########LOOP COUNTER {counter} ###################')
+    
+    #8. counting:
     counter += 1
     
     if trigger:
         science_frame_count += 1
-    time.sleep(1)
+    
+    time.sleep_ms(500)
