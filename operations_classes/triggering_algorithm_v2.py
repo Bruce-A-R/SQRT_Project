@@ -1,4 +1,9 @@
 import time
+from helper import Helper
+
+helper = Helper()
+
+
 
 class SQTtrigger:
     """SQRT Triggering Algorithm class
@@ -23,8 +28,11 @@ class SQTtrigger:
             Input: pressure value
             Output: True/False
         """
-        print(f"reading pressure: {pressure_value}")
-        if float(pressure_value) <= 200.0: # changed from 35.0 for testing 35.0:     # assuming pressure value in units of mbar
+        #print(f"reading pressure: {pressure_value}")
+        
+        if not pressure_value:
+            return False
+        elif float(pressure_value) <= 35: # changed from 35.0 for testing 35.0:     # assuming pressure value in units of mbar
             return True
         else : return False
     
@@ -33,38 +41,50 @@ class SQTtrigger:
             Input: altitude value
             Output: True/False
         """
+        try:
+            if float(altitude_value) >= 23000.0:     # assuming altitude value in units of m, currenlty set to above 23 km
+                return True
+            else: return False
+        except Exception as e:
+            #print(f"EXCEPTION IN READING ALTITUDE: {e}")
+            return False
     
-        if float(altitude_value) >= 23000.0:     # assuming altitude value in units of m, currenlty set to above 23 km
-            return True
-        else: return False
-    
-    def _check_falling(self, altitudes_dict):
+    def _check_falling(self, altitudes_list):
         """Function to check if the tuppersat is decending based on timestamps and corresponding altitudes
             This assumes that a dictionary of timestamps and altitudes exists to be inputted
             Inputs: dict of timestamps and altitude values
             Output: True/False
         """
-        if float(altitudes_dict["altitude"][-1]) > 2000.0:     # assuming altitude in km, first check is we'rve above 2000km 
+        
+        if altitudes_list[-1] > 2000:   # first check that sat is above 2km
             
-            r_altitudes = altitudes_dict["altitude"][::-1]      # reversing list to start with latest value
-
+            r_altitudes = altitudes_list[::-1]
+            
             decreases_count = 0
+            
+            
+            for i in range(len(r_altitudes)):              # done to get rid of "None"s that might be in the list
+                if isintance(r_altitudes[i], str):
+                    r_altitudes.pop(i)
+                elif r_altitudes[i] == None:
+                    r_altitudes.pop(i)
+            
             try:
                 for i in range(len(r_altitudes) - 1):
                     if r_altitudes[i] < r_altitudes[i + 1] and r_altitudes[i] != 0:
                         decreases_count += 1
 
                 if decreases_count >=3:
-                    print(f"True. {decreases_count}")
+                    #print(f"True. {decreases_count}")
                     return True
                 else:
-                    print(f"False. {decreases_count}")
+                    #print(f"False. {decreases_count}")
                     return False
             
             except Exception as e:           #if list to short, just return false but also print error anyways just in case
-                print(f"Exception in falling trigger check: {e}")
+                #print(f"Exception in falling trigger check: {e}")
                 return False
-        
+    
         else:
             return False
     
@@ -103,7 +123,7 @@ class SQTtrigger:
     
     # actual trigger check:
     
-    def trigger_check(self, pressure, altitude, alt_list, pressure_list, error_log): 
+    def trigger_check(self, pressure, altitude, alt_list, pressure_list, file_list): 
         """Function to run triggering check
             Priority: check pressure
             Secondary check: check altiude and if pressure sensor is bugging
@@ -112,54 +132,56 @@ class SQTtrigger:
             Inputs: pressure value, altitude value (both vurrent values in boolean form), list of boolean altitude values
             Outputs: check (boolean), condition (string), pressure value used (float), alt value used (float)
         """
-        
-        check = False
-        condition = "None"
-
-        if not pressure:
-            pressure = "None"
-            
-        if not altitude:
-            altitude = "None"
-        
-        pressure = pressure_dict['pressure'][-1]
-        altitude = gps_dict['altitude'][-1]
-        
         try:
-            if self._check_pressure(pressure) == True:      # pressure trigger
-                check = True
-                condition = "G"
-            elif self._check_altitude(altitude) == True and self._check_pressure_sensor_failure(pressure_list, alt_list) == True :
-                check = True
-                condition = "B"
-            elif self._check_falling(alt_list) == True:
-                check = True
-                condition = "U"
-            else:
-                check = False
-                condition = "None"
-        except Exception as e:    
-            print(f"exception in triggering check: {e}")
             check = False
             condition = "None"
+
+            if not pressure:
+                pressure = "None"
+                
+            if not altitude:
+                altitude = "None"
             
             try:
-                with open(error_log, "a") as file:
-                    file.write(f"{time.time()}, {e}, trigger check")
-            except: pass
+                if self._check_pressure(pressure) == True:      # pressure trigger
+                    check = True
+                    condition = "G"
+                elif self._check_altitude(altitude) == True and self._check_pressure_sensor_failure(pressure_list, alt_list) == True :
+                    check = True
+                    condition = "B"
+                elif self._check_falling(alt_list) == True:
+                    check = True
+                    condition = "U"
+                else:
+                    check = False
+                    condition = "None"
+            except Exception as e:    
+                #print(f"exception in triggering check: {e}")
+                check = False
+                condition = "None"
+                print(f"EXCPETION IN TRIGGERING WITH CHECKS SPECIFICALLY: {e}")
+                helper.log_error(time.time(), e, "Trigger Checks", file_list[2])
                 
-            
-        # not saving directly to file anymore, instead returning check and condition type
-        
-       # with open(self.trigger_file, "a") as file:
-        #    file.write(f"{time.time()}, {check}, {condition}")
-        
-        #tests:
-        print(f'check: {check}')
-        print(f'condition: {condition}')
-        print(f'current pressure: {pressure}')
-        print(f'current altitude: {altitude}')
+            self.log_trigger(check, condition, pressure, altitude, file_list)
 
-        return check, condition, pressure, altitude
-    
-    
+            return check, condition, pressure, altitude
+        
+        except Exception as e:
+            check = False
+            condition = None
+            
+            helper.log_error(time.time(), e, "Trigger Check", file_list[2])
+            self.log_trigger(check, condition, pressure, altitude, file_list)
+            
+            print(f"EXCEPTION IN TRIGGERING CHECK: {e}")
+            return check, condition, pressure, altitude
+        
+        
+    def log_trigger(self, check, condition, pressure, altitude, file_list):
+        """Function to log the trigger checks to the trigger check log"""
+        try:
+            with open(file_list[3], "a") as file:
+                file.write(f"{check}, {condition}, {pressure}, {altitude} \n")
+        except Exception as e:
+            helper.log_error(time.time(), e, "Writing Trigger Check Log", file_list[2])
+        
