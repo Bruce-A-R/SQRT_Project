@@ -64,7 +64,7 @@ class SQTtrigger:
             
             
             for i in range(len(r_altitudes)):              # done to get rid of "None"s that might be in the list
-                if isintance(r_altitudes[i], str):
+                if isinstance(r_altitudes[i], str):
                     r_altitudes.pop(i)
                 elif r_altitudes[i] == None:
                     r_altitudes.pop(i)
