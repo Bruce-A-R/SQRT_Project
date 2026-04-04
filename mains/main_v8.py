@@ -169,25 +169,23 @@ while True:
 
 
     #6. Thermal Sensor
-    for _ in range(2): #take two pics to fill out checkerboard
-        time.sleep_ms(100) 
-        try:
-            if frame_taker:
-                frame = helper.init_float_array(768)
-                frame_taker.get_frame(frame)
-                t = time.time()
-
-                try:
-                    with open(file_list[1], "a") as f:
-                        f.write(f"{t} FRAME DATA: \n")
-                        for temp in frame:
-                            f.write(f"{temp},")
-                        f.write("\n")
-                except: pass
+    time.sleep_ms(100) 
+    try:
+        if frame_taker:
+            frame = helper.init_float_array(768)
+            t = time.time()
+            helper.get_full_frame(frame, frame_taker)
+            try:
+                with open(file_list[1], "a") as f:
+                    f.write(f"{t} FRAME DATA: \n")
+                    for temp in frame:
+                        f.write(f"{temp},")
+                    f.write("\n")
+            except Exception as e:
+                helper.log_error(time.time(), e, "Thermal Sensor File Write", file_list[2])
             
-        except Exception as e:
-            helper.log_error(time.time(), e, "Thermal Sensor", file_list[2])
-
+    except Exception as e:
+        helper.log_error(time.time(), e, "Thermal Sensor", file_list[2])
     #7. Data downlinks: check counter for timing of science and telem packet sending
     
     print(f"FREE MEMORY: {gc.mem_free()}")
