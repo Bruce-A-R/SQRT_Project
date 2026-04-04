@@ -293,5 +293,41 @@ class Helper:
             
         return p_list, a_list 
         
-    
+        # Function for ensuring that a full frame is acquired rather than two frames of the same subpage (only odd pixels)
+    def get_full_frame(self, frame, frame_taker):
+        """
+        Reads both subpages and merge into a complete 768-pixel frame.
+        
+        Inputs:
+        frame (array) - Empty frame of size 768 created by init_float_array
+        frame_taker - the initialised mlx90640 object
+        
+        Returns:
+        Updates the frame inputted with 768 temperature values.
+        """
+        # Subpage booleans are initialised to check if both subpages have been used.
+        subpages_read = [False, False]
+        
+        # the temperature frames are created.
+        temp_frames = [self.init_float_array(768), self.init_float_array(768)]
+
+        # The while loop is used to ensure that both subpages have been used.
+        while not all(subpages_read):
+            temp_frame = self.init_float_array(768)
+            # temperatures are gotten for the subpage in question
+            frame_taker.get_frame(temp_frame)  
+
+            # the subpage is read in from the control register
+            sub_page = frame_taker.mlx90640_frame[833]  
+
+            # The subpages frame is saved and the Bool is set to signify that it has been collected.
+            temp_frames[sub_page] = temp_frame[:]
+            subpages_read[sub_page] = True
+
+        # the two subpages are merged to form a full frame
+        for i in range(768):
+            if i % 2 == 0:
+                frame[i] = temp_frames[0][i]
+            else:
+                frame[i] = temp_frames[1][i]
        
