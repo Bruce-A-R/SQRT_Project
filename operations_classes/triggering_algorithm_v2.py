@@ -49,11 +49,18 @@ class SQTtrigger:
             #print(f"EXCEPTION IN READING ALTITUDE: {e}")
             return False
     
-    def _check_falling(self, altitudes_list):
-        """Function to check if the tuppersat is decending based on timestamps and corresponding altitudes
-            This assumes that a dictionary of timestamps and altitudes exists to be inputted
-            Inputs: dict of timestamps and altitude values
-            Output: True/False
+  def _check_falling(altitudes_list):
+        """Function to check if the tuppersat is decending based on list of altitudes over time
+            Inputs: list of altitudes (in order of time taken)
+            Output: True/False (True if altitude has decreased for half of listed numbers)
+
+            Function:
+            - if half of altitudes list is more than 4, true if alt has decreased more than half of list length. 
+            - if half of altitudes list is 4 or less (meaning 4+ values in the origional list were Nones), then see if alt has decreased >=4 times
+            
+            This is done becase there's a chance the sat is falling but GPS with its tolerance reads the same altitude value twice in a row,
+            so we cant just do it if there are four+ (or half list length +) decreases in a row.
+            
         """
         
         if altitudes_list[-1] > 2000:   # first check that sat is above 2km
@@ -61,28 +68,43 @@ class SQTtrigger:
             r_altitudes = altitudes_list[::-1]
             
             decreases_count = 0
-            
-            
-            for i in range(len(r_altitudes)):              # done to get rid of "None"s that might be in the list
-                if isinstance(r_altitudes[i], str):
-                    r_altitudes.pop(i)
-                elif r_altitudes[i] == None:
-                    r_altitudes.pop(i)
+
+            print(r_altitudes)
+
+            #removing Nones and "None"s from the list if they are there:
+            remove_list = ["None", None]
+            new_r_altitudes = []
+
+            for val in r_altitudes:
+                if val not in remove_list:
+                    new_r_altitudes.append(val)
+
+            r_altitudes = new_r_altitudes   #now should just be values with Nones and "None"s taken out
+
+            print(r_altitudes)
             
             try:
-                for i in range(len(r_altitudes) - 1):
-                    if r_altitudes[i] < r_altitudes[i + 1] and r_altitudes[i] != 0:
-                        decreases_count += 1
+                for i in range(len(r_altitudes) -1):
+                    if (r_altitudes[i] < r_altitudes[i + 1]) and r_altitudes[i] != 0:
+                        decreases_count +=1                   
 
-                if decreases_count >=3:
-                    #print(f"True. {decreases_count}")
-                    return True
+                if len(r_altitudes) / 2 >= 4:
+                    if decreases_count >= len(r_altitudes) / 2:
+                        print(f"True. {decreases_count}")
+                        return True
+                    else:
+                        print(f"False. {decreases_count}")
+                        return False
                 else:
-                    #print(f"False. {decreases_count}")
-                    return False
+                    if decreases_count >= 4:
+                        print(f"True. {decreases_count}")
+                        return True
+                    else:
+                        print(f"False. {decreases_count}")
+                        return False
             
             except Exception as e:           #if list to short, just return false but also print error anyways just in case
-                #print(f"Exception in falling trigger check: {e}")
+                print(f"Exception in falling trigger check: {e}")
                 return False
     
         else:
@@ -95,31 +117,34 @@ class SQTtrigger:
     
             types of pressure sensor isseues: 
             1. It is filled with Nones
-            2. The pressure is consisently increasing with altitude
-            3. pressure values look random
-            4. pressure values are unchanging 
+            2. pressure list is not there, or mostly empty
+            3. pressure values are unchanging 
         """
-    
-        # setup tasks: 
         nones_list = []
-            
+        sames_list = []
+
+        for i in range(len(pressure_list) - 1):
+            if pressure_list[i] == pressure_list[i+1]:
+                sames_list.append(1)
+
         for i in range(len(presure_list)):
             if presure_list[i] == None:
                 nones_list.append(1)
-    
-        if len(pressure_list) == 0:     # never collected pressures
-            return True
-        #elif pressure_dict["pressure"][0] == pressure_dict["pressure"][-1]:     # basic and not done check that the values r the same
-        #    return True
-        elif nones_list == len(pressure_list):
-            return True
-        
-        elif len(pressure_list) != len(altitude_list):       #if the pressures and altitudes somehow aren't the same length
-            return True
-        
-        else: 
+        try:
+            if not pressure_list:    #never collected pressures or list is not in there correctly 
+                return True
+            elif len(pressure_list) == 0:     # never collected pressures
+                return True
+            elif nones_list == len(pressure_list):   #if list all Nones (never colelcted pressures
+                return True
+            elif len(sames_list) == len(pressure_list):  #if all the pressure values are the same thing
+                return True
+                
+            else: 
+                return False
+        except Exception as e:
+            helper.log_error(time.time(), e, "Trigger Check: Falling Check", file_list[2])
             return False
-    
     
     # actual trigger check:
     
