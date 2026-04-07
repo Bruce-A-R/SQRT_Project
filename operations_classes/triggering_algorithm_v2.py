@@ -23,33 +23,37 @@ class SQTtrigger:
     def __init__(self):
         print("trigger algo ready")
 
-    def _check_pressure(self, pressure_value):
+    def _check_pressure(self, pressure_value, file_list):
         """Function to check if a pressure value is above a set threshold
             Input: pressure value
             Output: True/False
         """
         #print(f"reading pressure: {pressure_value}")
-        
-        if not pressure_value:
+        try:
+            if not pressure_value:
+                return False
+            elif float(pressure_value, file_list) <= 35: # changed from 35.0 for testing 35.0:     # assuming pressure value in units of mbar
+                return True
+            else : return False
+        except Exception as e:
+            helper.log_error(time.time(), e, "Trigger Check: pressure under threshold", file_list[2])
             return False
-        elif float(pressure_value) <= 35: # changed from 35.0 for testing 35.0:     # assuming pressure value in units of mbar
-            return True
-        else : return False
     
-    def _check_altitude(self, altitude_value):
+    def _check_altitude(self, altitude_value, file_list):
         """Function to check if an altitude value is above a set threshold
             Input: altitude value
             Output: True/False
         """
         try:
             if float(altitude_value) >= 23000.0:     # assuming altitude value in units of m, currenlty set to above 23 km
+                print("ALT CHECK TRUE")
                 return True
             else: return False
         except Exception as e:
-            #print(f"EXCEPTION IN READING ALTITUDE: {e}")
+            helper.log_error(time.time(), e, "Trigger Check: alt over threshold", file_list[2])
             return False
     
-  def _check_falling(altitudes_list):
+    def _check_falling(self, altitudes_list, file_list):
         """Function to check if the tuppersat is decending based on list of altitudes over time
             Inputs: list of altitudes (in order of time taken)
             Output: True/False (True if altitude has decreased for half of listed numbers)
@@ -62,57 +66,60 @@ class SQTtrigger:
             so we cant just do it if there are four+ (or half list length +) decreases in a row.
             
         """
+        try:
+            if altitudes_list[-1] > 2000:   # first check that sat is above 2km
+                
+                r_altitudes = altitudes_list[::-1]
+                
+                decreases_count = 0
+
+                print(r_altitudes)
+
+                #removing Nones and "None"s from the list if they are there:
+                remove_list = ["None", None]
+                new_r_altitudes = []
+
+                for val in r_altitudes:
+                    if val not in remove_list:
+                        new_r_altitudes.append(val)
+
+                r_altitudes = new_r_altitudes   #now should just be values with Nones and "None"s taken out
+
+                print(r_altitudes)
+                
+                try:
+                    for i in range(len(r_altitudes) -1):
+                        if (r_altitudes[i] < r_altitudes[i + 1]) and r_altitudes[i] != 0:
+                            decreases_count +=1                   
+
+                    if len(r_altitudes) / 2 >= 4:
+                        if decreases_count >= len(r_altitudes) / 2:
+                            print(f"True. {decreases_count}")
+                            return True
+                        else:
+                            print(f"False. {decreases_count}")
+                            return False
+                    else:
+                        if decreases_count >= 4:
+                            print(f"True. {decreases_count}")
+                            return True
+                        else:
+                            print(f"False. {decreases_count}")
+                            return False
+                
+                except Exception as e:           #if list to short, just return false but also print error anyways just in case
+                    helper.log_error(time.time(), e, "Trigger Check: Falling Check. Not bad unless loop count > 12", file_list[2])
+                    return False
         
-        if altitudes_list[-1] > 2000:   # first check that sat is above 2km
-            
-            r_altitudes = altitudes_list[::-1]
-            
-            decreases_count = 0
-
-            print(r_altitudes)
-
-            #removing Nones and "None"s from the list if they are there:
-            remove_list = ["None", None]
-            new_r_altitudes = []
-
-            for val in r_altitudes:
-                if val not in remove_list:
-                    new_r_altitudes.append(val)
-
-            r_altitudes = new_r_altitudes   #now should just be values with Nones and "None"s taken out
-
-            print(r_altitudes)
-            
-            try:
-                for i in range(len(r_altitudes) -1):
-                    if (r_altitudes[i] < r_altitudes[i + 1]) and r_altitudes[i] != 0:
-                        decreases_count +=1                   
-
-                if len(r_altitudes) / 2 >= 4:
-                    if decreases_count >= len(r_altitudes) / 2:
-                        print(f"True. {decreases_count}")
-                        return True
-                    else:
-                        print(f"False. {decreases_count}")
-                        return False
-                else:
-                    if decreases_count >= 4:
-                        print(f"True. {decreases_count}")
-                        return True
-                    else:
-                        print(f"False. {decreases_count}")
-                        return False
-            
-            except Exception as e:           #if list to short, just return false but also print error anyways just in case
-                helper.log_error(time.time(), e, "Trigger Check: Falling Check. Not bad unless loop count > 12", file_list[2])
+            else:
                 return False
-    
-        else:
+        except Exception as e:
+            helper.log_error(time.time(), e, "Trigger Check: Falling check", file_list[2])
             return False
     
-    def _check_pressure_sensor_failure(self,pressure_list, altitude_list):
+    def _check_pressure_sensor_failure(self,pressure_list, file_list):
         """Function to check if there is something wrong with the pressure sensor
-            Inputs: dictionary of timestamped pressure sensor readings, dictionary of timestamped altitude readings
+            Inputs: list of pressure sensor readings
             Outputs: True/False
     
             types of pressure sensor isseues: 
@@ -122,27 +129,28 @@ class SQTtrigger:
         """
         nones_list = []
         sames_list = []
-
-        for i in range(len(pressure_list) - 1):
-            if pressure_list[i] == pressure_list[i+1]:
-                sames_list.append(1)
-
-        for i in range(len(presure_list)):
-            if presure_list[i] == None:
-                nones_list.append(1)
         try:
+            for i in range(len(pressure_list) - 1):
+                if pressure_list[i] == pressure_list[i+1]:
+                    sames_list.append(1)
+
+            for i in range(len(pressure_list)):
+                if pressure_list[i] == None:
+                    nones_list.append(1)
+            print(sames_list)
             if not pressure_list:    #never collected pressures or list is not in there correctly 
                 return True
             elif len(pressure_list) == 0:     # never collected pressures
                 return True
             elif nones_list == len(pressure_list):   #if list all Nones (never colelcted pressures
                 return True
-            elif len(sames_list) == len(pressure_list):  #if all the pressure values are the same thing
+            elif len(sames_list) == len(pressure_list) -1:  #if all the pressure values are the same thing
                 return True
                 
             else: 
                 return False
         except Exception as e:
+            print(f"pressure issue check exception :{e}.")
             helper.log_error(time.time(), e, "Trigger Check: Falling Check", file_list[2])
             return False
     
@@ -168,23 +176,22 @@ class SQTtrigger:
                 altitude = "None"
             
             try:
-                if self._check_pressure(pressure) == True:      # pressure trigger
+                if self._check_pressure(pressure, file_list) == True:      # pressure trigger
                     check = True
                     condition = "G"
-                elif self._check_altitude(altitude) == True and self._check_pressure_sensor_failure(pressure_list, alt_list) == True :
+                elif self._check_altitude(altitude, file_list) == True and self._check_pressure_sensor_failure(pressure_list, file_list) == True :
                     check = True
                     condition = "B"
-                elif self._check_falling(alt_list) == True:
+                elif self._check_falling(alt_list, file_list) == True:
                     check = True
                     condition = "U"
                 else:
                     check = False
                     condition = "None"
             except Exception as e:    
-                #print(f"exception in triggering check: {e}")
+                print(f"exception in triggering check: {e}")
                 check = False
                 condition = "None"
-                print(f"EXCPETION IN TRIGGERING WITH CHECKS SPECIFICALLY: {e}")
                 helper.log_error(time.time(), e, "Trigger Checks", file_list[2])
                 
             self.log_trigger(check, condition, pressure, altitude, file_list)
@@ -209,4 +216,3 @@ class SQTtrigger:
                 file.write(f"{check}, {condition}, {pressure}, {altitude} \n")
         except Exception as e:
             helper.log_error(time.time(), e, "Writing Trigger Check Log", file_list[2])
-        
