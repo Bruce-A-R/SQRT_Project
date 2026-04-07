@@ -112,11 +112,16 @@ class Helper:
 
         # Thermal Sensor
         try:
-            frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5)
+            i2c = machine.I2C(
+                    0,
+                    scl=machine.Pin(5),
+                    sda=machine.Pin(4),
+                    freq=400000  
+                )
+            frame_taker = MLX90640(i2c, address=0x33)
             frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 # currently the fasted refresh rate that doesn't kill itself,
                                                                                 # reason unclear and seen by many users of the product online
         except Exception as e:
-            print(e)
             frame_taker = None
             print("MLX90640 Sensor Error")
             self.log_error(time.time(), e, "MLX Sensor Init", file_list[2])
@@ -261,13 +266,13 @@ class Helper:
         
         t = time.time()
             
-        house_list = [t, pT, pP, tE, tI, gps_data[1], gps_data[2], gps_data[3], gps_data[4]]
+        house_list = [t, pT, pP, tE, tI, gps_data[0], gps_data[1], gps_data[2], gps_data[3], gps_data[4]]
         
         # tring to save the housekeeping data as a line in the hosuekeeping sd card:
         
         try:
             with open(file_list[0], "a") as file:
-                file.write(f"{t}, {pT}, {pP}, {tE}, {tI}, {gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n") 
+                file.write(f"{t}, {pT}, {pP}, {tE}, {tI}, {gps_data[0]}, {gps_data[1]}, {gps_data[2]}, {gps_data[3]}, {gps_data[4]} \n") 
         except Exception as e:
             self.log_error(t, e, "Making House List", file_list[2])
         
@@ -291,9 +296,9 @@ class Helper:
         if len(a_list) > 12:
             a_list.pop(0)
             
-        return p_list, a_list 
-        
-        # Function for ensuring that a full frame is acquired rather than two frames of the same subpage (only odd pixels)
+        return p_list, a_list
+    
+    # Function for ensuring that a full frame is acquired rather than two frames of the same subpage (only odd pixels)
     def get_full_frame(self, frame, frame_taker):
         """
         Reads both subpages and merge into a complete 768-pixel frame.
@@ -314,20 +319,25 @@ class Helper:
         # The while loop is used to ensure that both subpages have been used.
         while not all(subpages_read):
             temp_frame = self.init_float_array(768)
-            # temperatures are gotten for the subpage in question
+            # temperatures are gotten for the 
             frame_taker.get_frame(temp_frame)  
-
-            # the subpage is read in from the control register
             sub_page = frame_taker.mlx90640_frame[833]  
 
-            # The subpages frame is saved and the Bool is set to signify that it has been collected.
             temp_frames[sub_page] = temp_frame[:]
             subpages_read[sub_page] = True
 
-        # the two subpages are merged to form a full frame
+        # Merging the two subpages
         for i in range(768):
-            if i % 2 == 0:
+            row = i // 32
+            col = i % 32
+
+        
+            # Checkerboard pattern
+            if (row + col) % 2 == 0:
                 frame[i] = temp_frames[0][i]
             else:
                 frame[i] = temp_frames[1][i]
-       
+        
+    
+        
+        
