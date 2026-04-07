@@ -104,7 +104,7 @@ class SQTtrigger:
                         return False
             
             except Exception as e:           #if list to short, just return false but also print error anyways just in case
-                print(f"Exception in falling trigger check: {e}")
+                helper.log_error(time.time(), e, "Trigger Check: Falling Check. Not bad unless loop count > 12", file_list[2])
                 return False
     
         else:
