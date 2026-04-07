@@ -1,7 +1,12 @@
 """
 version 8 of main function with triggering and servo included included
 
-Overview of main function (2/4/2026 CK and BR)
+Overview of main function (7/4/2026 CK and BR)
+
+There is commented out values used to test A-G tests of triggering algorithm using simulated
+pressure and altitude data. These are left in to use in long range test if applicable.
+DO NOT UNCOMMENT.
+test code is only within the ########## line brackets, and will be removed once testing is concluded. 
 
 this main has an updated file system:
 -all housekeeping data is saved to one file
@@ -10,18 +15,13 @@ this main has an updated file system:
 -thermal sensor frames saved to two seperate logs:
     - background frames saved to data_log
     - frames taken immediately after trigger (in the quick burst of sensor captures) saved to post_trigger_data_log
-- helper function to take stuff out of main
-- still a lot of imports 
     
 
 Loop actions sequence:
 1. take housekeeping data
-    - save list of most recent 12 pressure and altitude values for the triggering checks
 2. check for trigger conditions, then activate servo and take quick burst of frames if triggered
 3. check for timing for transmissions. If timing is right for science or telemetry packages, send them
     - what is sent will depend on wether the valve has triggered and there are post-trigger frames to send or not
-    - delete frames (not the burst imediately post-trigger) after sending to free up memory. The post
-      trigger burst is saved so that we can retransmit and mitigate loss from missed transmissions.
 
 """
 # imports:
@@ -114,9 +114,24 @@ while True:
     
     #5. TRIGGER CHECK (only happends when trigger = False).
     
-    if not trigger:
+    ################### FOR TRIGGERING CHECKS< REMOVE BEFORE FLIGHT########################
+    #if counter == 3:
+        #different lists we can use to check:
+        #p_list = [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+        #p_list = ["None", "None", "None", "None", "None", "None", "None", "None", "None", "None", "None", "None"]
+        #p_list = []
+        #p_list = [1000, 500, 400, 300, 200, 100, 50, 40, 60, 55, 40, 30]  #pressure check should check true
+        #p_list = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 20000, 20100] #pressure sensor good but check false
         
-        # checking (and logging) triggering conditions
+        #a_list = [1000, 1000, 1500, 1400, 1500, 1510, 1520, 1530, 1540, 1550, 1560, 1570] # data good but should check false
+        #a_list = [2000, 4000, 5000, 6000, 7000, 1200, 1300, 1500, 1600, 20000, 23000, 23000]   #altitude should check true
+        #a_list = [2000, "None", 5000, 6000, 7000, "None", 1300, 1500, 1600, 20000, 23000, 23000]
+        #a_list = [22000, 21000, 21100, "None", 20000, 19000, 18000, 18010, 18010, 18000, 17500, 17450] #falling check should check true
+            
+            
+    #######################################################################################
+    if not trigger:
+            
         trigger, condition, pres, alt = triggering.trigger_check(p_list[-1], a_list[-1], a_list, p_list, file_list)
         
         # only checks for trigger if it has not triggered yet:
@@ -134,11 +149,11 @@ while True:
             
             #3. get science frames:
             
-            for i in range(16):
+            for i in range(8):
                 # getting 16 science frames in a row right after the servo triggers
                 try:
                     science_frame = helper.init_float_array(768)
-                    frame_taker.get_frame(science_frame)
+                    helper.get_full_frame(science_frame, frame_taker)
                 except Exception as e:
                     #writing error to error log
                     t = time.time()
@@ -146,13 +161,10 @@ while True:
      
                 
                 t = time.time()
-                
                 science_times.append(t)
                 science_data.append(science_frame)
                 
             try:
-                print(science_frame)
-                
                 with open(file_list[4], "a") as f:
                     for i, line in enumerate(science_data):
                         f.write(f"Time: {science_times[i]} \n")
@@ -186,6 +198,7 @@ while True:
             
     except Exception as e:
         helper.log_error(time.time(), e, "Thermal Sensor", file_list[2])
+
     #7. Data downlinks: check counter for timing of science and telem packet sending
     
     print(f"FREE MEMORY: {gc.mem_free()}")
@@ -199,7 +212,7 @@ while True:
                 
                 del(frame)    # delete frame from pico memoery after sending
                 
-            elif trigger and counter > 50:
+            elif trigger:
                 
                 try:
                     science_frame = science_data[science_frame_count % len(science_data)]
@@ -210,10 +223,10 @@ while True:
         if counter == 2 or counter % 6 == 0:
             print("Sending telemetry packet")
             
-            try:
-                error_counter = TTT.telem_packet(house_list, error_counter)
-            except Exception as e:
-                helper.log_error(time.time(), e, "TTT Telem", file_list[2])
+            #try:
+            error_counter = TTT.telem_packet(house_list, error_counter)
+            #except Exception as e:
+            #helper.log_error(time.time(), e, "TTT Telem", file_list[2])
                 
             print(f"what EC is set to: {error_counter}")
 
