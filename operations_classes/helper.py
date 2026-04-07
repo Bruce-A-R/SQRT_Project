@@ -161,22 +161,35 @@ class Helper:
         
         if before:
             try:
-                frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5, freq = 1000000)
-                frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 
+                i2c = machine.I2C(
+                    0,
+                    scl=machine.Pin(5),
+                    sda=machine.Pin(4),
+                    freq=1000000  
+                )
+                frame_taker = MLX90640(i2c, address=0x33)
+                frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ               
                                                                                         
             except Exception as e:
                 frame_taker = None
                 t = time.time()
                 # writing error to error log
-                self.helper.log_error(t, e, "MLX Science Init", file_list[2])
+                self.log_error(t, e, "MLX Science Init", file_list[2])
         else:
             try:
-                frame_taker = MLX90640(i2c=0, address=0x33, sda_pin=4, scl_pin=5, freq = 400000)
-                frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 
-                                                                                    
+                i2c = machine.I2C(
+                    0,
+                    scl=machine.Pin(5),
+                    sda=machine.Pin(4),
+                    freq=400000  
+                )
+                frame_taker = MLX90640(i2c, address=0x33)
+                frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ
+            
             except Exception as e:
                 frame_taker = None
-                self.helper.log_error(t, e, "MLX Science Init", file_list[2])
+                t = time.time()
+                self.log_error(t, e, "MLX Science Init", file_list[2])
                 
         return frame_taker
         
@@ -301,7 +314,7 @@ class Helper:
     # Function for ensuring that a full frame is acquired rather than two frames of the same subpage (only odd pixels)
     def get_full_frame(self, frame, frame_taker):
         """
-        Reads both subpages and merge into a complete 768-pixel frame.
+        Reads both subpages and merges into a complete 768-pixel frame.
         
         Inputs:
         frame (array) - Empty frame of size 768 created by init_float_array
@@ -338,6 +351,5 @@ class Helper:
             else:
                 frame[i] = temp_frames[1][i]
         
-    
         
         
