@@ -31,12 +31,14 @@ class SQTtrigger:
         #print(f"reading pressure: {pressure_value}")
         try:
             if not pressure_value:
+                print('no pressure value')
                 return False
-            elif float(pressure_value, file_list) <= 35: # changed from 35.0 for testing 35.0:     # assuming pressure value in units of mbar
+            elif float(pressure_value) <= 35: # changed from 35.0 for testing 35.0:     # assuming pressure value in units of mbar
                 return True
             else : return False
         except Exception as e:
-            helper.log_error(time.time(), e, "Trigger Check: pressure under threshold", file_list[2])
+            print(f'pressure check error: {e}')
+            helper.log_error(time.time(), e, "Trigger Check: pressure under threshold check", file_list[2])
             return False
     
     def _check_altitude(self, altitude_value, file_list):
@@ -165,6 +167,7 @@ class SQTtrigger:
             Inputs: pressure value, altitude value (both vurrent values in boolean form), list of boolean altitude values
             Outputs: check (boolean), condition (string), pressure value used (float), alt value used (float)
         """
+        
         try:
             check = False
             condition = "None"
