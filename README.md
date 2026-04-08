@@ -1,4 +1,4 @@
-## SQRT_Project
+# SQRT_Project
 
 **SQRT Members:** Orlaith Ni Dhuill, Elyana Abdallah, Javier Ayuso, Caimin Keavney, Bruce Ritter.
 
@@ -11,13 +11,13 @@ This repository contains all code for the SQRT project. While working on the pro
 Current Use (below) will be updated to show what files are currenlty used on the pico. The code is structured such that a file saved as main.py on the pico can use classes for sensors and other operations as it runs on a loop. 
 
 
-# File Directory
+## File Directory
 - **SQRT Software**: conatains all final software used onboard SQRT during flight ("flight software")
 - **post-mission data analysis**: contains software used for post-mission data analysis, not run onboard.
 - **test data**: contains data from tests
 - **Software Drafts**: contains older versions of flight software
 
-# Current Use:  as of 6pm on8/4
+## Current Use:  as of 6pm on8/4
 
 Current main script: mSQRT Software/main.py, with sensor and operations scrips below imported. 
 
