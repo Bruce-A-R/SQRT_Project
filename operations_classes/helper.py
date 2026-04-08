@@ -24,7 +24,7 @@ import struct
 class Helper:
     
     def __init__(self):
-        print("initializing the helper class")
+        pass
         
     def init_float_array(self, size) -> array.array:
         """Function to make a float array for the thermal sensor
@@ -70,7 +70,7 @@ class Helper:
             for fname in file_list:
                 with open(fname, 'w') as f:
                     if 'house' in fname:
-                        f.write("Timestamp, ms5611 Temperature (C), Pressure (mbar), TempE (deg), TempI (deg), Lat (deg), Lon (deg), Alt (m), HDOP \n")
+                        f.write("Timestamp, ms5611 Temperature (C), Pressure (mbar), TempE (deg), TempI (deg), GPS Time, Lat (deg), Lon (deg), Alt (m), HDOP \n")
                     elif 'data_log' in fname:
                         f.write("MLX90640 Raw Data Values \n")
                     elif 'trigger' in fname:
@@ -300,7 +300,7 @@ class Helper:
         """
         
         p_list.append(house_list[2])
-        a_list.append(house_list[7])
+        a_list.append(house_list[8])
             
             
         if len(p_list) > 12:
@@ -350,6 +350,32 @@ class Helper:
                 frame[i] = temp_frames[0][i]
             else:
                 frame[i] = temp_frames[1][i]
+                
+    def write_science_frames(self, science_frames, science_times, file_list):
+        """
+        Stores acquired science frames in SD card
+        
+        Inputs:
+        science_frames (list of arrays) - list of 768 value arrays
+        science_times
+        file_list
+        
+        Returns:
+        Writes science data to the post-trigger file
+        """
+        try:
+                with open(file_list[4], "a") as f:
+                    for i, line in enumerate(science_data):
+                        f.write(f"Time: {science_times[i]} \n")
+                        for temp in line:
+                            f.write(f"{temp},")
+                        f.write("\n")
+
+        except Exception as e:
+                self.log_error(time.time(), e, "Science Frame Writing", file_list[2])
+        
+                    
+        
         
         
         
