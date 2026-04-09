@@ -12,7 +12,7 @@ Current Use (below) will be updated to show what files are currenlty used on the
 
 
 ## File Directory
-- **SQRT Software**: will conatain all final software used onboard SQRT during flight ("flight software"). Right now it just has main, and operations and sensot classes are in operations_classes and sensor_classes
+- **SQRT Software**: will conatain all final software used onboard SQRT during flight ("flight software"). Right now it just has main, and operations and sensot classes are in operations_classes and sensor_classes.
 - **post-mission data analysis**: contains software used for post-mission data analysis, not run onboard.
 - **test data**: contains data from tests
 - **Software Drafts**: contains older versions of flight software
@@ -21,6 +21,6 @@ Current Use (below) will be updated to show what files are currenlty used on the
 
 Current main script: mSQRT Software/main.py, with sensor and operations scrips below imported. 
 
-Current sensor scripts: gps_v2.py, mlx90640.py, ms5611.py, temperature_sensor.py
+Current sensor scripts (in sensor_classes): gps_v2.py, mlx90640.py, ms5611.py, temperature_sensor.py
 
-Current operations scripts: servo.py, triggering_alorithm_v2.py, sdcard_v2.py, triple_t.py, tuppersat_radio.py, _packet_utils.py, rhserial.py, helper.py
+Current operations scripts (in operations_classes): servo.py, triggering_alorithm_v2.py, sdcard_v2.py, triple_t.py, tuppersat_radio.py, _packet_utils.py, rhserial.py, helper.py, gps_airborne.py
