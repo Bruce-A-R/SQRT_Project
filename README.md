@@ -12,7 +12,7 @@ Current Use (below) will be updated to show what files are currenlty used on the
 
 
 ## File Directory
-- **SQRT Software**: conatains all final software used onboard SQRT during flight ("flight software")
+- **SQRT Software**: will conatain all final software used onboard SQRT during flight ("flight software"). Right now it just has main, and operations and sensot classes are in operations_classes and sensor_classes
 - **post-mission data analysis**: contains software used for post-mission data analysis, not run onboard.
 - **test data**: contains data from tests
 - **Software Drafts**: contains older versions of flight software
