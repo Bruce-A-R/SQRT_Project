@@ -6,10 +6,12 @@ script with SQTGPS class in it that should initialize and read from gps
 when called in the main loop, it should reutrn the values we want (lat, lon, altitude, timestamp, hdop) as a string
 so we can write it to a file on the sd card
 
+BR 15/3
 """
 
 from machine import UART, Pin
 import time
+from gps_airborne import set_airborne_mode
 
 class SQTGPS:
     """gps class SQTGPS, used to read out gps
@@ -25,6 +27,9 @@ class SQTGPS:
         
         self.gps = UART(uart_bus, baudrate = baudrate, tx = tx_pin, rx = rx_pin)
         
+        time.sleep_ms(100)
+        set_airborne_mode(self.gps)
+            
         #time.sleep(1)
         #port = self.gps.any()
         
@@ -222,6 +227,7 @@ class SQTGPS:
             time.sleep(1)
             sentence = self._listen_for_sequence()
             
+            
             if sentence is not None:
                 # parsing sequence:
                 print(sentence)
@@ -234,14 +240,13 @@ class SQTGPS:
         
                 return timestamp, lat, lon, alt, hdop
                     
-                
+            else:
+                return None, None, None, None, 99.99
                 
                 
                 gga_count += 1
-            
-            else:
-                return None, None, None, 99.99
      
             if gga_count == 5:
                 GGA = True     # setting GGA flag so the listening loop can stop
                 return None
+                
