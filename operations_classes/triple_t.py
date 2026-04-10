@@ -1,18 +1,19 @@
 """
 triple_t.py
 
-Caimin Keavney
-
 The code below will be used to collect relevant data, format telemetry/science data packets, and
 interface with communications architecture.
 
 Functions:
-get_line
+get_last_entry
+parse_time
 cropping
 telem_packet
 science_packet
 """
 
+
+from ucollections import namedtuple
 import os
 import machine
 import time
@@ -44,60 +45,60 @@ class Comms:
         }
 
         
-# Not needed any more as no longer reading from SD card.
- # def get_last_entry(self, filepath):
-  #  """
-   # Reads the last line from a text file on the SD card.
-#
- #   Inputs:
-  #  filepath (str) - Filepath containing the relevant data.
-#
- #   Returns:
-  ##  last_line (str) - The most recently appended line to the textfile.
-   # """
-    #try:
-     #with open(filepath, 'r') as f:
-      # lines = f.readlines()
-
-      # if len(lines)>1:
-           
-       #    line = lines[-1]
-           
-    #except:
-     #   line = None
-
-    #return line
-
-  def get_line(self,filepath, index):
-      """Reads entered line from a text file on the SD card.
-      
-      Inputs:
-      filepath (str) - Name of filepath as on SD card
-      index (int) - Desired line of file
-      
-      Returns:
-      line (str) - Requested line from file in string format
+  def get_last_entry(self, filepath):
       """
-      
+      Reads the last line from a text file on the SD card.
+
+      Inputs:
+      filepath (str) - Filepath containing the relevant data.
+
+      Returns:
+      last_line (str) - The most recently appended line to the textfile.
+      """
       try:
           with open(filepath, 'r') as f:
               lines = f.readlines()
-                
-              length = len(lines)
-              
-              index = index%length
-              
-              line = lines[index]
+          if len(lines)>1:
+              line = lines[-1]
+           
       except:
           line = None
-          
+
       return line
+
+  
+
+  Time = namedtuple('Time', 'hour minute second microsecond')
+
+  def chunk(self, string, n):
+    """Break a string into chunks of length n."""
+    return (string[i:i+n] for i in range(0, len(string), n))
+
+
+  def parse_time(self, time_str):
+    """Parse a time string HHMMSS.SSS into a Time object."""
+    if time_str == None:
+        return None
+    elif time_str == "None":
+        return None
+    else:
+        # split out the second and sub-second times
+        _hhmmss, _milliseconds = time_str.split('.')
+
+        # compute the sub-second time in microseconds
+        _us = int(_milliseconds) * 1000
+
+        # compute the hours, minutes and seconds
+        _hh, _mm, _ss = (int(x) for x in self.chunk(_hhmmss, 2))
+
+        return self.Time(_hh, _mm, _ss, _us)
+
     
   def telem_packet(self, hk_parts, error_count):
     """
     Telemetry packet is formatted and sent.
     """
-    print(hk_parts)
+    
     # MS5611
     
     try:
@@ -122,13 +123,14 @@ class Comms:
     
     # Still reading in from SD card for error reports.
     # Will not work if SD card not working (An Error Report in itself really)
-    try:
-        with open(sd_files["Error"], "r") as f:
+    #try:
+    with open(self.sd_files["Error"], "r") as f:
+        try:
             error_lines = f.readlines()
-            error_counter_new = len(error_lines)     # Error Count is updated
+            error_counter_new = len(error_lines)   # Error Count is updated
           
-    except:
-        error_counter_new = error_count
+        except:
+            error_counter_new = error_count
     try:
         error_parts = self.get_last_entry(self.sd_files["Error"]).split(',') 
     except:
@@ -136,7 +138,7 @@ class Comms:
     
     if error_counter_new != error_count: 
         try:
-            error = error_parts[2]    # Error type is defined.
+            error = error_parts[-1]    # Error type is defined.
         except:
             error = "None"
             
@@ -146,11 +148,13 @@ class Comms:
     
     
     
-        
-        
+     
+    gps_time = self.parse_time(gps_time)
     
+    print(error_counter_new)
+    print(error)
     telem_dict = {
-      'hhmmss' : time.localtime(),
+      'hhmmss' : gps_time,              # time from GPS, is sometimes None but that should be handled
       'latitude': lat,           		# Latitude in metres
       'longitude' :lon,      			# Longitude in degrees
       'altitude':alt,                   # Altitude in metres
@@ -163,19 +167,19 @@ class Comms:
       
       
     }
-
+    print(telem_dict)
     # The formatted data packet is transmitted
     self.radio.send_telemetry(**telem_dict)
     
     # New Error Count is returned for next iteration
     return error_counter_new
 
-  def cropping(self, frames, crop_w=8, crop_h=6):
+  def cropping(self, frame, crop_w=8, crop_h=6):
     """
     Function to crop thermal array returned by MLX90640 to a 8x6 array
 
     Inputs:
-    frames (list) - 2 arrays of 768 temperature values to be cropped
+    frame (list) - array of 768 temperature values to be cropped
 
     Returns:
     cropped_frame (list) - combined frame of 48 temperature values in the region of interest.
@@ -190,7 +194,7 @@ class Comms:
         for x in range(start_x, start_x + crop_w):
             index = y * width + x
             # Sum the corresponding values from both frames
-            full_cropped_frame.append(frames[0][index] + frames[1][index])
+            full_cropped_frame.append(frame[index])
 
     return full_cropped_frame
 
@@ -217,6 +221,7 @@ class Comms:
     except:
         crop_frame = None
 
+    print(crop_frame)
     # Data dictionary is formatted.
     data_dict = {
       'data' : crop_frame,                # 48 temperature values (Celsius)               
@@ -229,6 +234,24 @@ class Comms:
     # Packet is transmitted 
 
     self.radio.send_data(**data_dict)
+
+
+    
+    
+    
+    
+
+
+
+
+
+    
+    
+    
+    
+
+
+
 
 
     
