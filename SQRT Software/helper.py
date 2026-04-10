@@ -18,7 +18,7 @@ import gc
 from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640, RefreshRate
-from gps_v2 import SQTGPS
+from gps import SQTGPS
 from triple_t import Comms
 
 from servo_2 import Servo
