@@ -59,7 +59,7 @@ error_counter = 0
 science_frame_count = 0
 science_data = []
 science_times = []
-current_gps_data = [None, None, None, None, 99.99]
+current_gps_data = [None, 'None', 'None', 'None', 99.99]
 
 p_list = []
 a_list = []
@@ -98,16 +98,19 @@ while True:
         try:
             gps_data = gps_sensor.gps_log()
             
-            if gps_data[1] != 'None':
-                current_gps_data = gps_data   # setting current_gps_data to the latest good string so if we stop getting position for a bit we use the last good values
+            if gps_data[1] == 'None':
+                gps_data = current_gps_data # setting current_gps_data to the latest good string so if we stop getting position for a bit we use the last good values
 
+            else:
+                current_gps_data = gps_data
+                
         except Exception as e:
             t = time.time()
             helper.log_error(t, e, "GPS Sensor", file_list[2])
-            
+        
     
     #4. Making a list of housekeeping data:
-    house_list = helper.make_house_list(pressure_T, pressure_P, tempE, tempI, current_gps_data, file_list) 
+    house_list = helper.make_house_list(pressure_T, pressure_P, tempE, tempI, gps_data, file_list) 
     p_list, a_list = helper.update_a_p_lists(house_list, p_list, a_list)  #list for triggering, capped at the latest 12 values each
     
 
@@ -120,7 +123,7 @@ while True:
         #p_list = [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
         #p_list = ["None", "None", "None", "None", "None", "None", "None", "None", "None", "None", "None", "None"]
         #p_list = []
-        #p_list = [1000, 500, 400, 300, 200, 100, 50, 40, 60, 55, 40, 30]  #pressure check should check true
+       # p_list = [1000, 500, 400, 300, 200, 100, 50, 40, 60, 55, 40, 30]  #pressure check should check true
         #p_list = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 20000, 20100] #pressure sensor good but check false
         
         #a_list = [1000, 1000, 1500, 1400, 1500, 1510, 1520, 1530, 1540, 1550, 1560, 1570] # data good but should check false
@@ -128,8 +131,7 @@ while True:
         #a_list = [2000, "None", 5000, 6000, 7000, "None", 1300, 1500, 1600, 20000, 23000, 23000]
         #a_list = [22000, 21000, 21100, "None", 20000, 19000, 18000, 18010, 18010, 18000, 17500, 17450] #falling check should check true
             
-    #print(p_list)
-    #print(a_list)
+
     #######################################################################################
     if not trigger:
             
@@ -165,7 +167,18 @@ while True:
                 science_data.append(science_frame)
                 
             helper.write_science_frames(science_data, science_times, file_list) # writing the frames to a file with the times associated
- 
+            #try:
+            #    with open(file_list[4], "a") as f:
+            #        for i, line in enumerate(science_data):
+            #            f.write(f"Time: {science_times[i]} \n")
+            #            for temp in line:
+             #               f.write(f"{temp},")
+            #            f.write("\n")
+
+            #except:
+            #    print("DID NOT WRITE TO POST TRIGGER DATA")
+            
+            
             #4. change this i2c bus frequency back to what the pressure sensor and slower frame rate needs:
             frame_taker = helper.reinit_frame_taker(file_list, before = False)
             #machine.freq(400000)
@@ -195,7 +208,7 @@ while True:
     print(f"FREE MEMORY: {gc.mem_free()}")
     
     if TTT:
-        if counter == 1 or counter % 6 == 0: 
+        if counter == 1 or counter % 8 == 0: 
             print("Sending science packet")
             
             if not trigger:
@@ -211,10 +224,17 @@ while True:
                 except Exception as e:
                     helper.log_error(time.time(), e, "TTT Science post Trigger", file_list[2])
       
-        if counter == 2 or counter % 4 == 0:
+        if counter == 2 or counter % 5 == 0:
             print("Sending telemetry packet")
-            error_counter = TTT.telem_packet(house_list, error_counter)  # send telemetry (with an error count we were saving to look at earlier)
+            
+            #try:
+            error_counter = TTT.telem_packet(house_list, error_counter)
+            #except Exception as e:
+             #   helper.log_error(time.time(), e, "TTT Telem", file_list[2])
+                
+            print(f"what EC is set to: {error_counter}")
 
+        
     print(f'########LOOP COUNTER {counter} ###################')
     
     #8. counting:
