@@ -44,6 +44,7 @@ class Helper:
         try:
             with open(error_log, "a") as file:
                 file.write(f"{t}, {exception}, {location} \n")
+
         except: pass
         
         
@@ -168,7 +169,7 @@ class Helper:
                     freq=1000000  
                 )
                 frame_taker = MLX90640(i2c, address=0x33)
-                frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ               
+                frame_taker.refresh_rate = RefreshRate.REFRESH_16_HZ               
                                                                                         
             except Exception as e:
                 frame_taker = None
@@ -269,9 +270,8 @@ class Helper:
             tI = 'None'
         if not tE:
             tE = 'None'
-        if not gps_data:
-                gps_data = current_gps_data
-        elif len(gps_data) != 5:                 # in case some value is missing
+
+        if len(gps_data) != 5:                 # in case some value is missing
             diff = 5 - len(gps_data)
             
             for _ in range(diff):
