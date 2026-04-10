@@ -1,5 +1,5 @@
 ## SOFTWARE DRAFTS
-This folder contains older versions of all code written for SQRT. 
+This folder contains older versions of all code written for SQRT. These main functions were substituted for more streamlined versions. Initial main functions performed all class initialisation and file writing on-site. Iteratively, the main functions became less cluttered, as tasks were assigned to the helper class functions (see operations_classes).
 
 ## Directory
 
@@ -11,6 +11,6 @@ This folder contains older versions of all code written for SQRT.
 
 
 ## Notes
-Non-main branches of this GitHub contin even older drafts, 
+Non-main branches of this GitHub contain even older drafts, 
 however midway through the project the process was changed to making all updates directly to main, as only two team members were coding and work was typically done 
 one-at-a-time because code was edited while connected to the Tuppersat. 
