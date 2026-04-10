@@ -1,21 +1,20 @@
 """
-version 8 of main function with triggering and servo included included
+main.py
 
-Overview of main function (7/4/2026 CK and BR)
+Authors: Caimin Keavney, Bruce Ritter
+Version Date: 10/4/2026
 
+Description:
+
+Main function that runs automatically when Pico connected to power. 
+Actions in the loop sequence are marked with a commented and numbered line (ex: #1. _____ action)
+
+#####TEST CODE STILL INCLUDED#####
 There is commented out values used to test A-G tests of triggering algorithm using simulated
 pressure and altitude data. These are left in to use in long range test if applicable.
 DO NOT UNCOMMENT.
 test code is only within the ########## line brackets, and will be removed once testing is concluded. 
 
-this main has an updated file system:
--all housekeeping data is saved to one file
--all raised errors saved to an error log
--trigger check information is saved to a trigger log
--thermal sensor frames saved to two seperate logs:
-    - background frames saved to data_log
-    - frames taken immediately after trigger (in the quick burst of sensor captures) saved to post_trigger_data_log
-    
 
 Loop actions sequence:
 1. take housekeeping data
@@ -43,24 +42,27 @@ import math
 import random
 from machine import Pin, SPI
 
-#SETUP: USING HELPER FUNCTIONS TO INITIALIZE THE SD CARD, SENSORS, AND OTHER FUNCTIONS WE NEED
+# INITIALIZATIONS SETUP
+
 helper = Helper()
 sd, vfs = helper.init_sd_card()  # sd card
 file_list = helper.make_files()  # making files
 pressure_sensor, temp_sensor, frame_taker, gps_sensor, TTT, servo_motor = helper.init_sensors(file_list)   # init sensors
 triggering = SQTtrigger()   # init triggering class
 
-# FLAG SETUP: setting all the flags and counters
+# FLAG SETUP
 
-trigger = False       # flag to trigger valve
-trigger_condition = None      # to set trigger condition too so we know what message to send
-counter = 1     # for timing transmitions
-error_counter = 0
+#flags for triggering:
+trigger = False       
+trigger_condition = None   
+# counters: used to time loops and frame transmissions and to transmit data on error number
+counter = 1   
+error_counter = 0 
 science_frame_count = 0
+# set lists used for data handling throughout mission
 science_data = []
 science_times = []
 current_gps_data = [None, 'None', 'None', 'None', 99.99]
-
 p_list = []
 a_list = []
 
@@ -142,7 +144,7 @@ while True:
             
             #1. change thermal sensor freq to handle quicker refresh rate
             frame_taker = helper.reinit_frame_taker(file_list, before = True)
-            #machine.freq(1000000)
+            
             #2. run servo
             try:
                 servo_motor.run_servo()
@@ -161,27 +163,14 @@ while True:
                     #writing error to error log
                     t = time.time()
                     helper.log_error(t, e, "MLX Science Acqui.", file_list[2])
-     
                 
                 science_times.append(t)
                 science_data.append(science_frame)
                 
             helper.write_science_frames(science_data, science_times, file_list) # writing the frames to a file with the times associated
-            #try:
-            #    with open(file_list[4], "a") as f:
-            #        for i, line in enumerate(science_data):
-            #            f.write(f"Time: {science_times[i]} \n")
-            #            for temp in line:
-             #               f.write(f"{temp},")
-            #            f.write("\n")
 
-            #except:
-            #    print("DID NOT WRITE TO POST TRIGGER DATA")
-            
-            
             #4. change this i2c bus frequency back to what the pressure sensor and slower frame rate needs:
             frame_taker = helper.reinit_frame_taker(file_list, before = False)
-            #machine.freq(400000)
 
     #6. Thermal Sensor
     time.sleep_ms(100)
@@ -226,12 +215,7 @@ while True:
       
         if counter == 2 or counter % 5 == 0:
             print("Sending telemetry packet")
-            
-            #try:
             error_counter = TTT.telem_packet(house_list, error_counter)
-            #except Exception as e:
-             #   helper.log_error(time.time(), e, "TTT Telem", file_list[2])
-                
             print(f"what EC is set to: {error_counter}")
 
         
