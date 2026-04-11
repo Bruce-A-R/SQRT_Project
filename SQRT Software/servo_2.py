@@ -1,5 +1,5 @@
 """
-servo_class.py
+servo_2.py
 
 Authors: Javi Ayuso, Caimin Keaveney, Bruce Ritter
 Version Date: 8/3/2026
@@ -20,10 +20,10 @@ class Servo:
 
     def __init__(self):
         self.angle = 40   # set diff later?
-        #self.pin_number = 22     # could set it here but for now it is not, should be inputted when calling function
+        self.pin_number = 20     # could set it here but for now it is not, should be inputted when calling function
         self.frequency = 50
 
-    def _set_angle(pwm, angle):
+    def _set_angle(self, pwm, angle):
         """Funciton to set angle of servo arm using
         Inputs: pwm and angle
         Output: moves angle
@@ -33,15 +33,15 @@ class Servo:
         max_duty = 7864   # ~2ms pulse  = 180°
         duty = int(min_duty + (angle / 180) * (max_duty - min_duty))
         pwm.duty_u16(duty)
-
-    def activate_servo(pin):
-        """function to run the servo
-        Inputs: pin for OneWire pin connection
-        Output: will change angle of servo, in this case just by 90 degrees and just once
-        """
+        
+    def run_servo(self):
         elnueve = PWM(Pin(self.pin_number))
         elnueve.freq(self.frequency)
-
+        
+        self._set_angle(elnueve, 30)
+        time.sleep(1.0)
+        
+        elnueve.deinit()
         set_angle(elnueve, 90)  
         
         elnueve.deinit()
