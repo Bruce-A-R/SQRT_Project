@@ -1,19 +1,13 @@
 """
 mlx90640.py
 
-Adapted from code from _____________ found at this GitHub: __________
-
+Adapted from code from https://github.com/michael-sulyak/micropython-mlx90640
 Adapted by Caimin Keavney and Bruce Ritter
+Version Date: 10/4/2026
 
 This code is used to interface with the Adafruit MLX90640 thermal sensor, 
 and take and calibrate data. 
-
-Data is in the form of an array of temperature values. 
-
 """
-
-
-
 
 import array
 import math
