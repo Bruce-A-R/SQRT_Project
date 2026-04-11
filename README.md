@@ -6,7 +6,7 @@
 
 **Repo Information**
 
-This repository contains all code for the SQRT project. While working on the project, each team member initially committed code to named branches so that we were not worried about overriding each other's work. This strategy eventually changed to members committing directly to the main branch after confirming an update to code with other team members. At the moment, all named branches are behind main and show a history of work before the final week(s) of software development. 
+This repository contains all code for the SQRT project. Older versions of code and early test data packets are included in the **old_version** branch of this repo. 
 
 Current Use (below) will be updated to show what files are currently used on the pico. The code is structured such that a file saved as main.py on the pico can use classes for sensors and other operations as it runs on a loop. 
 
