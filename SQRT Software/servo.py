@@ -1,8 +1,13 @@
 """
 servo_class.py
 
-Editied servo script to make it a class usable in the main function
-it should just move the servo 90 degrees when activated (I think)
+Authors: Javi Ayuso, Caimin Keaveney, Bruce Ritter
+Version Date: 8/3/2026
+
+Description: 
+
+Contains servo script used to run the servo if trigger is True. 
+The servo is made to move 90 degrees when activated
 
 """
 
