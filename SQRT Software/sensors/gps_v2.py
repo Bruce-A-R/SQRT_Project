@@ -69,8 +69,6 @@ class SQTGPS:
         
         else:
             print("no angle")
-            
-            
             return None
 
 
