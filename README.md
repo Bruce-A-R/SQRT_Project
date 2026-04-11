@@ -2,7 +2,7 @@
 
 **SQRT Members:** Orlaith Ni Dhuill, Elyana Abdallah, Javier Ayuso, Caimin Keavney, Bruce Ritter.
 
-**Programming lanugage:** Python for micropython controller
+**Programming language:** Python for micropython controller
 
 **Repo Information**
 
