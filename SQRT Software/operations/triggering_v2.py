@@ -10,28 +10,20 @@ for the SQRT mission.
 
 """
 
-
-
 import time
 from helper import Helper
 
 helper = Helper()
 
 
-
 class SQTtrigger:
     """SQRT Triggering Algorithm class
-
-    current use (31/3):
-    send lists and values to functions needed
-    -BR
-    
     Used to check for contitions to trigger our servo motor (to open the valve), and then do a longer run of thermal photos
     How to use:
     1. Have a flag in the main tuppersat loop that triggering has or hasnt happened,
     and only run the check if it hasn't happened yet
-    2. trigger_check will return both True/False trigger and the condition type of triggering
-    
+    2. trigger_check will return both True/False trigger and the condition type of triggering (which should be saved/transmitted)
+    3. Use the True to trigger servo and thermal sensor ops
     """
 
     def __init__(self):
