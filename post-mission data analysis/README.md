@@ -1,1 +1,3 @@
 The Jupyter Notebook here will be used to process all data acquired and recovered by the SQRT mission. This includes housekeeping figures (temperatures, pressures, coordinates) as well as information pertaining to the science objectives (thermal sensor frames). The notebook is split into two subsections, one for downlinked data and one for data saved on the SD card. The data analysis suite will return the data in the form of dictionaries and visual plots (in the case of the thermal data).  
+
+Data accrued during the testing campaign can also be found in this directory
