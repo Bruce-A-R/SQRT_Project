@@ -1,6 +1,6 @@
 # SQRT_Project
 
-**SQRT Members:** Orlaith Ni Dhuill, Elyana Abdallah, Javier Ayuso, Caimin Keavney, Bruce Ritter.
+**SQRT Members:** Elyana Abdallah, Javier Ayuso, Caimin Keavney, Orlaith Ni Dhuill, Bruce Ritter.
 
 **Programming language:** Python (code runs on micropython controller)
 
