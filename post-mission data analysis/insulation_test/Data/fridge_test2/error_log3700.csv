@@ -1,0 +1,1503 @@
+Timestamp, Error, Cause 
+1609459221, invalid syntax for number, Trigger Check: alt over threshold 
+1609459222, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459226, invalid syntax for number, Trigger Check: alt over threshold 
+1609459227, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459232, invalid syntax for number, Trigger Check: alt over threshold 
+1609459233, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459238, invalid syntax for number, Trigger Check: alt over threshold 
+1609459238, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459243, invalid syntax for number, Trigger Check: alt over threshold 
+1609459243, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459249, invalid syntax for number, Trigger Check: alt over threshold 
+1609459249, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459254, invalid syntax for number, Trigger Check: alt over threshold 
+1609459255, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459259, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459260, invalid syntax for number, Trigger Check: alt over threshold 
+1609459260, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459265, invalid syntax for number, Trigger Check: alt over threshold 
+1609459266, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459271, invalid syntax for number, Trigger Check: alt over threshold 
+1609459271, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459277, invalid syntax for number, Trigger Check: alt over threshold 
+1609459277, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459282, invalid syntax for number, Trigger Check: alt over threshold 
+1609459283, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459287, invalid syntax for number, Trigger Check: alt over threshold 
+1609459288, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459293, invalid syntax for number, Trigger Check: alt over threshold 
+1609459293, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459298, invalid syntax for number, Trigger Check: alt over threshold 
+1609459298, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459304, invalid syntax for number, Trigger Check: alt over threshold 
+1609459304, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459309, invalid syntax for number, Trigger Check: alt over threshold 
+1609459310, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459314, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459315, invalid syntax for number, Trigger Check: alt over threshold 
+1609459315, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459320, invalid syntax for number, Trigger Check: alt over threshold 
+1609459321, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459326, invalid syntax for number, Trigger Check: alt over threshold 
+1609459326, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459332, invalid syntax for number, Trigger Check: alt over threshold 
+1609459332, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459337, invalid syntax for number, Trigger Check: alt over threshold 
+1609459338, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459342, invalid syntax for number, Trigger Check: alt over threshold 
+1609459343, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459348, invalid syntax for number, Trigger Check: alt over threshold 
+1609459348, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459353, invalid syntax for number, Trigger Check: alt over threshold 
+1609459354, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459359, invalid syntax for number, Trigger Check: alt over threshold 
+1609459360, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459365, invalid syntax for number, Trigger Check: alt over threshold 
+1609459365, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459370, invalid syntax for number, Trigger Check: alt over threshold 
+1609459370, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459375, invalid syntax for number, Trigger Check: alt over threshold 
+1609459375, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459380, invalid syntax for number, Trigger Check: alt over threshold 
+1609459381, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459387, invalid syntax for number, Trigger Check: alt over threshold 
+1609459387, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459392, invalid syntax for number, Trigger Check: alt over threshold 
+1609459392, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459397, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459398, invalid syntax for number, Trigger Check: alt over threshold 
+1609459398, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459403, invalid syntax for number, Trigger Check: alt over threshold 
+1609459403, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459408, invalid syntax for number, Trigger Check: alt over threshold 
+1609459409, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459414, invalid syntax for number, Trigger Check: alt over threshold 
+1609459415, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459420, invalid syntax for number, Trigger Check: alt over threshold 
+1609459420, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459425, invalid syntax for number, Trigger Check: alt over threshold 
+1609459426, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459430, invalid syntax for number, Trigger Check: alt over threshold 
+1609459431, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459436, invalid syntax for number, Trigger Check: alt over threshold 
+1609459436, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459442, invalid syntax for number, Trigger Check: alt over threshold 
+1609459443, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459447, invalid syntax for number, Trigger Check: alt over threshold 
+1609459448, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459453, invalid syntax for number, Trigger Check: alt over threshold 
+1609459453, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459458, invalid syntax for number, Trigger Check: alt over threshold 
+1609459458, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459463, invalid syntax for number, Trigger Check: alt over threshold 
+1609459464, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459470, invalid syntax for number, Trigger Check: alt over threshold 
+1609459470, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459475, invalid syntax for number, Trigger Check: alt over threshold 
+1609459475, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459480, invalid syntax for number, Trigger Check: alt over threshold 
+1609459481, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459485, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459486, invalid syntax for number, Trigger Check: alt over threshold 
+1609459487, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459492, invalid syntax for number, Trigger Check: alt over threshold 
+1609459492, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459498, invalid syntax for number, Trigger Check: alt over threshold 
+1609459499, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459503, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459504, invalid syntax for number, Trigger Check: alt over threshold 
+1609459505, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459510, invalid syntax for number, Trigger Check: alt over threshold 
+1609459510, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459515, invalid syntax for number, Trigger Check: alt over threshold 
+1609459515, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459520, invalid syntax for number, Trigger Check: alt over threshold 
+1609459521, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459527, invalid syntax for number, Trigger Check: alt over threshold 
+1609459527, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459532, invalid syntax for number, Trigger Check: alt over threshold 
+1609459532, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459537, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459537, invalid syntax for number, Trigger Check: alt over threshold 
+1609459538, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459543, invalid syntax for number, Trigger Check: alt over threshold 
+1609459543, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459548, invalid syntax for number, Trigger Check: alt over threshold 
+1609459549, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459555, invalid syntax for number, Trigger Check: alt over threshold 
+1609459556, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459560, invalid syntax for number, Trigger Check: alt over threshold 
+1609459561, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459565, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459566, invalid syntax for number, Trigger Check: alt over threshold 
+1609459566, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459571, invalid syntax for number, Trigger Check: alt over threshold 
+1609459572, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459577, invalid syntax for number, Trigger Check: alt over threshold 
+1609459577, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459583, invalid syntax for number, Trigger Check: alt over threshold 
+1609459584, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459589, invalid syntax for number, Trigger Check: alt over threshold 
+1609459589, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459594, invalid syntax for number, Trigger Check: alt over threshold 
+1609459594, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459599, invalid syntax for number, Trigger Check: alt over threshold 
+1609459600, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459605, invalid syntax for number, Trigger Check: alt over threshold 
+1609459605, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459611, invalid syntax for number, Trigger Check: alt over threshold 
+1609459612, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459617, invalid syntax for number, Trigger Check: alt over threshold 
+1609459617, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459622, invalid syntax for number, Trigger Check: alt over threshold 
+1609459622, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459627, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459627, invalid syntax for number, Trigger Check: alt over threshold 
+1609459628, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459633, invalid syntax for number, Trigger Check: alt over threshold 
+1609459633, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459639, invalid syntax for number, Trigger Check: alt over threshold 
+1609459640, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459645, invalid syntax for number, Trigger Check: alt over threshold 
+1609459645, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459650, invalid syntax for number, Trigger Check: alt over threshold 
+1609459650, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459655, invalid syntax for number, Trigger Check: alt over threshold 
+1609459656, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459660, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459661, invalid syntax for number, Trigger Check: alt over threshold 
+1609459661, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459668, invalid syntax for number, Trigger Check: alt over threshold 
+1609459668, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459673, invalid syntax for number, Trigger Check: alt over threshold 
+1609459673, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459678, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459679, invalid syntax for number, Trigger Check: alt over threshold 
+1609459679, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459684, invalid syntax for number, Trigger Check: alt over threshold 
+1609459684, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459689, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459690, invalid syntax for number, Trigger Check: alt over threshold 
+1609459690, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459696, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459697, invalid syntax for number, Trigger Check: alt over threshold 
+1609459697, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459702, invalid syntax for number, Trigger Check: alt over threshold 
+1609459702, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459707, invalid syntax for number, Trigger Check: alt over threshold 
+1609459708, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459713, invalid syntax for number, Trigger Check: alt over threshold 
+1609459713, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459718, invalid syntax for number, Trigger Check: alt over threshold 
+1609459718, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459725, invalid syntax for number, Trigger Check: alt over threshold 
+1609459725, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459730, invalid syntax for number, Trigger Check: alt over threshold 
+1609459731, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459735, invalid syntax for number, Trigger Check: alt over threshold 
+1609459736, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459741, invalid syntax for number, Trigger Check: alt over threshold 
+1609459741, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459746, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459746, invalid syntax for number, Trigger Check: alt over threshold 
+1609459747, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459753, invalid syntax for number, Trigger Check: alt over threshold 
+1609459754, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459758, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459759, invalid syntax for number, Trigger Check: alt over threshold 
+1609459759, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459764, invalid syntax for number, Trigger Check: alt over threshold 
+1609459765, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459770, invalid syntax for number, Trigger Check: alt over threshold 
+1609459770, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459775, invalid syntax for number, Trigger Check: alt over threshold 
+1609459775, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459781, invalid syntax for number, Trigger Check: alt over threshold 
+1609459782, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459787, invalid syntax for number, Trigger Check: alt over threshold 
+1609459787, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459792, invalid syntax for number, Trigger Check: alt over threshold 
+1609459792, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459797, invalid syntax for number, Trigger Check: alt over threshold 
+1609459798, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459802, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459803, invalid syntax for number, Trigger Check: alt over threshold 
+1609459803, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459810, invalid syntax for number, Trigger Check: alt over threshold 
+1609459810, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459815, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459815, invalid syntax for number, Trigger Check: alt over threshold 
+1609459816, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459821, invalid syntax for number, Trigger Check: alt over threshold 
+1609459821, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459826, invalid syntax for number, Trigger Check: alt over threshold 
+1609459827, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459832, invalid syntax for number, Trigger Check: alt over threshold 
+1609459832, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459839, invalid syntax for number, Trigger Check: alt over threshold 
+1609459839, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459844, invalid syntax for number, Trigger Check: alt over threshold 
+1609459844, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459849, invalid syntax for number, Trigger Check: alt over threshold 
+1609459850, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459855, invalid syntax for number, Trigger Check: alt over threshold 
+1609459855, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459860, invalid syntax for number, Trigger Check: alt over threshold 
+1609459860, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459867, invalid syntax for number, Trigger Check: alt over threshold 
+1609459867, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459872, invalid syntax for number, Trigger Check: alt over threshold 
+1609459872, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459877, invalid syntax for number, Trigger Check: alt over threshold 
+1609459878, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459883, invalid syntax for number, Trigger Check: alt over threshold 
+1609459883, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459888, invalid syntax for number, Trigger Check: alt over threshold 
+1609459888, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459895, invalid syntax for number, Trigger Check: alt over threshold 
+1609459895, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459900, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609459901, invalid syntax for number, Trigger Check: alt over threshold 
+1609459901, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459906, invalid syntax for number, Trigger Check: alt over threshold 
+1609459906, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459911, invalid syntax for number, Trigger Check: alt over threshold 
+1609459911, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459916, invalid syntax for number, Trigger Check: alt over threshold 
+1609459917, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459923, invalid syntax for number, Trigger Check: alt over threshold 
+1609459924, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459929, invalid syntax for number, Trigger Check: alt over threshold 
+1609459929, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459934, invalid syntax for number, Trigger Check: alt over threshold 
+1609459934, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459939, invalid syntax for number, Trigger Check: alt over threshold 
+1609459940, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459945, invalid syntax for number, Trigger Check: alt over threshold 
+1609459945, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459952, invalid syntax for number, Trigger Check: alt over threshold 
+1609459952, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459957, invalid syntax for number, Trigger Check: alt over threshold 
+1609459957, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459962, invalid syntax for number, Trigger Check: alt over threshold 
+1609459963, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459967, invalid syntax for number, Trigger Check: alt over threshold 
+1609459968, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459973, invalid syntax for number, Trigger Check: alt over threshold 
+1609459973, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459980, invalid syntax for number, Trigger Check: alt over threshold 
+1609459980, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459985, invalid syntax for number, Trigger Check: alt over threshold 
+1609459986, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459991, invalid syntax for number, Trigger Check: alt over threshold 
+1609459991, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609459996, invalid syntax for number, Trigger Check: alt over threshold 
+1609459997, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460002, invalid syntax for number, Trigger Check: alt over threshold 
+1609460002, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460009, invalid syntax for number, Trigger Check: alt over threshold 
+1609460009, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460014, invalid syntax for number, Trigger Check: alt over threshold 
+1609460015, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460020, invalid syntax for number, Trigger Check: alt over threshold 
+1609460020, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460025, invalid syntax for number, Trigger Check: alt over threshold 
+1609460026, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460030, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460031, invalid syntax for number, Trigger Check: alt over threshold 
+1609460032, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460038, invalid syntax for number, Trigger Check: alt over threshold 
+1609460039, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460040, math domain error, Thermal Sensor 
+1609460043, invalid syntax for number, Trigger Check: alt over threshold 
+1609460043, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460048, invalid syntax for number, Trigger Check: alt over threshold 
+1609460049, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460053, invalid syntax for number, Trigger Check: alt over threshold 
+1609460054, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460059, invalid syntax for number, Trigger Check: alt over threshold 
+1609460059, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460066, invalid syntax for number, Trigger Check: alt over threshold 
+1609460066, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460071, invalid syntax for number, Trigger Check: alt over threshold 
+1609460071, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460076, invalid syntax for number, Trigger Check: alt over threshold 
+1609460077, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460082, invalid syntax for number, Trigger Check: alt over threshold 
+1609460082, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460087, invalid syntax for number, Trigger Check: alt over threshold 
+1609460087, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460094, invalid syntax for number, Trigger Check: alt over threshold 
+1609460094, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460099, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460100, invalid syntax for number, Trigger Check: alt over threshold 
+1609460100, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460105, invalid syntax for number, Trigger Check: alt over threshold 
+1609460105, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460110, invalid syntax for number, Trigger Check: alt over threshold 
+1609460111, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460116, invalid syntax for number, Trigger Check: alt over threshold 
+1609460116, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460123, invalid syntax for number, Trigger Check: alt over threshold 
+1609460123, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460128, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460129, invalid syntax for number, Trigger Check: alt over threshold 
+1609460129, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460135, invalid syntax for number, Trigger Check: alt over threshold 
+1609460135, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460140, invalid syntax for number, Trigger Check: alt over threshold 
+1609460140, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460145, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460146, invalid syntax for number, Trigger Check: alt over threshold 
+1609460146, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460153, invalid syntax for number, Trigger Check: alt over threshold 
+1609460154, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460159, invalid syntax for number, Trigger Check: alt over threshold 
+1609460159, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460164, invalid syntax for number, Trigger Check: alt over threshold 
+1609460164, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460169, invalid syntax for number, Trigger Check: alt over threshold 
+1609460170, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460175, invalid syntax for number, Trigger Check: alt over threshold 
+1609460175, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460182, invalid syntax for number, Trigger Check: alt over threshold 
+1609460182, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460187, invalid syntax for number, Trigger Check: alt over threshold 
+1609460188, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460192, invalid syntax for number, Trigger Check: alt over threshold 
+1609460193, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460198, invalid syntax for number, Trigger Check: alt over threshold 
+1609460198, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460203, invalid syntax for number, Trigger Check: alt over threshold 
+1609460203, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460210, invalid syntax for number, Trigger Check: alt over threshold 
+1609460211, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460216, invalid syntax for number, Trigger Check: alt over threshold 
+1609460216, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460221, invalid syntax for number, Trigger Check: alt over threshold 
+1609460221, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460226, invalid syntax for number, Trigger Check: alt over threshold 
+1609460227, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460232, invalid syntax for number, Trigger Check: alt over threshold 
+1609460232, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460239, invalid syntax for number, Trigger Check: alt over threshold 
+1609460240, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460245, invalid syntax for number, Trigger Check: alt over threshold 
+1609460245, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460250, invalid syntax for number, Trigger Check: alt over threshold 
+1609460251, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460256, invalid syntax for number, Trigger Check: alt over threshold 
+1609460256, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460262, invalid syntax for number, Trigger Check: alt over threshold 
+1609460262, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460269, invalid syntax for number, Trigger Check: alt over threshold 
+1609460270, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460275, invalid syntax for number, Trigger Check: alt over threshold 
+1609460275, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460280, invalid syntax for number, Trigger Check: alt over threshold 
+1609460281, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460286, invalid syntax for number, Trigger Check: alt over threshold 
+1609460286, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460291, invalid syntax for number, Trigger Check: alt over threshold 
+1609460292, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460299, invalid syntax for number, Trigger Check: alt over threshold 
+1609460299, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460304, invalid syntax for number, Trigger Check: alt over threshold 
+1609460305, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460310, invalid syntax for number, Trigger Check: alt over threshold 
+1609460310, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460315, invalid syntax for number, Trigger Check: alt over threshold 
+1609460315, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460320, invalid syntax for number, Trigger Check: alt over threshold 
+1609460321, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460328, invalid syntax for number, Trigger Check: alt over threshold 
+1609460328, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460333, invalid syntax for number, Trigger Check: alt over threshold 
+1609460333, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460338, invalid syntax for number, Trigger Check: alt over threshold 
+1609460339, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460344, invalid syntax for number, Trigger Check: alt over threshold 
+1609460345, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460350, invalid syntax for number, Trigger Check: alt over threshold 
+1609460350, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460357, invalid syntax for number, Trigger Check: alt over threshold 
+1609460358, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460362, invalid syntax for number, Trigger Check: alt over threshold 
+1609460363, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460368, invalid syntax for number, Trigger Check: alt over threshold 
+1609460368, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460373, invalid syntax for number, Trigger Check: alt over threshold 
+1609460374, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460379, invalid syntax for number, Trigger Check: alt over threshold 
+1609460379, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460386, invalid syntax for number, Trigger Check: alt over threshold 
+1609460387, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460392, invalid syntax for number, Trigger Check: alt over threshold 
+1609460392, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460397, invalid syntax for number, Trigger Check: alt over threshold 
+1609460398, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460403, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460403, invalid syntax for number, Trigger Check: alt over threshold 
+1609460404, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460409, invalid syntax for number, Trigger Check: alt over threshold 
+1609460410, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460417, invalid syntax for number, Trigger Check: alt over threshold 
+1609460418, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460423, invalid syntax for number, Trigger Check: alt over threshold 
+1609460423, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460428, invalid syntax for number, Trigger Check: alt over threshold 
+1609460429, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460433, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460434, invalid syntax for number, Trigger Check: alt over threshold 
+1609460434, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460439, invalid syntax for number, Trigger Check: alt over threshold 
+1609460440, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460447, invalid syntax for number, Trigger Check: alt over threshold 
+1609460447, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460452, invalid syntax for number, Trigger Check: alt over threshold 
+1609460453, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460458, invalid syntax for number, Trigger Check: alt over threshold 
+1609460458, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460464, invalid syntax for number, Trigger Check: alt over threshold 
+1609460464, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460469, invalid syntax for number, Trigger Check: alt over threshold 
+1609460470, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460477, invalid syntax for number, Trigger Check: alt over threshold 
+1609460477, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460482, invalid syntax for number, Trigger Check: alt over threshold 
+1609460483, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460487, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460488, invalid syntax for number, Trigger Check: alt over threshold 
+1609460488, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460493, invalid syntax for number, Trigger Check: alt over threshold 
+1609460494, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460499, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460500, invalid syntax for number, Trigger Check: alt over threshold 
+1609460500, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460507, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460508, invalid syntax for number, Trigger Check: alt over threshold 
+1609460508, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460514, invalid syntax for number, Trigger Check: alt over threshold 
+1609460514, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460519, invalid syntax for number, Trigger Check: alt over threshold 
+1609460520, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460524, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460525, invalid syntax for number, Trigger Check: alt over threshold 
+1609460526, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460531, invalid syntax for number, Trigger Check: alt over threshold 
+1609460531, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460538, invalid syntax for number, Trigger Check: alt over threshold 
+1609460539, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460544, invalid syntax for number, Trigger Check: alt over threshold 
+1609460544, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460549, invalid syntax for number, Trigger Check: alt over threshold 
+1609460549, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460554, invalid syntax for number, Trigger Check: alt over threshold 
+1609460555, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460560, invalid syntax for number, Trigger Check: alt over threshold 
+1609460560, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460568, invalid syntax for number, Trigger Check: alt over threshold 
+1609460568, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460573, invalid syntax for number, Trigger Check: alt over threshold 
+1609460573, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460579, invalid syntax for number, Trigger Check: alt over threshold 
+1609460579, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460584, invalid syntax for number, Trigger Check: alt over threshold 
+1609460585, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460590, invalid syntax for number, Trigger Check: alt over threshold 
+1609460590, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460598, invalid syntax for number, Trigger Check: alt over threshold 
+1609460599, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460604, invalid syntax for number, Trigger Check: alt over threshold 
+1609460604, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460609, invalid syntax for number, Trigger Check: alt over threshold 
+1609460609, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460615, invalid syntax for number, Trigger Check: alt over threshold 
+1609460615, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460620, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460620, invalid syntax for number, Trigger Check: alt over threshold 
+1609460621, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460629, invalid syntax for number, Trigger Check: alt over threshold 
+1609460629, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460634, invalid syntax for number, Trigger Check: alt over threshold 
+1609460634, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460639, invalid syntax for number, Trigger Check: alt over threshold 
+1609460640, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460645, invalid syntax for number, Trigger Check: alt over threshold 
+1609460645, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460651, invalid syntax for number, Trigger Check: alt over threshold 
+1609460651, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460659, invalid syntax for number, Trigger Check: alt over threshold 
+1609460659, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460664, invalid syntax for number, Trigger Check: alt over threshold 
+1609460664, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460669, invalid syntax for number, Trigger Check: alt over threshold 
+1609460670, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460674, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460675, invalid syntax for number, Trigger Check: alt over threshold 
+1609460676, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460680, invalid syntax for number, Trigger Check: alt over threshold 
+1609460681, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460688, invalid syntax for number, Trigger Check: alt over threshold 
+1609460689, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460694, invalid syntax for number, Trigger Check: alt over threshold 
+1609460694, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460699, invalid syntax for number, Trigger Check: alt over threshold 
+1609460699, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460704, invalid syntax for number, Trigger Check: alt over threshold 
+1609460705, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460710, invalid syntax for number, Trigger Check: alt over threshold 
+1609460711, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460718, invalid syntax for number, Trigger Check: alt over threshold 
+1609460719, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460724, invalid syntax for number, Trigger Check: alt over threshold 
+1609460724, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460729, invalid syntax for number, Trigger Check: alt over threshold 
+1609460729, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460734, invalid syntax for number, Trigger Check: alt over threshold 
+1609460735, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460740, invalid syntax for number, Trigger Check: alt over threshold 
+1609460740, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460748, invalid syntax for number, Trigger Check: alt over threshold 
+1609460748, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460753, invalid syntax for number, Trigger Check: alt over threshold 
+1609460754, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460759, invalid syntax for number, Trigger Check: alt over threshold 
+1609460759, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460764, invalid syntax for number, Trigger Check: alt over threshold 
+1609460765, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460770, invalid syntax for number, Trigger Check: alt over threshold 
+1609460770, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460778, invalid syntax for number, Trigger Check: alt over threshold 
+1609460778, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460783, invalid syntax for number, Trigger Check: alt over threshold 
+1609460784, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460788, invalid syntax for number, Trigger Check: alt over threshold 
+1609460789, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460794, invalid syntax for number, Trigger Check: alt over threshold 
+1609460795, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460800, invalid syntax for number, Trigger Check: alt over threshold 
+1609460801, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460808, invalid syntax for number, Trigger Check: alt over threshold 
+1609460809, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460814, invalid syntax for number, Trigger Check: alt over threshold 
+1609460814, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460819, invalid syntax for number, Trigger Check: alt over threshold 
+1609460819, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460824, invalid syntax for number, Trigger Check: alt over threshold 
+1609460825, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460830, invalid syntax for number, Trigger Check: alt over threshold 
+1609460830, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460838, invalid syntax for number, Trigger Check: alt over threshold 
+1609460838, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460843, invalid syntax for number, Trigger Check: alt over threshold 
+1609460844, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460849, invalid syntax for number, Trigger Check: alt over threshold 
+1609460849, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460854, invalid syntax for number, Trigger Check: alt over threshold 
+1609460854, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460859, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460860, invalid syntax for number, Trigger Check: alt over threshold 
+1609460860, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460868, invalid syntax for number, Trigger Check: alt over threshold 
+1609460868, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460873, invalid syntax for number, Trigger Check: alt over threshold 
+1609460874, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460879, invalid syntax for number, Trigger Check: alt over threshold 
+1609460879, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460884, invalid syntax for number, Trigger Check: alt over threshold 
+1609460884, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460889, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460890, invalid syntax for number, Trigger Check: alt over threshold 
+1609460891, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460898, invalid syntax for number, Trigger Check: alt over threshold 
+1609460899, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460904, invalid syntax for number, Trigger Check: alt over threshold 
+1609460904, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460909, invalid syntax for number, Trigger Check: alt over threshold 
+1609460910, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460915, invalid syntax for number, Trigger Check: alt over threshold 
+1609460915, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460920, invalid syntax for number, Trigger Check: alt over threshold 
+1609460920, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460928, invalid syntax for number, Trigger Check: alt over threshold 
+1609460928, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460933, invalid syntax for number, Trigger Check: alt over threshold 
+1609460934, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460939, invalid syntax for number, Trigger Check: alt over threshold 
+1609460939, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460944, invalid syntax for number, Trigger Check: alt over threshold 
+1609460944, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460949, invalid syntax for number, Trigger Check: alt over threshold 
+1609460950, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460957, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609460958, invalid syntax for number, Trigger Check: alt over threshold 
+1609460958, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460963, invalid syntax for number, Trigger Check: alt over threshold 
+1609460964, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460969, invalid syntax for number, Trigger Check: alt over threshold 
+1609460969, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460974, invalid syntax for number, Trigger Check: alt over threshold 
+1609460975, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460979, invalid syntax for number, Trigger Check: alt over threshold 
+1609460980, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460988, invalid syntax for number, Trigger Check: alt over threshold 
+1609460988, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460993, invalid syntax for number, Trigger Check: alt over threshold 
+1609460993, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609460998, invalid syntax for number, Trigger Check: alt over threshold 
+1609460999, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461004, invalid syntax for number, Trigger Check: alt over threshold 
+1609461005, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461010, invalid syntax for number, Trigger Check: alt over threshold 
+1609461010, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461018, invalid syntax for number, Trigger Check: alt over threshold 
+1609461018, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461023, invalid syntax for number, Trigger Check: alt over threshold 
+1609461024, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461029, invalid syntax for number, Trigger Check: alt over threshold 
+1609461029, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461034, invalid syntax for number, Trigger Check: alt over threshold 
+1609461034, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461039, invalid syntax for number, Trigger Check: alt over threshold 
+1609461040, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461048, invalid syntax for number, Trigger Check: alt over threshold 
+1609461048, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461053, invalid syntax for number, Trigger Check: alt over threshold 
+1609461054, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461058, invalid syntax for number, Trigger Check: alt over threshold 
+1609461059, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461064, invalid syntax for number, Trigger Check: alt over threshold 
+1609461065, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461070, invalid syntax for number, Trigger Check: alt over threshold 
+1609461070, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461078, invalid syntax for number, Trigger Check: alt over threshold 
+1609461079, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461083, invalid syntax for number, Trigger Check: alt over threshold 
+1609461084, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461089, invalid syntax for number, Trigger Check: alt over threshold 
+1609461089, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461094, invalid syntax for number, Trigger Check: alt over threshold 
+1609461094, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461099, invalid syntax for number, Trigger Check: alt over threshold 
+1609461100, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461108, invalid syntax for number, Trigger Check: alt over threshold 
+1609461108, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461113, invalid syntax for number, Trigger Check: alt over threshold 
+1609461114, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461119, invalid syntax for number, Trigger Check: alt over threshold 
+1609461119, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461124, invalid syntax for number, Trigger Check: alt over threshold 
+1609461124, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461129, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609461130, invalid syntax for number, Trigger Check: alt over threshold 
+1609461130, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461138, invalid syntax for number, Trigger Check: alt over threshold 
+1609461139, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461143, invalid syntax for number, Trigger Check: alt over threshold 
+1609461144, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461149, invalid syntax for number, Trigger Check: alt over threshold 
+1609461149, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461154, invalid syntax for number, Trigger Check: alt over threshold 
+1609461154, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461159, invalid syntax for number, Trigger Check: alt over threshold 
+1609461160, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461168, invalid syntax for number, Trigger Check: alt over threshold 
+1609461168, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461173, invalid syntax for number, Trigger Check: alt over threshold 
+1609461173, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461178, invalid syntax for number, Trigger Check: alt over threshold 
+1609461179, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461184, invalid syntax for number, Trigger Check: alt over threshold 
+1609461184, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461189, invalid syntax for number, Trigger Check: alt over threshold 
+1609461189, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461197, invalid syntax for number, Trigger Check: alt over threshold 
+1609461198, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461203, invalid syntax for number, Trigger Check: alt over threshold 
+1609461203, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461208, invalid syntax for number, Trigger Check: alt over threshold 
+1609461209, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461214, invalid syntax for number, Trigger Check: alt over threshold 
+1609461214, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461219, invalid syntax for number, Trigger Check: alt over threshold 
+1609461219, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461227, invalid syntax for number, Trigger Check: alt over threshold 
+1609461228, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461232, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609461233, invalid syntax for number, Trigger Check: alt over threshold 
+1609461233, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461238, invalid syntax for number, Trigger Check: alt over threshold 
+1609461239, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461244, invalid syntax for number, Trigger Check: alt over threshold 
+1609461245, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461249, invalid syntax for number, Trigger Check: alt over threshold 
+1609461250, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461258, invalid syntax for number, Trigger Check: alt over threshold 
+1609461258, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461263, invalid syntax for number, Trigger Check: alt over threshold 
+1609461264, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461269, invalid syntax for number, Trigger Check: alt over threshold 
+1609461269, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461274, invalid syntax for number, Trigger Check: alt over threshold 
+1609461274, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461279, invalid syntax for number, Trigger Check: alt over threshold 
+1609461280, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461288, invalid syntax for number, Trigger Check: alt over threshold 
+1609461288, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461293, invalid syntax for number, Trigger Check: alt over threshold 
+1609461293, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461299, invalid syntax for number, Trigger Check: alt over threshold 
+1609461299, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461304, invalid syntax for number, Trigger Check: alt over threshold 
+1609461304, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461309, invalid syntax for number, Trigger Check: alt over threshold 
+1609461310, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461317, invalid syntax for number, Trigger Check: alt over threshold 
+1609461318, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461323, invalid syntax for number, Trigger Check: alt over threshold 
+1609461324, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461329, invalid syntax for number, Trigger Check: alt over threshold 
+1609461329, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461334, invalid syntax for number, Trigger Check: alt over threshold 
+1609461335, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461340, invalid syntax for number, Trigger Check: alt over threshold 
+1609461340, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461348, invalid syntax for number, Trigger Check: alt over threshold 
+1609461348, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461353, invalid syntax for number, Trigger Check: alt over threshold 
+1609461353, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461358, invalid syntax for number, Trigger Check: alt over threshold 
+1609461358, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461363, invalid syntax for number, Trigger Check: alt over threshold 
+1609461364, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461369, invalid syntax for number, Trigger Check: alt over threshold 
+1609461370, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461378, invalid syntax for number, Trigger Check: alt over threshold 
+1609461378, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461383, invalid syntax for number, Trigger Check: alt over threshold 
+1609461384, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461388, invalid syntax for number, Trigger Check: alt over threshold 
+1609461389, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461394, invalid syntax for number, Trigger Check: alt over threshold 
+1609461394, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461399, invalid syntax for number, Trigger Check: alt over threshold 
+1609461400, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461407, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609461408, invalid syntax for number, Trigger Check: alt over threshold 
+1609461409, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461414, invalid syntax for number, Trigger Check: alt over threshold 
+1609461414, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461419, invalid syntax for number, Trigger Check: alt over threshold 
+1609461419, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461424, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609461425, invalid syntax for number, Trigger Check: alt over threshold 
+1609461425, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461430, invalid syntax for number, Trigger Check: alt over threshold 
+1609461430, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461438, invalid syntax for number, Trigger Check: alt over threshold 
+1609461439, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461444, invalid syntax for number, Trigger Check: alt over threshold 
+1609461444, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461449, invalid syntax for number, Trigger Check: alt over threshold 
+1609461450, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461454, invalid syntax for number, Trigger Check: alt over threshold 
+1609461455, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461460, invalid syntax for number, Trigger Check: alt over threshold 
+1609461460, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461468, invalid syntax for number, Trigger Check: alt over threshold 
+1609461469, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461474, invalid syntax for number, Trigger Check: alt over threshold 
+1609461474, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461480, invalid syntax for number, Trigger Check: alt over threshold 
+1609461480, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461485, invalid syntax for number, Trigger Check: alt over threshold 
+1609461485, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461490, invalid syntax for number, Trigger Check: alt over threshold 
+1609461491, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461499, invalid syntax for number, Trigger Check: alt over threshold 
+1609461499, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461504, invalid syntax for number, Trigger Check: alt over threshold 
+1609461505, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461509, invalid syntax for number, Trigger Check: alt over threshold 
+1609461510, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461515, invalid syntax for number, Trigger Check: alt over threshold 
+1609461515, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461520, invalid syntax for number, Trigger Check: alt over threshold 
+1609461520, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461529, invalid syntax for number, Trigger Check: alt over threshold 
+1609461529, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461534, invalid syntax for number, Trigger Check: alt over threshold 
+1609461534, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461539, invalid syntax for number, Trigger Check: alt over threshold 
+1609461540, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461545, invalid syntax for number, Trigger Check: alt over threshold 
+1609461545, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461550, invalid syntax for number, Trigger Check: alt over threshold 
+1609461550, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461559, invalid syntax for number, Trigger Check: alt over threshold 
+1609461559, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461564, invalid syntax for number, Trigger Check: alt over threshold 
+1609461565, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461570, invalid syntax for number, Trigger Check: alt over threshold 
+1609461570, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461575, invalid syntax for number, Trigger Check: alt over threshold 
+1609461575, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461580, invalid syntax for number, Trigger Check: alt over threshold 
+1609461581, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461589, invalid syntax for number, Trigger Check: alt over threshold 
+1609461589, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461594, invalid syntax for number, Trigger Check: alt over threshold 
+1609461595, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461600, invalid syntax for number, Trigger Check: alt over threshold 
+1609461600, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461605, invalid syntax for number, Trigger Check: alt over threshold 
+1609461606, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461610, invalid syntax for number, Trigger Check: alt over threshold 
+1609461611, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461619, invalid syntax for number, Trigger Check: alt over threshold 
+1609461619, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461624, invalid syntax for number, Trigger Check: alt over threshold 
+1609461625, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461630, invalid syntax for number, Trigger Check: alt over threshold 
+1609461630, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461635, invalid syntax for number, Trigger Check: alt over threshold 
+1609461636, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461641, invalid syntax for number, Trigger Check: alt over threshold 
+1609461641, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461649, invalid syntax for number, Trigger Check: alt over threshold 
+1609461650, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461655, invalid syntax for number, Trigger Check: alt over threshold 
+1609461655, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461660, invalid syntax for number, Trigger Check: alt over threshold 
+1609461660, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461665, invalid syntax for number, Trigger Check: alt over threshold 
+1609461666, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461671, invalid syntax for number, Trigger Check: alt over threshold 
+1609461671, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461679, invalid syntax for number, Trigger Check: alt over threshold 
+1609461680, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461684, invalid syntax for number, Trigger Check: alt over threshold 
+1609461685, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461690, invalid syntax for number, Trigger Check: alt over threshold 
+1609461690, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461695, invalid syntax for number, Trigger Check: alt over threshold 
+1609461696, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461700, invalid syntax for number, Trigger Check: alt over threshold 
+1609461701, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461709, invalid syntax for number, Trigger Check: alt over threshold 
+1609461710, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461714, invalid syntax for number, Trigger Check: alt over threshold 
+1609461715, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461720, invalid syntax for number, Trigger Check: alt over threshold 
+1609461720, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461725, invalid syntax for number, Trigger Check: alt over threshold 
+1609461725, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461731, invalid syntax for number, Trigger Check: alt over threshold 
+1609461731, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461740, invalid syntax for number, Trigger Check: alt over threshold 
+1609461740, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461745, invalid syntax for number, Trigger Check: alt over threshold 
+1609461745, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461750, invalid syntax for number, Trigger Check: alt over threshold 
+1609461751, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461756, invalid syntax for number, Trigger Check: alt over threshold 
+1609461756, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461761, invalid syntax for number, Trigger Check: alt over threshold 
+1609461761, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461770, invalid syntax for number, Trigger Check: alt over threshold 
+1609461770, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461775, invalid syntax for number, Trigger Check: alt over threshold 
+1609461775, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461780, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609461781, invalid syntax for number, Trigger Check: alt over threshold 
+1609461781, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461787, invalid syntax for number, Trigger Check: alt over threshold 
+1609461787, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461793, invalid syntax for number, Trigger Check: alt over threshold 
+1609461793, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461801, invalid syntax for number, Trigger Check: alt over threshold 
+1609461802, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461807, invalid syntax for number, Trigger Check: alt over threshold 
+1609461807, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461812, invalid syntax for number, Trigger Check: alt over threshold 
+1609461812, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461818, invalid syntax for number, Trigger Check: alt over threshold 
+1609461818, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461823, invalid syntax for number, Trigger Check: alt over threshold 
+1609461823, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461831, invalid syntax for number, Trigger Check: alt over threshold 
+1609461832, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461837, invalid syntax for number, Trigger Check: alt over threshold 
+1609461837, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461842, invalid syntax for number, Trigger Check: alt over threshold 
+1609461843, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461847, invalid syntax for number, Trigger Check: alt over threshold 
+1609461848, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461853, invalid syntax for number, Trigger Check: alt over threshold 
+1609461853, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461862, invalid syntax for number, Trigger Check: alt over threshold 
+1609461862, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461867, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609461868, invalid syntax for number, Trigger Check: alt over threshold 
+1609461868, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461873, invalid syntax for number, Trigger Check: alt over threshold 
+1609461874, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461879, invalid syntax for number, Trigger Check: alt over threshold 
+1609461879, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461884, invalid syntax for number, Trigger Check: alt over threshold 
+1609461884, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461892, invalid syntax for number, Trigger Check: alt over threshold 
+1609461893, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461898, invalid syntax for number, Trigger Check: alt over threshold 
+1609461898, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461903, invalid syntax for number, Trigger Check: alt over threshold 
+1609461903, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461908, invalid syntax for number, Trigger Check: alt over threshold 
+1609461909, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461913, invalid syntax for number, Trigger Check: alt over threshold 
+1609461914, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461922, invalid syntax for number, Trigger Check: alt over threshold 
+1609461922, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461927, invalid syntax for number, Trigger Check: alt over threshold 
+1609461928, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461933, invalid syntax for number, Trigger Check: alt over threshold 
+1609461933, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461938, invalid syntax for number, Trigger Check: alt over threshold 
+1609461938, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461944, invalid syntax for number, Trigger Check: alt over threshold 
+1609461944, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461952, invalid syntax for number, Trigger Check: alt over threshold 
+1609461952, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461957, invalid syntax for number, Trigger Check: alt over threshold 
+1609461958, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461963, invalid syntax for number, Trigger Check: alt over threshold 
+1609461963, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461968, invalid syntax for number, Trigger Check: alt over threshold 
+1609461969, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461974, invalid syntax for number, Trigger Check: alt over threshold 
+1609461974, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461982, invalid syntax for number, Trigger Check: alt over threshold 
+1609461982, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461987, invalid syntax for number, Trigger Check: alt over threshold 
+1609461988, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461993, invalid syntax for number, Trigger Check: alt over threshold 
+1609461993, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609461999, invalid syntax for number, Trigger Check: alt over threshold 
+1609461999, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462004, invalid syntax for number, Trigger Check: alt over threshold 
+1609462004, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462013, invalid syntax for number, Trigger Check: alt over threshold 
+1609462013, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462018, invalid syntax for number, Trigger Check: alt over threshold 
+1609462019, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462024, invalid syntax for number, Trigger Check: alt over threshold 
+1609462024, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462029, invalid syntax for number, Trigger Check: alt over threshold 
+1609462029, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462034, invalid syntax for number, Trigger Check: alt over threshold 
+1609462035, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462042, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462043, invalid syntax for number, Trigger Check: alt over threshold 
+1609462044, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462048, invalid syntax for number, Trigger Check: alt over threshold 
+1609462049, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462054, invalid syntax for number, Trigger Check: alt over threshold 
+1609462055, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462060, invalid syntax for number, Trigger Check: alt over threshold 
+1609462060, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462065, invalid syntax for number, Trigger Check: alt over threshold 
+1609462066, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462074, invalid syntax for number, Trigger Check: alt over threshold 
+1609462074, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462079, invalid syntax for number, Trigger Check: alt over threshold 
+1609462079, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462084, invalid syntax for number, Trigger Check: alt over threshold 
+1609462085, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462089, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462090, invalid syntax for number, Trigger Check: alt over threshold 
+1609462090, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462095, invalid syntax for number, Trigger Check: alt over threshold 
+1609462096, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462104, invalid syntax for number, Trigger Check: alt over threshold 
+1609462104, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462109, invalid syntax for number, Trigger Check: alt over threshold 
+1609462110, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462114, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462115, invalid syntax for number, Trigger Check: alt over threshold 
+1609462115, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462121, invalid syntax for number, Trigger Check: alt over threshold 
+1609462121, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462126, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462127, invalid syntax for number, Trigger Check: alt over threshold 
+1609462127, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462135, invalid syntax for number, Trigger Check: alt over threshold 
+1609462135, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462140, invalid syntax for number, Trigger Check: alt over threshold 
+1609462141, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462146, invalid syntax for number, Trigger Check: alt over threshold 
+1609462146, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462151, invalid syntax for number, Trigger Check: alt over threshold 
+1609462152, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462156, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462157, invalid syntax for number, Trigger Check: alt over threshold 
+1609462157, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462167, invalid syntax for number, Trigger Check: alt over threshold 
+1609462167, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462172, invalid syntax for number, Trigger Check: alt over threshold 
+1609462173, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462177, invalid syntax for number, Trigger Check: alt over threshold 
+1609462178, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462183, invalid syntax for number, Trigger Check: alt over threshold 
+1609462183, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462188, invalid syntax for number, Trigger Check: alt over threshold 
+1609462189, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462197, invalid syntax for number, Trigger Check: alt over threshold 
+1609462197, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462202, invalid syntax for number, Trigger Check: alt over threshold 
+1609462203, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462208, invalid syntax for number, Trigger Check: alt over threshold 
+1609462208, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462213, invalid syntax for number, Trigger Check: alt over threshold 
+1609462213, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462218, invalid syntax for number, Trigger Check: alt over threshold 
+1609462219, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462228, invalid syntax for number, Trigger Check: alt over threshold 
+1609462229, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462233, invalid syntax for number, Trigger Check: alt over threshold 
+1609462234, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462239, invalid syntax for number, Trigger Check: alt over threshold 
+1609462239, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462244, invalid syntax for number, Trigger Check: alt over threshold 
+1609462245, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462250, invalid syntax for number, Trigger Check: alt over threshold 
+1609462250, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462259, invalid syntax for number, Trigger Check: alt over threshold 
+1609462260, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462265, invalid syntax for number, Trigger Check: alt over threshold 
+1609462265, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462270, invalid syntax for number, Trigger Check: alt over threshold 
+1609462271, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462275, invalid syntax for number, Trigger Check: alt over threshold 
+1609462276, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462281, invalid syntax for number, Trigger Check: alt over threshold 
+1609462281, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462289, invalid syntax for number, Trigger Check: alt over threshold 
+1609462290, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462294, invalid syntax for number, Trigger Check: alt over threshold 
+1609462295, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462300, invalid syntax for number, Trigger Check: alt over threshold 
+1609462300, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462306, invalid syntax for number, Trigger Check: alt over threshold 
+1609462306, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462311, invalid syntax for number, Trigger Check: alt over threshold 
+1609462311, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462321, invalid syntax for number, Trigger Check: alt over threshold 
+1609462321, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462326, invalid syntax for number, Trigger Check: alt over threshold 
+1609462327, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462332, invalid syntax for number, Trigger Check: alt over threshold 
+1609462332, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462337, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462337, invalid syntax for number, Trigger Check: alt over threshold 
+1609462338, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462343, invalid syntax for number, Trigger Check: alt over threshold 
+1609462343, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462353, invalid syntax for number, Trigger Check: alt over threshold 
+1609462353, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462358, invalid syntax for number, Trigger Check: alt over threshold 
+1609462358, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462363, invalid syntax for number, Trigger Check: alt over threshold 
+1609462364, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462368, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462369, invalid syntax for number, Trigger Check: alt over threshold 
+1609462369, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462374, invalid syntax for number, Trigger Check: alt over threshold 
+1609462375, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462384, invalid syntax for number, Trigger Check: alt over threshold 
+1609462385, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462389, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462390, invalid syntax for number, Trigger Check: alt over threshold 
+1609462390, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462395, invalid syntax for number, Trigger Check: alt over threshold 
+1609462396, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462401, invalid syntax for number, Trigger Check: alt over threshold 
+1609462402, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462407, invalid syntax for number, Trigger Check: alt over threshold 
+1609462407, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462417, invalid syntax for number, Trigger Check: alt over threshold 
+1609462417, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462422, invalid syntax for number, Trigger Check: alt over threshold 
+1609462422, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462427, invalid syntax for number, Trigger Check: alt over threshold 
+1609462428, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462433, invalid syntax for number, Trigger Check: alt over threshold 
+1609462434, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462439, invalid syntax for number, Trigger Check: alt over threshold 
+1609462439, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462449, invalid syntax for number, Trigger Check: alt over threshold 
+1609462449, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462454, invalid syntax for number, Trigger Check: alt over threshold 
+1609462454, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462460, invalid syntax for number, Trigger Check: alt over threshold 
+1609462460, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462465, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462466, invalid syntax for number, Trigger Check: alt over threshold 
+1609462466, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462471, invalid syntax for number, Trigger Check: alt over threshold 
+1609462472, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462481, invalid syntax for number, Trigger Check: alt over threshold 
+1609462482, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462487, invalid syntax for number, Trigger Check: alt over threshold 
+1609462487, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462492, invalid syntax for number, Trigger Check: alt over threshold 
+1609462492, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462497, invalid syntax for number, Trigger Check: alt over threshold 
+1609462498, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462503, invalid syntax for number, Trigger Check: alt over threshold 
+1609462503, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462513, invalid syntax for number, Trigger Check: alt over threshold 
+1609462514, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462519, invalid syntax for number, Trigger Check: alt over threshold 
+1609462519, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462524, invalid syntax for number, Trigger Check: alt over threshold 
+1609462524, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462529, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462530, invalid syntax for number, Trigger Check: alt over threshold 
+1609462530, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462535, invalid syntax for number, Trigger Check: alt over threshold 
+1609462536, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462544, invalid syntax for number, Trigger Check: alt over threshold 
+1609462545, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462550, invalid syntax for number, Trigger Check: alt over threshold 
+1609462550, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462555, invalid syntax for number, Trigger Check: alt over threshold 
+1609462555, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462560, invalid syntax for number, Trigger Check: alt over threshold 
+1609462561, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462566, invalid syntax for number, Trigger Check: alt over threshold 
+1609462566, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462576, invalid syntax for number, Trigger Check: alt over threshold 
+1609462576, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462582, invalid syntax for number, Trigger Check: alt over threshold 
+1609462582, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462587, invalid syntax for number, Trigger Check: alt over threshold 
+1609462588, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462593, invalid syntax for number, Trigger Check: alt over threshold 
+1609462593, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462598, invalid syntax for number, Trigger Check: alt over threshold 
+1609462598, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462608, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462608, invalid syntax for number, Trigger Check: alt over threshold 
+1609462609, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462614, invalid syntax for number, Trigger Check: alt over threshold 
+1609462614, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462619, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462619, invalid syntax for number, Trigger Check: alt over threshold 
+1609462620, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462625, invalid syntax for number, Trigger Check: alt over threshold 
+1609462626, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462631, invalid syntax for number, Trigger Check: alt over threshold 
+1609462632, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462640, invalid syntax for number, Trigger Check: alt over threshold 
+1609462640, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462645, invalid syntax for number, Trigger Check: alt over threshold 
+1609462646, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462651, invalid syntax for number, Trigger Check: alt over threshold 
+1609462651, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462656, invalid syntax for number, Trigger Check: alt over threshold 
+1609462657, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462661, invalid syntax for number, Trigger Check: alt over threshold 
+1609462662, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462672, invalid syntax for number, Trigger Check: alt over threshold 
+1609462672, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462677, invalid syntax for number, Trigger Check: alt over threshold 
+1609462677, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462682, invalid syntax for number, Trigger Check: alt over threshold 
+1609462683, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462688, invalid syntax for number, Trigger Check: alt over threshold 
+1609462688, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462693, invalid syntax for number, Trigger Check: alt over threshold 
+1609462694, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462703, invalid syntax for number, Trigger Check: alt over threshold 
+1609462704, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462708, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462709, invalid syntax for number, Trigger Check: alt over threshold 
+1609462710, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462715, invalid syntax for number, Trigger Check: alt over threshold 
+1609462715, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462720, invalid syntax for number, Trigger Check: alt over threshold 
+1609462720, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462726, invalid syntax for number, Trigger Check: alt over threshold 
+1609462726, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462736, invalid syntax for number, Trigger Check: alt over threshold 
+1609462736, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462741, invalid syntax for number, Trigger Check: alt over threshold 
+1609462742, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462746, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462747, invalid syntax for number, Trigger Check: alt over threshold 
+1609462748, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462752, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462753, invalid syntax for number, Trigger Check: alt over threshold 
+1609462753, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462758, invalid syntax for number, Trigger Check: alt over threshold 
+1609462759, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462769, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462769, invalid syntax for number, Trigger Check: alt over threshold 
+1609462770, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462775, invalid syntax for number, Trigger Check: alt over threshold 
+1609462775, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462780, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462781, invalid syntax for number, Trigger Check: alt over threshold 
+1609462782, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462787, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462787, invalid syntax for number, Trigger Check: alt over threshold 
+1609462788, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462793, invalid syntax for number, Trigger Check: alt over threshold 
+1609462793, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462803, invalid syntax for number, Trigger Check: alt over threshold 
+1609462803, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462808, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609462809, invalid syntax for number, Trigger Check: alt over threshold 
+1609462809, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462814, invalid syntax for number, Trigger Check: alt over threshold 
+1609462815, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462820, invalid syntax for number, Trigger Check: alt over threshold 
+1609462820, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462825, invalid syntax for number, Trigger Check: alt over threshold 
+1609462826, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462835, invalid syntax for number, Trigger Check: alt over threshold 
+1609462836, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462841, invalid syntax for number, Trigger Check: alt over threshold 
+1609462841, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462846, invalid syntax for number, Trigger Check: alt over threshold 
+1609462846, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462851, invalid syntax for number, Trigger Check: alt over threshold 
+1609462852, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462857, invalid syntax for number, Trigger Check: alt over threshold 
+1609462857, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462865, invalid syntax for number, Trigger Check: alt over threshold 
+1609462865, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462871, invalid syntax for number, Trigger Check: alt over threshold 
+1609462871, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462877, invalid syntax for number, Trigger Check: alt over threshold 
+1609462877, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462882, invalid syntax for number, Trigger Check: alt over threshold 
+1609462883, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462888, invalid syntax for number, Trigger Check: alt over threshold 
+1609462888, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462898, invalid syntax for number, Trigger Check: alt over threshold 
+1609462898, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462903, invalid syntax for number, Trigger Check: alt over threshold 
+1609462904, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462909, invalid syntax for number, Trigger Check: alt over threshold 
+1609462910, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462915, invalid syntax for number, Trigger Check: alt over threshold 
+1609462915, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462920, invalid syntax for number, Trigger Check: alt over threshold 
+1609462920, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462930, invalid syntax for number, Trigger Check: alt over threshold 
+1609462931, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462936, invalid syntax for number, Trigger Check: alt over threshold 
+1609462936, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462941, invalid syntax for number, Trigger Check: alt over threshold 
+1609462941, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462947, invalid syntax for number, Trigger Check: alt over threshold 
+1609462947, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462952, invalid syntax for number, Trigger Check: alt over threshold 
+1609462953, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462963, invalid syntax for number, Trigger Check: alt over threshold 
+1609462963, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462968, invalid syntax for number, Trigger Check: alt over threshold 
+1609462968, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462973, invalid syntax for number, Trigger Check: alt over threshold 
+1609462974, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462979, invalid syntax for number, Trigger Check: alt over threshold 
+1609462979, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462984, invalid syntax for number, Trigger Check: alt over threshold 
+1609462985, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609462994, invalid syntax for number, Trigger Check: alt over threshold 
+1609462995, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463000, invalid syntax for number, Trigger Check: alt over threshold 
+1609463001, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463006, invalid syntax for number, Trigger Check: alt over threshold 
+1609463007, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463012, invalid syntax for number, Trigger Check: alt over threshold 
+1609463012, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463017, invalid syntax for number, Trigger Check: alt over threshold 
+1609463017, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463027, invalid syntax for number, Trigger Check: alt over threshold 
+1609463028, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463033, invalid syntax for number, Trigger Check: alt over threshold 
+1609463033, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463039, invalid syntax for number, Trigger Check: alt over threshold 
+1609463039, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463044, invalid syntax for number, Trigger Check: alt over threshold 
+1609463044, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463049, invalid syntax for number, Trigger Check: alt over threshold 
+1609463050, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463060, invalid syntax for number, Trigger Check: alt over threshold 
+1609463061, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463066, invalid syntax for number, Trigger Check: alt over threshold 
+1609463067, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463072, invalid syntax for number, Trigger Check: alt over threshold 
+1609463072, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463077, invalid syntax for number, Trigger Check: alt over threshold 
+1609463077, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463082, invalid syntax for number, Trigger Check: alt over threshold 
+1609463083, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463093, invalid syntax for number, Trigger Check: alt over threshold 
+1609463093, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463098, invalid syntax for number, Trigger Check: alt over threshold 
+1609463099, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463104, invalid syntax for number, Trigger Check: alt over threshold 
+1609463104, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463110, invalid syntax for number, Trigger Check: alt over threshold 
+1609463110, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463115, invalid syntax for number, Trigger Check: alt over threshold 
+1609463115, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463126, invalid syntax for number, Trigger Check: alt over threshold 
+1609463127, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463132, invalid syntax for number, Trigger Check: alt over threshold 
+1609463132, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463137, invalid syntax for number, Trigger Check: alt over threshold 
+1609463137, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463142, invalid syntax for number, Trigger Check: alt over threshold 
+1609463143, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463148, invalid syntax for number, Trigger Check: alt over threshold 
+1609463148, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463158, invalid syntax for number, Trigger Check: alt over threshold 
+1609463159, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463164, invalid syntax for number, Trigger Check: alt over threshold 
+1609463164, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463169, invalid syntax for number, Trigger Check: alt over threshold 
+1609463170, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463175, invalid syntax for number, Trigger Check: alt over threshold 
+1609463175, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463180, invalid syntax for number, Trigger Check: alt over threshold 
+1609463181, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463191, invalid syntax for number, Trigger Check: alt over threshold 
+1609463191, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463196, invalid syntax for number, Trigger Check: alt over threshold 
+1609463197, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463202, invalid syntax for number, Trigger Check: alt over threshold 
+1609463202, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463207, invalid syntax for number, Trigger Check: alt over threshold 
+1609463207, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463212, invalid syntax for number, Trigger Check: alt over threshold 
+1609463213, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463223, invalid syntax for number, Trigger Check: alt over threshold 
+1609463223, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463228, invalid syntax for number, Trigger Check: alt over threshold 
+1609463229, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463234, invalid syntax for number, Trigger Check: alt over threshold 
+1609463234, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463240, invalid syntax for number, Trigger Check: alt over threshold 
+1609463240, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463245, invalid syntax for number, Trigger Check: alt over threshold 
+1609463245, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463256, invalid syntax for number, Trigger Check: alt over threshold 
+1609463256, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463261, invalid syntax for number, Trigger Check: alt over threshold 
+1609463262, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463267, invalid syntax for number, Trigger Check: alt over threshold 
+1609463267, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463272, invalid syntax for number, Trigger Check: alt over threshold 
+1609463272, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463277, invalid syntax for number, Trigger Check: alt over threshold 
+1609463278, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463288, invalid syntax for number, Trigger Check: alt over threshold 
+1609463288, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463293, invalid syntax for number, Trigger Check: alt over threshold 
+1609463294, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463299, invalid syntax for number, Trigger Check: alt over threshold 
+1609463299, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463304, invalid syntax for number, Trigger Check: alt over threshold 
+1609463304, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463309, invalid syntax for number, Trigger Check: alt over threshold 
+1609463310, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463320, invalid syntax for number, Trigger Check: alt over threshold 
+1609463320, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463325, invalid syntax for number, Trigger Check: alt over threshold 
+1609463326, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463331, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609463331, invalid syntax for number, Trigger Check: alt over threshold 
+1609463332, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463337, invalid syntax for number, Trigger Check: alt over threshold 
+1609463337, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463342, invalid syntax for number, Trigger Check: alt over threshold 
+1609463342, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463352, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609463353, invalid syntax for number, Trigger Check: alt over threshold 
+1609463353, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463358, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609463359, invalid syntax for number, Trigger Check: alt over threshold 
+1609463359, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463364, invalid syntax for number, Trigger Check: alt over threshold 
+1609463364, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463369, invalid syntax for number, Trigger Check: alt over threshold 
+1609463370, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463375, invalid syntax for number, Trigger Check: alt over threshold 
+1609463375, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463386, invalid syntax for number, Trigger Check: alt over threshold 
+1609463387, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463391, invalid syntax for number, Trigger Check: alt over threshold 
+1609463392, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463397, invalid syntax for number, Trigger Check: alt over threshold 
+1609463397, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463402, invalid syntax for number, Trigger Check: alt over threshold 
+1609463403, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463408, invalid syntax for number, Trigger Check: alt over threshold 
+1609463408, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463418, invalid syntax for number, Trigger Check: alt over threshold 
+1609463419, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463424, invalid syntax for number, Trigger Check: alt over threshold 
+1609463424, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463429, invalid syntax for number, Trigger Check: alt over threshold 
+1609463429, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463434, invalid syntax for number, Trigger Check: alt over threshold 
+1609463435, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463440, invalid syntax for number, Trigger Check: alt over threshold 
+1609463440, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463450, invalid syntax for number, Trigger Check: alt over threshold 
+1609463451, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463456, invalid syntax for number, Trigger Check: alt over threshold 
+1609463456, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463461, invalid syntax for number, Trigger Check: alt over threshold 
+1609463461, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463466, invalid syntax for number, Trigger Check: alt over threshold 
+1609463467, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463472, invalid syntax for number, Trigger Check: alt over threshold 
+1609463472, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463483, invalid syntax for number, Trigger Check: alt over threshold 
+1609463483, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463488, 'NoneType' object isn't subscriptable, GPS Sensor 
+1609463488, invalid syntax for number, Trigger Check: alt over threshold 
+1609463489, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463494, invalid syntax for number, Trigger Check: alt over threshold 
+1609463495, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463500, invalid syntax for number, Trigger Check: alt over threshold 
+1609463501, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463506, invalid syntax for number, Trigger Check: alt over threshold 
+1609463506, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463516, invalid syntax for number, Trigger Check: alt over threshold 
+1609463517, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463522, invalid syntax for number, Trigger Check: alt over threshold 
+1609463522, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463527, invalid syntax for number, Trigger Check: alt over threshold 
+1609463528, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463532, invalid syntax for number, Trigger Check: alt over threshold 
+1609463533, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463538, invalid syntax for number, Trigger Check: alt over threshold 
+1609463538, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463548, invalid syntax for number, Trigger Check: alt over threshold 
+1609463549, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463554, invalid syntax for number, Trigger Check: alt over threshold 
+1609463554, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463559, invalid syntax for number, Trigger Check: alt over threshold 
+1609463560, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463565, invalid syntax for number, Trigger Check: alt over threshold 
+1609463565, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
+1609463570, invalid syntax for number, Trigger Check: alt over threshold 
+1609463571, unsupported types for __gt__: 'NoneType', 'int', Trigger Check: Falling check 
