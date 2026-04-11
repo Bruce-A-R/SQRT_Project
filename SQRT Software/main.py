@@ -1,7 +1,7 @@
 """
 main.py
 
-Authors: Caimin Keavney, Bruce Ritter
+Authors: Bruce Ritter, Caimin Keavney
 Version Date: 10/4/2026
 
 Description:
@@ -14,7 +14,7 @@ There is commented out values used to test A-G tests of triggering algorithm usi
 pressure and altitude data. These are left in to use in long range test if applicable.
 DO NOT UNCOMMENT.
 test code is only within the ########## line brackets, and will be removed once testing is concluded. 
-
+##################################
 
 Loop actions sequence:
 1. take housekeeping data
@@ -219,7 +219,7 @@ while True:
             print(f"what EC is set to: {error_counter}")
 
         
-    print(f'########LOOP COUNTER {counter} ###################')
+    print(f'########LOOP COUNTER {counter} ###################')  # for visualization when running on computer
     
     #8. counting:
     counter += 1
