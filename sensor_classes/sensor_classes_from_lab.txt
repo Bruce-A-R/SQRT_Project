@@ -1,6 +1,6 @@
 """
 sensor classes from lab
-Authors: Orilaith Ni Duill, Bruce Ritter
+Authors: Orilaith Ni Dhuill, Bruce Ritter
 
 These are copies of sensor classes written during labs this semester. Code for SQRT mission sensors
 is adapted from this code as well as other work. 
