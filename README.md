@@ -4,7 +4,7 @@
 
 **Programming language:** Python (code runs on micropython controller)
 
-**Repo Information**
+**Repo Information:**
 
 This repository contains all code for the SQRT project. Older versions of code and early test data packets are included in the **old_version** branch of this repo. 
 
