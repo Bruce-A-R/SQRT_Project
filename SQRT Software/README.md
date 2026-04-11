@@ -1,6 +1,7 @@
 ## SQRT CODE
 
-This file contains all the SQRT mission software.
+This file contains all the SQRT mission software. 
+Code is updated as of 11/4/2026. 
 
 ## Directory
 
