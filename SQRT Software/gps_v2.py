@@ -1,5 +1,5 @@
 """
-gps.py
+gps_v2.py
 
 Authors: Bruce Ritter, Caimin Keavney 
 Version Date: 10/4/2026
