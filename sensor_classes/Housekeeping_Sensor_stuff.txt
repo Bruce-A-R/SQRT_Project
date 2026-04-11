@@ -1,7 +1,7 @@
 """
-sensor classes from lab
+Housekeeping Sensor Stuff 
 Authors: Orilaith Ni Dhuill, Bruce Ritter
-
+Uploaded by Orlaith, 27/2
 These are copies of sensor classes written during labs this semester. Code for SQRT mission sensors
 is adapted from this code as well as other work. 
 
