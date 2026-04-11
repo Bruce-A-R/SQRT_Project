@@ -2,26 +2,18 @@
 
 **SQRT Members:** Orlaith Ni Dhuill, Elyana Abdallah, Javier Ayuso, Caimin Keavney, Bruce Ritter.
 
-**Programming lanugage:** Python for micropython controller
+**Programming lanugage:** Python
 
 **Repo Information**
 
-This repository contains all code for the SQRT project. While working on the project, each team member initially committed code to named branches so that we were not worried about overriding each other's work. This strategy eventually changed to members committing directly to the main branch after confirming an update to code with other team members. At the moment, all named branches are behind main and show a history of work before the final week(s) of software development. 
-
-Current Use (below) will be updated to show what files are currently used on the pico. The code is structured such that a file saved as main.py on the pico can use classes for sensors and other operations as it runs on a loop. 
+This repository contains older versions of code written for the SQRT project. The final versions of all software products are included in the mian branch of this repository. 
 
 
-## File Directory
-- **SQRT Software**: will conatain all final software used onboard SQRT during flight ("flight software"). Right now it just has main, and operations and sensor classes are in operations_classes and sensor_classes.
-- **post-mission data analysis**: contains software used for post-mission data analysis, not run onboard.
-- **test data**: contains data from software tests
-- **Software Drafts**: contains older versions of flight software
+## Script Use: 
 
-## Current Use:  as of 6pm on8/4
+Main script: main.py, with sensor and operations scrips below imported. 
 
-Current main script: SQRT Software/main.py, with sensor and operations scrips below imported. 
+Sensor scripts (in sensor_classes): gps_v2.py, mlx90640.py, ms5611.py, ds18b20.py
 
-Current sensor scripts (in sensor_classes): gps_v2.py, mlx90640.py, ms5611.py, ds18b20.py
-
-Current operations scripts (in operations_classes): servo.py, triggering_alorithm_v2.py, sdcard_v2.py, triple_t.py, tuppersat_radio.py, _packet_utils.py, rhserial.py, helper.py, gps_airborne.py
+Operations scripts (in operations_classes): servo.py, triggering_alorithm_v2.py, sdcard_v2.py, triple_t.py, tuppersat_radio.py, _packet_utils.py, rhserial.py, helper.py, gps_airborne.py
 
