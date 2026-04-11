@@ -1,7 +1,7 @@
 """
 servo_2.py
 
-Authors: Javi Ayuso, Caimin Keaveney, Bruce Ritter
+Author: Javi Ayuso
 Version Date: 8/3/2026
 
 Description: 
