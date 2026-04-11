@@ -1,7 +1,7 @@
 """
 ds18b20.py
 
-Authors: Bruce Ritter, Caimin Keavney
+Authors: Caimin Keavney, Bruce Ritter
 Version Date: 30/3/2026
 
 This class is used to initialize and read data from the temperature sensor.
