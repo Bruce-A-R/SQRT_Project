@@ -3,7 +3,7 @@
 This file contains all the SQRT mission software. 
 Code is updated as of 11/4/2026. 
 
-A directory of files and longer files descriptions are below. 
+A directory of files and a list of file descriptions are below.  
 
 ## Directory
 
