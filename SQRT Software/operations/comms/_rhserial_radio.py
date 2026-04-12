@@ -1,8 +1,10 @@
 """
-Modified by: Caimin Keavney 
+Author: Caimin Keavney 
 Verison Date: 10/4/2026
 
 tuppersat.radio._rhserial_radio.py
+
+Modified from UCD script
 
 Interface to the rhserial library using UART compatible with the Raspberry Pi
 Pico. 
