@@ -12,5 +12,7 @@ This repository contains all code for the SQRT project. Older versions of code a
 - **SQRT Software**: contains final software used onboard SQRT during flight ("flight software").
 - **post-mission data analysis**: contains software used for post-mission data analysis, i.e. code not run onboard. Also contains collected test data
 
+##Software Architecture
 
+Ill add in a flowchart here in a bit -BR
 
