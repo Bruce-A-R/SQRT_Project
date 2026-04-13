@@ -34,12 +34,6 @@ class SQTGPS:
         #set_airborne_mode(self.gps)
             
 
-    def _sign_angle(self, angle, hemisphere):
-        """Assigns a sign to the angle based on inputted hemisphere"""
-        if hemisphere == 'S' or hemisphere == 'W':
-            angle = angle * -1
-
-        return angle
     
     def _angle_reader(self, angle_str, hemisphere):
         """Takes an angle as a string in DDMM.MMMMM or 
