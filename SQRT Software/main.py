@@ -2,7 +2,7 @@
 main.py
 
 Authors: Bruce Ritter, Caimin Keavney
-Version Date: 10/4/2026
+Version Date: 13/4/2026
 
 Description:
 
@@ -28,7 +28,7 @@ import gc
 from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640, RefreshRate
-from gps import SQTGPS
+from gps_v2 import SQTGPS
 from triple_t import Comms
 from triggering_v2 import SQTtrigger
 from servo_2 import Servo
@@ -42,24 +42,20 @@ import math
 import random
 from machine import Pin, SPI
 
-# INITIALIZATIONS SETUP
-
+#SETUP: USING HELPER FUNCTIONS TO INITIALIZE THE SD CARD, SENSORS, AND OTHER FUNCTIONS WE NEED
 helper = Helper()
 sd, vfs = helper.init_sd_card()  # sd card
 file_list = helper.make_files()  # making files
 pressure_sensor, temp_sensor, frame_taker, gps_sensor, TTT, servo_motor = helper.init_sensors(file_list)   # init sensors
 triggering = SQTtrigger()   # init triggering class
 
-# FLAG SETUP
+# FLAG SETUP: setting all the flags and counters
 
-#flags for triggering:
-trigger = False       
-trigger_condition = None   
-# counters: used to time loops and frame transmissions and to transmit data on error number
-counter = 1   
-error_counter = 0 
+trigger = False       # flag to trigger valve
+trigger_condition = None      # to set trigger condition too so we know what message to send
+counter = 1     # for timing transmitions
+error_counter = 0
 science_frame_count = 0
-# set lists used for data handling throughout mission
 science_data = []
 science_times = []
 current_gps_data = [None, 'None', 'None', 'None', 99.99]
@@ -115,22 +111,20 @@ while True:
     house_list = helper.make_house_list(pressure_T, pressure_P, tempE, tempI, gps_data, file_list) 
     p_list, a_list = helper.update_a_p_lists(house_list, p_list, a_list)  #list for triggering, capped at the latest 12 values each
     
-
-    
     #5. TRIGGER CHECK (only happends when trigger = False).
     
     ################### FOR TRIGGERING CHECKS< REMOVE BEFORE FLIGHT########################
-    #if counter == 3:
+    if counter == 2:
         #different lists we can use to check:
         #p_list = [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
         #p_list = ["None", "None", "None", "None", "None", "None", "None", "None", "None", "None", "None", "None"]
         #p_list = []
-       # p_list = [1000, 500, 400, 300, 200, 100, 50, 40, 60, 55, 40, 30]  #pressure check should check true
+        p_list = [1000, 500, 400, 300, 200, 100, 50, 40, 60, 55, 40, 30]  #pressure check should check true
         #p_list = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 20000, 20100] #pressure sensor good but check false
         
         #a_list = [1000, 1000, 1500, 1400, 1500, 1510, 1520, 1530, 1540, 1550, 1560, 1570] # data good but should check false
         #a_list = [2000, 4000, 5000, 6000, 7000, 1200, 1300, 1500, 1600, 20000, 23000, 23000]   #altitude should check true
-        #a_list = [2000, "None", 5000, 6000, 7000, "None", 1300, 1500, 1600, 20000, 23000, 23000]
+        a_list = [2000, "None", 5000, 6000, 7000, "None", 1300, 1500, 1600, 20000, 23000, 23000]
         #a_list = [22000, 21000, 21100, "None", 20000, 19000, 18000, 18010, 18010, 18000, 17500, 17450] #falling check should check true
             
 
@@ -142,9 +136,18 @@ while True:
         # only checks for trigger if it has not triggered yet:
         if trigger:
             
+            
+            try:
+                del(frame)    #trying to clear memory
+                gc.collect()
+            except: pass
+            
+            gc.collect()
+            print(f"gc collect: {gc.collect()}")
+            
             #1. change thermal sensor freq to handle quicker refresh rate
             frame_taker = helper.reinit_frame_taker(file_list, before = True)
-            
+            #machine.freq(1000000)
             #2. run servo
             try:
                 servo_motor.run_servo()
@@ -163,14 +166,17 @@ while True:
                     #writing error to error log
                     t = time.time()
                     helper.log_error(t, e, "MLX Science Acqui.", file_list[2])
+     
                 
                 science_times.append(t)
                 science_data.append(science_frame)
                 
             helper.write_science_frames(science_data, science_times, file_list) # writing the frames to a file with the times associated
-
+            
+            
             #4. change this i2c bus frequency back to what the pressure sensor and slower frame rate needs:
             frame_taker = helper.reinit_frame_taker(file_list, before = False)
+            #machine.freq(400000)
 
     #6. Thermal Sensor
     time.sleep_ms(100)
@@ -204,6 +210,7 @@ while True:
                 TTT.science_packet(trigger, condition, pres, alt, frame)
                 
                 del(frame)    # delete frame from pico memoery after sending
+                gc.collect()
                 
             elif trigger:
                 
@@ -215,11 +222,14 @@ while True:
       
         if counter == 2 or counter % 5 == 0:
             print("Sending telemetry packet")
+            
             error_counter = TTT.telem_packet(house_list, error_counter)
+
+                
             print(f"what EC is set to: {error_counter}")
 
         
-    print(f'########LOOP COUNTER {counter} ###################')  # for visualization when running on computer
+    print(f'########LOOP COUNTER {counter} ###################')
     
     #8. counting:
     counter += 1
