@@ -222,6 +222,6 @@ class SQTtrigger:
         """Function to log the trigger checks to the trigger check log"""
         try:
             with open(file_list[3], "a") as file:
-                file.write(f"{check}, {condition}, {pressure}, {altitude} \n")
+                file.write(f"{time.time()}, {check}, {condition}, {pressure}, {altitude} \n")
         except Exception as e:
             helper.log_error(time.time(), e, "Writing Trigger Check Log", file_list[2])
