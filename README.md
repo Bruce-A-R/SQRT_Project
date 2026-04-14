@@ -11,7 +11,7 @@ This repository contains older versions of code written for the SQRT project. Th
 ## Directory:
 - mains folder: contains old main scripts
 - sensor scripts folder: contains old versions of sripts iwth classes to interface with sensors
-- operations scripts folder: contains old versions of scripts with operations classes
+- operations scripts folder: contains old versions of scripts with operations classes, including comms
 - post-mission data analysis folder: contains old versions of data analysis software written for SQRT data
 - sensor_test_data folder: contains data from preliminary sensor tests
 - trigger_test_data: constains data used for preliminary algorithm tests. 
