@@ -2,7 +2,7 @@
 triple_t.py
 
 Author: Caimin Keavney
-Verision Date: 10/4/2026
+Verision Date: 14/4/2026
 
 The code below will be used to collect relevant data, format telemetry/science data packets, and
 interface with communications architecture.
