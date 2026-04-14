@@ -2,7 +2,7 @@
 helper.py
 
 Authors: Bruce Ritter, Caimin Keavney
-Version Date: 10/4/2026
+Version Date: 14/4/2026
 
 Description:
 
@@ -13,17 +13,27 @@ initializing sensors, and handling data onboard the pico.
 
 It is a helpful class that helps us
 
+Functions: 
+init_float_array: makes a flaot array for use by thermal sensor functions
+log_error: logs errors 
+make_files: makes data files on onboard sd card
+init_sensors: initializes housekeeping sensors + MLX, TTT, servo
+reinit_frame_taker: reinitializes frame taker with different I2C clock rates
+init_sd_card: initialize/mount sd card
+make_house_list: make list of housekeeping sensor values
+update_a_p_lists: update lists of recent alts, pressures
+get_full_frame: catpure a full frame worth of data from MLX90640
+write_science_frames: saves post-trigger MLX frames and times to sd files
+write_frame: saves regular MLX frame and time to sd files
 """
-import gc
 from ms5611 import MS5611
 from ds18b20 import DS18B20
 from mlx90640 import MLX90640, RefreshRate
-from gps import SQTGPS
+from gps_v2 import SQTGPS
 from triple_t import Comms
-
 from servo_2 import Servo
-
-import sdcard_v2 as sdcard 
+import sdcard_v2 as sdcard
+import gc
 import os
 import machine
 import time
@@ -63,34 +73,20 @@ class Helper:
         
         n = str(random.randint(1, 10000))
         
-        # our list of file names
-        file_list = [
-            '/sd/housekeeping_log' + n  + '.csv',
-            '/sd/data_log' + n + '.csv',
-            '/sd/error_log' +n + '.csv',
-            '/sd/trigger_log' + n + '.csv',
-            '/sd/post_trigger_data_log' + n + '.csv'     # to specifically hold frames taken imediately after trigger for ease of transmitting them 
-        ]
-        
         try:
-
+            # our list of file names
+            file_list = [
+                '/sd/housekeeping_log' + n  + '.csv',
+                '/sd/data_times_log' + n + '.csv',
+                '/sd/error_log' +n + '.csv',
+                '/sd/trigger_log' + n + '.csv',
+                '/sd/post_trig_data_log' + n + '.csv',# to specifically hold frames taken imediately after trigger for ease of transmitting them 
+                '/sd/post_trig_data_times' + n + '.csv',
+                '/sd/data_log' + n + '.csv'
+            ]
             # Small delay before file ops
             time.sleep_ms(50)
-
-            # Initialize log files
-            for fname in file_list:
-                with open(fname, 'w') as f:
-                    if 'house' in fname:
-                        f.write("Timestamp, ms5611 Temperature (C), Pressure (mbar), TempE (deg), TempI (deg), GPS Time, Lat (deg), Lon (deg), Alt (m), HDOP \n")
-                    elif 'data_log' in fname:
-                        f.write("MLX90640 Raw Data Values \n")
-                    elif 'trigger' in fname:
-                        f.write("Timestamp, Trigger, Condition, Pressure (mbar), Alt (m) \n")
-                    else:
-                        f.write("Timestamp, Error, Cause \n")           # recording of errors by time and what cause
-
             print(f" Files created at time {time.time()}")
-            
             return file_list
             
         except Exception as e:
@@ -98,7 +94,7 @@ class Helper:
             
     def init_sensors(self, file_list):
         """
-        Initialises all sensors and returns
+        Initialises all sensors, comms, and servo
         
         Inputs:
         file_list: list of files including error log needed for exception logging.
@@ -130,8 +126,8 @@ class Helper:
                     freq=400000  
                 )
             frame_taker = MLX90640(i2c, address=0x33)
-            frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 # currently the fasted refresh rate that doesn't kill itself,
-                                                                                # reason unclear and seen by many users of the product online
+            frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ                 # refresh rate set as high as it can be with the normal i2c clock rate
+                                                                                
         except Exception as e:
             frame_taker = None
             print("MLX90640 Sensor Error")
@@ -179,7 +175,7 @@ class Helper:
                     freq=1000000  
                 )
                 frame_taker = MLX90640(i2c, address=0x33)
-                frame_taker.refresh_rate = RefreshRate.REFRESH_8_HZ               
+                frame_taker.refresh_rate = RefreshRate.REFRESH_16_HZ               
                                                                                         
             except Exception as e:
                 frame_taker = None
@@ -321,9 +317,9 @@ class Helper:
             
         return p_list, a_list
     
-    # Function for ensuring that a full frame is acquired rather than two frames of the same subpage (only odd pixels)
     def get_full_frame(self, frame, frame_taker):
         """
+        Function for ensuring that a full frame is acquired rather than two frames of the same subpage (only odd pixels)
         Reads both subpages and merges into a complete 768-pixel frame.
         
         Inputs:
@@ -354,7 +350,6 @@ class Helper:
             row = i // 32
             col = i % 32
 
-        
             # Checkerboard pattern
             if (row + col) % 2 == 0:
                 frame[i] = temp_frames[0][i]
@@ -363,7 +358,9 @@ class Helper:
                 
     def write_science_frames(self, science_frames, science_times, file_list):
         """
-        Stores acquired science frames in SD card
+        Stores acquired science frames in SD card:
+        seperate files are written for frames and times so that frames can be saved as bytearrays
+        which saves precious memory
         
         Inputs:
         science_frames (list of arrays) - list of 768 value arrays
@@ -373,15 +370,53 @@ class Helper:
         Returns:
         Writes science data to the post-trigger file
         """
+        
         try:
-                with open(file_list[4], "a") as f:
-                    for i, line in enumerate(science_data):
-                        f.write(f"Time: {science_times[i]} \n")
-                        for temp in line:
-                            f.write(f"{temp},")
-                        f.write("\n")
+            with open(file_list[5], "w") as file:
+                file.write("note: this is post-trigger data burst frame times (s) \n")
+                for t in science_times:
+                    file.write(f"{t} \n")
+        except:
+            print("couldn't make a file for post-trigger times")
+            pass
+        
+        try:
+                with open(file_list[4], "wb") as f:
+                    for line in science_frames:
+                        arr = bytearray(line)
+                        del(line)
+                        gc.collect()
+                        f.write(arr)
 
         except Exception as e:
                 self.log_error(time.time(), e, "Science Frame Writing", file_list[2])
         
+                    
+    def write_frame(self, frame, time, file_list):
+        """
+        Function to write regular (not immediately post trigger) frames to a file
+        as arrays,
+        and then write a seperate file of times that correspond to the arrays.
+        
+        This is changed from our initial design in order to save precious pico mem
+        
+        Inputs: file_list (list of file paths), frame (array.array obj), time (int)
+        Output: saves frame to frame file, saves time to time file
+        """
+        # first write the time the frame was taken to the times file (data_times_log)
+        try:
+            with open(file_list[1], "a") as file:
+                file.write(f"{time} \n")
+        except Exception as e:
+            self.log_error(time.time(), e, "writing frame taken time to file", file_list[2])
+        
+        # now write the array AS AN ARRAY (like write_science_frames above) to its file
+        try:
+            with open(file_list[6], "a+") as file:
+                file.write(frame)
+        except Exception as e:
+            self.log_error(time.time(), e, "writing reg. frame to sd card as array", file_list[2])
+        
+        
+
                     
