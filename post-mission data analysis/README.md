@@ -8,4 +8,4 @@ The Jupyter Notebook here, named PMDA, will be used to process all data acquired
 3. Plotting of thermal sensor arrays
 
 
-Data accrued during the testing campaign can also be found in this directory
+Data accrued during the testing campaign can also be found in this directory, along with a jupyter notebook used to process data from insulation testing (found in insulation_test/). 
