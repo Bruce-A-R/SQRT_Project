@@ -1,10 +1,8 @@
 # Current SQRT Software
 
-This file contains all the SQRT mission software. 
-Code is updated as of 11/4/2026. 
-
-A directory of files and a list of file descriptions are below.  
-
+This file contains all the SQRT mission software which runs on the Pico onboard computer
+Code is updated as of 14/4/2026. 
+  
 ## Directory
 
 1. **main.py**: the main function that runs automatically when the onboard computer (Raspberry Pi Pico 2) is connected to power
