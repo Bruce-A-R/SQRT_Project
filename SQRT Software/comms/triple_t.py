@@ -179,9 +179,20 @@ class Comms:
     cropped_frame (list) - combined frame of 48 temperature values in the region of interest.
     """
     
+  def cropping(self, frame, crop_w=8, crop_h=6, centre_x = 22, centre_y = 12):
+    """
+    Function to crop thermal array returned by MLX90640 to a 8x6 array
+
+    Inputs:
+    frame (list) - array of 768 temperature values to be cropped
+
+    Returns:
+    cropped_frame (list) - combined frame of 48 temperature values in the region of interest.
+    """
+    
     width, height = 32, 24
-    start_x = (width - crop_w) // 2
-    start_y = (height - crop_h) // 2
+    start_x = centre_x - crop_w // 2
+    start_y = centre_y - crop_h // 2
 
     full_cropped_frame = []
     for y in range(start_y, start_y + crop_h):
