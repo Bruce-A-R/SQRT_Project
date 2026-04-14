@@ -2,7 +2,7 @@
 gps_v2.py
 
 Authors: Bruce Ritter, Caimin Keavney 
-Version Date: 13/4/2026
+Version Date: 14/4/2026
 
 Description:
 
@@ -30,8 +30,8 @@ class SQTGPS:
         self.gps = UART(uart_bus, baudrate = baudrate, tx = tx_pin, rx = rx_pin)
         
         
-        #time.sleep(1)
-        #set_airborne_mode(self.gps)
+        time.sleep(1)
+        set_airborne_mode(self.gps)
             
 
     
