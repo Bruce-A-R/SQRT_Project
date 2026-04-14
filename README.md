@@ -16,5 +16,6 @@ This repository contains all code for the SQRT project. Older versions of code a
 
 The block diagram below shows the flow of the main.py software, which runs the SQRT tuppersat onboard Pico computer. 
 
-Ill add in a flowchart here in a bit -BR
+![FlowChart] (
+
 
