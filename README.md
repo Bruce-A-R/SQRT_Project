@@ -10,12 +10,13 @@ This repository contains all code for the SQRT project. Older versions of code a
 
 ## File Directory
 - **SQRT Software**: contains final software used onboard SQRT during flight ("flight software").
-- **post-mission data analysis**: contains software used for post-mission data analysis, i.e. code not run onboard. Also contains collected test data
+- **post-mission data analysis**: contains software used for post-mission data analysis, i.e. code not run onboard. Also contains collected test data.
+- -**images/**: contains images of flowcharts describing the SQRT software.
 
 ## Software Flow Diagram
 
 The block diagram below shows the flow of the main.py software, which runs the SQRT tuppersat onboard Pico computer. 
 
-![FlowChart](Images/software_flowchart.png)
+![FlowChart](Images/sqrt_software_flowchart.png)
 
 
