@@ -131,6 +131,7 @@ while True:
                 try:
                     science_frame = helper.init_float_array(768)
                     helper.get_full_frame(science_frame, frame_taker)
+                    t = time.time_ns()
                 except Exception as e:
                     t = time.time_ns()
                     helper.log_error(t, e, "MLX Science Acqui.", file_list[2])
