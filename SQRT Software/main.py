@@ -1,10 +1,10 @@
 """
-version 8 of main function with triggering and servo included included
+main.py
 
 Authors: Bruce Ritter, Caimin Keavney
 Version Date: 14/4/2026
 
-Test code has been removed from this main.py version.
+Test code has been removed from this main.py version. This is the final SQRT flight software main
 
 Loop actions sequence:
 1. take housekeeping data
@@ -131,9 +131,9 @@ while True:
                 try:
                     science_frame = helper.init_float_array(768)
                     helper.get_full_frame(science_frame, frame_taker)
-                    t = time.time_ns()
+                    t = time.time()
                 except Exception as e:
-                    t = time.time_ns()
+                    t = time.time()
                     helper.log_error(t, e, "MLX Science Acqui.", file_list[2])
      
                 science_times.append(t)
@@ -183,7 +183,7 @@ while True:
         
     #8. counting
     
-    #print(f'########LOOP COUNTER {counter} ###################')
+    print(f'########LOOP COUNTER {counter} ###################')
     counter += 1
     
     if trigger:
