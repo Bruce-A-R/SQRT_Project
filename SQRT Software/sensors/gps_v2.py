@@ -25,15 +25,20 @@ class SQTGPS:
     def __init__(self, uart_bus, baudrate, tx_pin, rx_pin):
         """Funciton to initialze and connect to sensor"""
         
-
+        self.gps = UART(uart_bus, baudrate = baudrate, tx = tx_pin, rx = rx_pin, timeout = 1000, timeout_char = 10)
         
-        self.gps = UART(uart_bus, baudrate = baudrate, tx = tx_pin, rx = rx_pin)
-        
-        
-        time.sleep(1)
+        print("Going Airborne")
+        #time.sleep(1)
         set_airborne_mode(self.gps)
             
+            
 
+    def _sign_angle(self, angle, hemisphere):
+        """Assigns a sign to the angle based on inputted hemisphere"""
+        if hemisphere == 'S' or hemisphere == 'W':
+            angle = angle * -1
+
+        return angle
     
     def _angle_reader(self, angle_str, hemisphere):
         """Takes an angle as a string in DDMM.MMMMM or 
@@ -64,14 +69,6 @@ class SQTGPS:
         else:
             print("no angle")
             return None
-
-
-    def _sign_angle(self, angle, hemisphere):
-        """Assigns a sign to the angle based on inputted hemisphere"""
-        if hemisphere == 'S' or hemisphere == 'W':
-            angle = angle * -1
-
-        return angle
     
 
     
@@ -82,10 +79,7 @@ class SQTGPS:
         is of the requested type)
         """
         requested_sequence = None
-        
-        
 
-        
         while self.gps.any():
 
             data = self.gps.readline()
@@ -168,10 +162,8 @@ class SQTGPS:
 
     def gps_log(self):
         """Funciton to write the values we want from the read sequence to a text file. First it reads in data, 
-        then it should return the wanted values as a string to be saved to the sd card or appended to a list in main
-        Inputs: None
-        Outputs: GPS time, lat, lon, alt, hdop (all values from read NMEA string)
-        """
+        then it should return the wanted values as a string to be saved to the sd card
+        which will happen in the main function"""
 
         GGA = False
         gga_count = 0
