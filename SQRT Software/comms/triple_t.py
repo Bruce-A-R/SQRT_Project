@@ -168,16 +168,6 @@ class Comms:
     # New Error Count is returned for next iteration
     return error_counter_new
 
-  def cropping(self, frame, crop_w=8, crop_h=6):
-    """
-    Function to crop thermal array returned by MLX90640 to a 8x6 array
-
-    Inputs:
-    frame (list) - array of 768 temperature values to be cropped
-
-    Returns:
-    cropped_frame (list) - combined frame of 48 temperature values in the region of interest.
-    """
     
   def cropping(self, frame, crop_w=8, crop_h=6, centre_x = 22, centre_y = 12):
     """
